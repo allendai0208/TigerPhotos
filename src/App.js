@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import { ReviewForm } from './components/ReviewForm';
-import { Reviews } from './components/Reviews'
+import { ProfileForm } from './components/ProfileForm';
+import { Photographers } from './components/Photographers'
 import { Container } from 'semantic-ui-react';
 
 function App() {
-  const [reviews, setReviews] = useState([]);
+  const [photographers, setPhotographers] = useState([]);
 
   useEffect(() => {
-    fetch("/api/reviews").then(response => 
+    fetch("/api/browse").then(response => 
       response.json().then(data => {
-        setReviews(data.reviews);
+        setPhotographers(data.photographers);
       })
     );
   }, []);
@@ -18,10 +18,10 @@ function App() {
   return (
     <div className="App">
       <Container style={{marginTop: 40}}>
-        <ReviewForm onNewReview={review => 
-          setReviews(currentReviews => [...currentReviews, review])
+        <ProfileForm onNewProfile={photographer => 
+          setPhotographers(currentPhotographers => [...currentPhotographers, photographer])
           }/>
-        <Reviews reviews={reviews} />
+        <Photographers photographers={photographers} />
       </Container>
     </div>
   );
