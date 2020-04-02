@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+from datetime import datetime
 import os
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -14,6 +15,28 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 # Database models
+# This defines the columns and data types of the Photographer table. 
+# Note that photographer_netid is a foreign key pointing to the netid in the User class.
+class Photographers(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    photographer_netid = db.Column(db.String, db.ForeignKey('users.netid'))
+    first_name = db.Column(db.String(64), index=True)
+    last_name = db.Column(db.String(64), index=True)
+    email = db.Column(db.String(120), index=True, unique=True)
+    description = db.Column(db.String(300), index=True)
+
+    def __repr__(self):
+        return '<Photographers {} {}>'.format(self.first_name, self.last_name)
+
+# This defines the columns and data types of the User table.
+class Users(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    netid = db.Column(db.String(64), index=True, unique=True)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    
+    def __repr__(self):
+        return '<Users{}>'.format(self.netid)
+
 class Reviews(db.Model):
     netid = db.Column(db.String(80), primary_key = True)
     photographer_netid = db.Column(db.String(80))
@@ -24,6 +47,40 @@ class Reviews(db.Model):
         return 'Reviews {} {}>'.format(self.netid, self.photographer_netid)
 
 # Routes
+
+@app.route('/')
+@app.route('/api/index')
+def index():
+    return 'Done', 201
+
+@app.route('/api/browse')
+def browse():
+    photographer_list = Photographers.query.all()
+    photographers = []
+
+    for photographer in photographer_list:
+        photographers.append({
+            'first_name': photographer.first_name,
+            'last_name': photographer.last_name,
+            'email': photographer.email,
+            'description': photographer.description
+        })                                       
+    return jsonify({'photographers':photographers})
+
+@app.route('/api/createProfile', methods=['POST'])
+def createProfile():
+    photographer_data =  request.get_json()
+    new_photographer = Photographers(first_name=photographer_data['first_name'], 
+                                     last_name=photographer_data['last_name'],
+                                     email=photographer_data['email'],
+                                     description=photographer_data['description'])
+
+    db.session.add(new_photographer)
+    db.session.commit()
+
+    return 'Done', 201
+
+'''
 @app.route('/api/add_review', methods=['POST'])
 def add_review():
 
@@ -51,4 +108,4 @@ def reviews():
             'rating': review.rating
         })                                       
     return jsonify({'reviews':reviews})
-
+'''
