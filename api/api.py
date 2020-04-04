@@ -46,8 +46,7 @@ class Reviews(db.Model):
     def __repr__(self):
         return 'Reviews {} {}>'.format(self.netid, self.photographer_netid)
 
-# Routes
-
+# Routes 
 @app.route('/')
 @app.route('/api/index')
 def index():
