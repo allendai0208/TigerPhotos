@@ -1,30 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import { ProfileForm } from './components/ProfileForm';
-import { Photographers } from './components/Photographers'
-import { Container } from 'semantic-ui-react';
+import CreatePage from './components/CreatePage'
+import {BrowserRouter, Switch} from "react-router-dom"
+import ErrorPage from './components/ErrorPage'
+import Navigation from './components/Navigation'
+import {Route} from "react-router-dom"
+import HomePage from './components/HomePage'
+import BrowsePage from './components/BrowsePage'
 
-function App() {
-  const [photographers, setPhotographers] = useState([]);
+class App extends React.Component {
+  state = {
+    fields: {}
+  };
+  onSubmit = fields => {
+    this.setState({fields})
+  }
 
-  useEffect(() => {
-    fetch("/api/browse").then(response => 
-      response.json().then(data => {
-        setPhotographers(data.photographers);
-      })
+  render() {
+    return(
+      <div style={{backgroundColor:"purple"}}>
+        <BrowserRouter>
+        <Switch>
+          <Route path="/" component={HomePage} exact/>
+          <Route path="/create" component={CreatePage} />
+          <Route path="/browse" component={BrowsePage} />
+          <Route component={ErrorPage} /> 
+        </Switch>
+      </BrowserRouter> 
+      </div>
     );
-  }, []);
+  }
 
-  return (
-    <div className="App">
-      <Container style={{marginTop: 40}}>
-        <ProfileForm onNewProfile={photographer => 
-          setPhotographers(currentPhotographers => [...currentPhotographers, photographer])
-          }/>
-        <Photographers photographers={photographers} />
-      </Container>
-    </div>
-  );
 }
 
 export default App;
