@@ -43,6 +43,7 @@ class HomePage extends React.Component {
                         </Grid>
                     </Grid>
                 </div>
+                <p>This is a test</p>
                 <img className = "tigerLogo" src = {logo}></img>
             </div>
         )
