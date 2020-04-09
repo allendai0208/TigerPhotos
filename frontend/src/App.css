@@ -1,14 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
 .App {
-  text-align: center;
+  background-color: floralwhite;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.homepage {
+  margin: 0;
+  padding:0px; 
+  background-color: floralwhite;
 }
 
 .navlink {
   margin-right:20px;
+  color: white; 
+}
+
+.navlink:hover {
+  color: gray; 
 }
 
 .titleHeader {
@@ -18,15 +26,75 @@
 }
 
 .navbar {
-  font-size: 25px;
+  font-size: 15px;
   background-color:orange;
-  height:70px;
+  height:50px;
+  text-align:right;
+  padding-top: 15px;
+  padding-bottom: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.welcome {
+  font-size: 45px;
+  text-align:center;
+  margin: 0px;
+  padding: 5px 0;
+  line-height:1;
+  color: steelblue; 
+}
+
+.tigerphotos {
+  font-size: 85px;
+  text-align:center;
+  margin: 0px;
+  padding: 5px 10px;
+  line-height:1;
+  color: steelblue; 
+  font-family: 'Pacifico', cursive;
+}
+
+.heading {
+  margin: 40px;
+  margin-right: 400px;
+  margin-left: 400px;
+  border-color: lightgrey;
+  border-style: double;
+  border-radius: 5px;
+  padding: 15px;
+}
+
+.grid {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.test {
+  margin: auto;
+  text-align: center;
+}
+
+.test2 {
+  display: block;
+  margin-top: 55px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 50px;
+  border-radius: 50%;
+  border-color: skyblue;
+  width: 125px;
+  height: 125px;
+}
+
+.test3 {
+  display: block;
+  margin-top: 55px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 50px;
+  border-color: skyblue;
+  width: 125px;
+  height: 125px;
 }
 
 .App-header {

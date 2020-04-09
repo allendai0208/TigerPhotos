@@ -7,6 +7,7 @@ import Navigation from './components/Navigation'
 import {Route} from "react-router-dom"
 import HomePage from './components/HomePage'
 import BrowsePage from './components/BrowsePage'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 class App extends React.Component {
   state = {
@@ -18,10 +19,9 @@ class App extends React.Component {
 
   render() {
     return(
-      <div>
-    
-        <BrowserRouter>
+      <div className="App">
         <Navigation style = {{backgroundColor:"orange"}}/>
+        <BrowserRouter>
         <Switch>
           <Route path="/" component={HomePage} exact/>
           <Route path="/create" component={CreatePage} />
