@@ -7,6 +7,22 @@
   pointer-events: none;
 }
 
+.navlink {
+  margin-right:20px;
+}
+
+.titleHeader {
+  font-size:50px;
+  text-align:center;
+  font-family:"Comic Sans MS";
+}
+
+.navbar {
+  font-size: 25px;
+  background-color:orange;
+  height:70px;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

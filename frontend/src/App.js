@@ -18,8 +18,10 @@ class App extends React.Component {
 
   render() {
     return(
-      <div style={{backgroundColor:"purple"}}>
+      <div>
+    
         <BrowserRouter>
+        <Navigation style = {{backgroundColor:"orange"}}/>
         <Switch>
           <Route path="/" component={HomePage} exact/>
           <Route path="/create" component={CreatePage} />
