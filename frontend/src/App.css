@@ -10,11 +10,36 @@
   background-color: floralwhite;
 }
 
+.aboutGrid {
+  margin-left:400px;
+  margin-right:400px;
+}
+
 .navlink {
   margin-right:20px;
   color: white; 
 }
 
+.aboutHeader {
+  text-align:center
+}
+
+.aboutParagraph {
+  text-align:center
+}
+
+.aboutImage {
+  height:200px;
+  width:200px;
+}
+
+.aboutGridContainer{
+  display:block;
+  margin-left:auto;
+  margin-right:auto;
+
+
+}
 .tigerLogo {
   display:block;
   margin-left:auto;

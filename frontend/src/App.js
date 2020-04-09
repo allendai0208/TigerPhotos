@@ -7,6 +7,7 @@ import Navigation from './components/Navigation'
 import {Route} from "react-router-dom"
 import HomePage from './components/HomePage'
 import BrowsePage from './components/BrowsePage'
+import AboutUs from './components/AboutUs'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 class App extends React.Component {
@@ -20,12 +21,13 @@ class App extends React.Component {
   render() {
     return(
       <div className="App">
-        <Navigation style = {{backgroundColor:"orange"}}/>
+        <Navigation/>
         <BrowserRouter>
         <Switch>
           <Route path="/" component={HomePage} exact/>
           <Route path="/create" component={CreatePage} />
           <Route path="/browse" component={BrowsePage} />
+          <Route path="/about" component={AboutUs} />
           <Route component={ErrorPage} /> 
         </Switch>
       </BrowserRouter> 
