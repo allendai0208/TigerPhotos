@@ -86,6 +86,13 @@
   font-family: 'Pacifico', cursive;
 }
 
+.CreateProfileText {
+  font-size: 50px;
+  text-align:center;
+  color: steelblue; 
+  font-family: 'Pacifico', cursive;
+}
+
 .heading {
   margin: 40px;
   margin-right: 400px;
