@@ -4,7 +4,7 @@ import React from "react"
 import { StylesProvider } from "@material-ui/core"
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button'
-import logo from "./TigerLogo.jpg"
+import logo from "./tigerLogo.png"
 import Allen from "./Allen2.JPG"
 import ArtLogo from './art.png'
 import IdeaLogo from './idea.png'
@@ -50,6 +50,7 @@ class HomePage extends React.Component {
                         </Grid>
                     </Grid>
                 </div>
+                <img className = "tigerLogo" src = {logo}></img>
             </div>
         )
     }
