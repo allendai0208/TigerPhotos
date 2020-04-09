@@ -1,4 +1,4 @@
-@import url('//fonts.googleapis.com/css2?family=Pacifico&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap'); */
 
 .App {
   background-color: floralwhite;
@@ -50,7 +50,7 @@
   padding: 5px 10px;
   line-height:1;
   color: steelblue; 
-  font-family: 'Pacifico', cursive;
+  /* font-family: 'Pacifico', cursive; */
 }
 
 .heading {
