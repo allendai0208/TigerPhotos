@@ -21,8 +21,6 @@ function CreatePage() {
         <ProfileForm onNewProfile={photographer => 
           setPhotographers(currentPhotographers => [...currentPhotographers, photographer])
           }/>
-        <Photographers photographers={photographers} />
-        <BrowseBar photographers={photographers} />
       </Container>
     </div>
   );
