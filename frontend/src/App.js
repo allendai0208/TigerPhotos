@@ -24,9 +24,9 @@ class App extends React.Component {
         <Navigation/>
         <BrowserRouter>
         <Switch>
-          <Route path="/" component={HomePage} exact/>
+          <Route path="/browse" component={HomePage} />
           <Route path="/create" component={CreatePage} />
-          <Route path="/browse" component={BrowsePage} />
+          <Route path="/" component={BrowsePage} exact/>
           <Route path="/about" component={AboutUs} />
           <Route component={ErrorPage} /> 
         </Switch>
