@@ -3,6 +3,9 @@ from backend import app, db
 from backend.models import Reviews, Users, Photographers
 
 @app.route('/')
+@app.route('/browse')
+@app.route('/create')
+@app.route('/about')
 def root():
     return app.send_static_file('index.html')
 
