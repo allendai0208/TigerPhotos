@@ -17,9 +17,21 @@ body{
   background-color: floralwhite;
 }
 
+.aboutJob {
+  margin-top:-20px;
+  text-align:center;
+  color:gray;
+}
+
+.aboutName {
+  text-align:center;
+  font-size:20px;
+  color:orange;
+}
+
 .aboutGrid {
-  margin-left:400px;
-  margin-right:400px;
+  margin-left:100px;
+  margin-right:100px;
 }
 
 .navlink {
@@ -28,11 +40,17 @@ body{
 }
 
 .aboutHeader {
-  text-align:center
+  text-align:center;
+  color:orange;
+  margin-top:30px;
+  margin-bottom:30px;
+  font-size:30px;
+  font-weight:bold;
 }
 
 .aboutParagraph {
-  text-align:center
+  text-align:center;
+  color:gray;
 }
 
 .aboutImage {
