@@ -1,6 +1,6 @@
 from flask import jsonify, request
 from backend import app, db
-from backend.models import Reviews, Users, Photographers
+from backend.models import Reviews, Users, Photographers, Expertise, Equipment, Portfolio
 
 @app.route('/')
 @app.route('/browse')
@@ -27,9 +27,30 @@ def browse():
         })                                       
     return jsonify({'photographers':photographers})
 
+@app.route('/api/getPhotographer', methods=['POST'])
+def getPhotographer():  
+
+    photographer_info = request.get_json()
+    photographer_first_name = photographer_info['first_name']
+
+    photographer_data = Photographers.query.filter_by(first_name = photographer_first_name).all()
+
+    photographer = []
+    for photographer_info in photographer_data:
+        photographer.append({
+            'first_name': photographer_info.first_name,
+            'last_name': photographer_info.last_name,
+            'email': photographer_info.email,
+            'description': photographer_info.description
+        })
+    return jsonify({'photographer':photographer})
+    
+
 @app.route('/api/createProfile', methods=['POST'])
 def createProfile():
-    photographer_data =  request.get_json()
+
+    photographer_data = request.get_json()
+
     new_photographer = Photographers(first_name=photographer_data['first_name'], 
                                      last_name=photographer_data['last_name'],
                                      email=photographer_data['email'],
@@ -41,6 +62,23 @@ def createProfile():
     return 'Done', 201
 
 '''
+@app.route('/api/getPortfolio')
+def getPorfolio():
+
+    netid = 'ajnguyen'
+
+    portfolio_list = Portfolio.query(Portfolio.netid == netid).all()
+    portfolio = []
+
+    for picture in portfolio_list:
+        portfolio.append({
+            'netid': netid,
+            'url': picture.url
+        })
+
+    return jsonify({'portfolio':portfolio})
+
+
 @app.route('/api/add_review', methods=['POST'])
 def add_review():
 
@@ -68,4 +106,5 @@ def reviews():
             'rating': review.rating
         })                                       
     return jsonify({'reviews':reviews})
+
 '''
