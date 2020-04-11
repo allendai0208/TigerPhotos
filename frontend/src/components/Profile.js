@@ -8,25 +8,29 @@ import Button from '@material-ui/core/Button'
 
 class Profile extends React.Component {
     state = {
-        profile: null 
+        profile: []
     }
+
     componentDidMount() {
-        const first_name = this.props.match.params.first_name
-        console.log(first_name)
-        fetch(`/api/browse/photographers?first_name=${encodeURIComponent(first_name)}`,{
-            method: "GET"
-        })
-        .then(response => response.json().then(data => {console.log("hi")})
-        )
-
-
+        const name = this.props.match.params.first_name
+        fetch("/api/getPhotographer", {
+            method: "POST",
+            headers: {
+                "content_type":"application/json"
+            },
+            body:JSON.stringify({first_name : name})
+        }).then(response => response.json())
+        .then(result => this.setState({
+          profile: result.photographer
+        }))
+        .catch(e => console.log(e))  
     }
+
     render() {
         console.log(this.state.profile)
         return (
             <div>
                 <p>hi</p>
-                {this.state.profile}
             </div>
         )
     }

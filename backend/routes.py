@@ -1,6 +1,6 @@
 from flask import jsonify, request
 from backend import app, db
-from backend.models import Reviews, Users, Photographers, Expertise, Equipment, Portfolio
+from backend.models import Reviews, Users, Photographers
 
 @app.route('/')
 @app.route('/browse')
