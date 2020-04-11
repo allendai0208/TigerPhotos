@@ -19,7 +19,7 @@ export const BrowseBar = ({ photographers }) => {
                     return (
                         <ListItem divider alignItems="flex-start" button >
                         <ListItemAvatar>
-                        <Avatar alt="Profile Picture" src={require("./Allen2.JPG")} />
+                        <Avatar alt="Profile Picture" src={require("./pictures/Allen2.JPG")} />
                         </ListItemAvatar>
                         <ListItemText primary={photographer.first_name + " " + photographer.last_name} secondary={photographer.description} />
                     </ListItem> 

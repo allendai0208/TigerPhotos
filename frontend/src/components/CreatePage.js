@@ -18,6 +18,7 @@ function CreatePage() {
   return (
     <div className="ProfilePage">
       <Container style={{marginTop: 40}}>
+        <p className="CreateProfileText">Create Your Profile</p>
         <ProfileForm onNewProfile={photographer => 
           setPhotographers(currentPhotographers => [...currentPhotographers, photographer])
           }/>
