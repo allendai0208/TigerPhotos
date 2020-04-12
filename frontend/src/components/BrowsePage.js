@@ -11,8 +11,15 @@ import Profile from './Profile'
 import Typography from '@material-ui/core/Typography'
 
 class BrowsePage extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.handler = this.handler.bind(this)
+  }
+
   state = {
-    photographers: []
+    photographers: [],
+    selectedPhotographer: []
   }
 
   fetchPhotographers = () => {
@@ -28,9 +35,16 @@ class BrowsePage extends React.Component {
     this.fetchPhotographers()
   }
 
+  handler(arg1) {
+    console.log(arg1)
+    this.setState({
+      selectedPhotographer:arg1
+    })
+  }
+
   render() {
     let recentPhotographersMarkup = this.state.photographers ? (
-      this.state.photographers.map((photographer) => < Profiles photographer={photographer} /> )
+      this.state.photographers.map((photographer) => < Profiles photographer={photographer} handler = {this.handler}/> )
     ) : (
       <p>Loading...</p>
     )
@@ -49,7 +63,10 @@ class BrowsePage extends React.Component {
             {recentPhotographersMarkup}
           </Col>
           <Col>
-            <p>asdf</p>
+            <p>First Name: {this.state.selectedPhotographer.first_name}</p>
+            <p>Last Name: {this.state.selectedPhotographer.last_name}</p>
+            <p>Email: {this.state.selectedPhotographer.email}</p>
+            <p>Description: {this.state.selectedPhotographer.description}</p>
           </Col>
         </Row>
       </Container>

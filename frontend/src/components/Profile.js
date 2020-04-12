@@ -32,7 +32,7 @@ class Profile extends React.Component {
         console.log(this.state.profile)
         return (
             <div>
-                <p>name: {this.state.profile.first_name}</p>
+                <p>name: {this.state.profile.last_name}</p>
             </div>
         )
     }
