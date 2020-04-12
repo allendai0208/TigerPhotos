@@ -1,12 +1,20 @@
 from flask import jsonify, request
 from backend import app, db
 from backend.models import Reviews, Users, Photographers
+from CASClient import CASClient
 
 @app.route('/')
 @app.route('/browse')
 @app.route('/create')
 @app.route('/about')
 def root():
+    netid = CASClient().authenticate()
+    user = Users.query.filter_by(netid = netid).all()
+    if user is None:
+        new_user = User(netid=netid)
+        db.session.add(new_user)
+        db.session.commit()
+
     return app.send_static_file('index.html')
 
 @app.route('/api/index')
