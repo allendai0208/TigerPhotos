@@ -35,14 +35,10 @@ def getPhotographer():
 
     photographer_data = Photographers.query.filter_by(first_name = photographer_first_name).all()
 
-    photographer = []
-    for photographer_info in photographer_data:
-        photographer.append({
-            'first_name': photographer_info.first_name,
-            'last_name': photographer_info.last_name,
-            'email': photographer_info.email,
-            'description': photographer_info.description
-        })
+    photographer = {'first_name': photographer_data[0].first_name, 'last_name': photographer_data[0].last_name,
+            'email': photographer_data[0].email,
+            'description': photographer_data[0].description}
+
     return jsonify({'photographer':photographer})
     
 

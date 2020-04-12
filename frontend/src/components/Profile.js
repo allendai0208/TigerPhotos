@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
+import Profiles from './Profiles'
 
 // MUI studd
 import Button from '@material-ui/core/Button'
@@ -30,10 +31,13 @@ class Profile extends React.Component {
         console.log(this.state.profile)
         return (
             <div>
-                <p>hi</p>
+                <p>name: {this.state.profile.first_name} </p>
             </div>
         )
     }
 }
 
 export default Profile
+
+/* this.state.profile.map((photographer) => < Profiles photographer={photographer} />) */ 
+ 
