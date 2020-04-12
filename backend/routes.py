@@ -30,7 +30,7 @@ def browse():
 @app.route('/api/getPhotographer', methods=['POST'])
 def getPhotographer():  
 
-    photographer_info = request.get_json()
+    photographer_info = request.get_json(force=True)
     photographer_first_name = photographer_info['first_name']
 
     photographer_data = Photographers.query.filter_by(first_name = photographer_first_name).all()

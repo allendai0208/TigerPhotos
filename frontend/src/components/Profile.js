@@ -16,10 +16,11 @@ class Profile extends React.Component {
         const name = this.props.match.params.first_name
         fetch("/api/getPhotographer", {
             method: "POST",
+            cache: "no-cache",
             headers: {
-                "content_type":"application/json"
+                "content_type" : "application/json"
             },
-            body:JSON.stringify({first_name : name})
+            body:JSON.stringify({first_name: name})
         }).then(response => response.json())
         .then(result => this.setState({
           profile: result.photographer
@@ -31,7 +32,7 @@ class Profile extends React.Component {
         console.log(this.state.profile)
         return (
             <div>
-                <p>name: {this.state.profile.first_name} </p>
+                <p>name: {this.state.profile.first_name}</p>
             </div>
         )
     }
