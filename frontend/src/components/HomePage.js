@@ -23,19 +23,19 @@ class HomePage extends React.Component {
                 </div>
                 <div>
                     <Grid container spacing={10} justify="center" spacing={1}>
-                        <Grid item xs={3}>
+                        <Grid item xs={12} sm = {3}>
                             <div className="test">
                                 <img className="test2" src={ArtLogo} alt="Avatar"></img>
                                 <Button color="primary" variant = "outlined" size="large" onClick={() => this.routeChange("/create")}>Create Your Profile</Button>
                             </div>
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item xs={12} sm = {3}>
                             <div className="test">
                                 <img className="test3" src={MonitorLogo} alt="Avatar"></img>
                                 <Button color="primary" variant = "outlined" size="large" onClick={() => this.routeChange("/browse")}>Browse Photographers</Button>
                             </div>
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item xs={12} sm = {3}>
                             <div className="test">
                                 <img className="test2" src={IdeaLogo} alt="Avatar"></img>
                                 <Button color="primary" variant = "outlined" size="large" onClick={() => this.routeChange("/about")}>About Us</Button>

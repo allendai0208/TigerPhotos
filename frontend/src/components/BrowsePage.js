@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { ProfileForm } from './ProfileForm';
 import { Photographers } from './Photographers'
-import { Container } from 'semantic-ui-react';
 import {BrowseBar} from './BrowseBar'
 import Grid from '@material-ui/core/Grid'
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
 import Profiles from './Profiles'
 import Profile from './Profile'
 import Typography from '@material-ui/core/Typography'
@@ -34,17 +36,23 @@ class BrowsePage extends React.Component {
     )
 
     return (
-      <Grid container spacing={16}>
-        <Grid item sm={4} xs={12}>
+      <Container fluid>
+        <Row>
+          <Col>
           <Typography variant="h5" gutterBottom>
             Photographers
           </Typography>
-          {recentPhotographersMarkup}
-        </Grid>
-        <Grid item sm={8} xs={12}>
-          
-        </Grid>
-      </Grid>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs = {4}>
+            {recentPhotographersMarkup}
+          </Col>
+          <Col>
+            <p>asdf</p>
+          </Col>
+        </Row>
+      </Container>
  
     )
   }
