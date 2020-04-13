@@ -74,6 +74,10 @@ def getPorfolio():
         })
     return jsonify({'portfolio':portfolio})
 
+@app.route('api/createPortfolio')
+def createPortfolio():
+
+    
 
 # route that creates a review and adds it to the database (given review data)
 @app.route('/api/createReview', methods=['POST'])
