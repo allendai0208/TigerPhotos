@@ -39,7 +39,7 @@ class ProfileCard extends React.Component {
                 <Card className={classes.card} variant="outlined">
                         <CardMedia image={require("./pictures/Allen2.JPG")} title = "Profile image" className={classes.image} />
                         <CardContent class={classes.content}>
-                            <Typography variant="h5" >
+                            <Typography variant="h5" style = {{color:"orange"}}>
                                 {first_name+" "+last_name}
                             </Typography>
                             <Typography variant="body1">

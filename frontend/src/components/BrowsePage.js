@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { ProfileForm } from './ProfileForm';
-import { Photographers } from './Photographers'
-import {BrowseBar} from './BrowseBar'
-import Grid from '@material-ui/core/Grid'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import ProfileCard from './ProfileCard'
-import Profile from './Profile'
 import Typography from '@material-ui/core/Typography'
+import ActiveProfile from './ActiveProfile.js'
 
 class BrowsePage extends React.Component {
 
@@ -50,19 +46,15 @@ class BrowsePage extends React.Component {
     )
 
     return (
-      <Container fluid >
-        <Row>
+      <Container fluid>
+        <Row >
           <Col xs = {4}>
             {recentPhotographersMarkup}
           </Col>
-          <Col xs={8}>
-            <Typography variant="h2">
-              {this.state.selectedPhotographer.first_name + " " + this.state.selectedPhotographer.last_name}
-            </Typography>
-            <br></br>
-            <Typography variant="h5"> 
-              {this.state.selectedPhotographer.email}
-            </Typography>
+          <Col>
+            <Container>
+              <ActiveProfile selectedPhotographer = {this.state.selectedPhotographer}/>
+            </Container>
           </Col>
         </Row>
       </Container>

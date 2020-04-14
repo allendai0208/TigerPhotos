@@ -17,6 +17,14 @@ body{
   padding:0px; 
 }
 
+.browseRight {
+  border:solid;
+}
+
+.browseTable {
+  margin-left:0;
+}
+
 .aboutJob {
   margin-top:-20px;
   text-align:center;
