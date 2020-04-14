@@ -3,6 +3,7 @@ import { ProfileForm } from './ProfileForm';
 import { Photographers } from './Photographers'
 import { Container } from 'semantic-ui-react';
 import {BrowseBar} from './BrowseBar'
+import Navigation from './Navigation'
 
 function CreatePage() {
   const [photographers, setPhotographers] = useState([]);

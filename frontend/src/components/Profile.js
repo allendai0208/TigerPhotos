@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
-import Profiles from './Profiles'
+import Profiles from './ProfileCard'
 
 // MUI studd
 import Button from '@material-ui/core/Button'

@@ -13,23 +13,30 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 const styles = {
     card: {
         display: 'flex',
+        width: 475,
+        maxHeight: 150,
+        borderRadius:"0%",
     },
     image: {
         minWidth: 200,
         minHeight: 150,
         objectFit: 'cover'
     },
+    content: {
+        textAlign:'left',
+        margin: 10
+    }
 }
 
 
-class Profiles extends React.Component {
+class ProfileCard extends React.Component {
 
     render() {
         const {classes, photographer : {first_name, last_name, description}} = this.props
         return (
             <div>
+                <ButtonBase onClick = {() => this.props.handler(this.props.photographer)}>
                 <Card className={classes.card} variant="outlined">
-                    <ButtonBase className = "cardButton" onClick = {() => this.props.handler(this.props.photographer)}>
                         <CardMedia image={require("./pictures/Allen2.JPG")} title = "Profile image" className={classes.image} />
                         <CardContent class={classes.content}>
                             <Typography variant="h5" >
@@ -39,12 +46,12 @@ class Profiles extends React.Component {
                                 {description}
                             </Typography>
                         </CardContent>
-                    </ButtonBase>
-                </Card>  
+                    </Card>  
+                </ButtonBase>
             </div>
             
         )
     }
 }
 
-export default withStyles(styles)(Profiles);
+export default withStyles(styles)(ProfileCard);

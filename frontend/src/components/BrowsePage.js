@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
-import Profiles from './Profiles'
+import ProfileCard from './ProfileCard'
 import Profile from './Profile'
 import Typography from '@material-ui/core/Typography'
 
@@ -44,29 +44,25 @@ class BrowsePage extends React.Component {
 
   render() {
     let recentPhotographersMarkup = this.state.photographers ? (
-      this.state.photographers.map((photographer) => < Profiles photographer={photographer} handler = {this.handler}/> )
+      this.state.photographers.map((photographer) => < ProfileCard photographer={photographer} handler = {this.handler}/> )
     ) : (
       <p>Loading...</p>
     )
 
     return (
-      <Container fluid>
-        <Row>
-          <Col>
-          <Typography variant="h5" gutterBottom>
-            Photographers
-          </Typography>
-          </Col>
-        </Row>
+      <Container fluid >
         <Row>
           <Col xs = {4}>
             {recentPhotographersMarkup}
           </Col>
-          <Col>
-            <p>First Name: {this.state.selectedPhotographer.first_name}</p>
-            <p>Last Name: {this.state.selectedPhotographer.last_name}</p>
-            <p>Email: {this.state.selectedPhotographer.email}</p>
-            <p>Description: {this.state.selectedPhotographer.description}</p>
+          <Col xs={8}>
+            <Typography variant="h2">
+              {this.state.selectedPhotographer.first_name + " " + this.state.selectedPhotographer.last_name}
+            </Typography>
+            <br></br>
+            <Typography variant="h5"> 
+              {this.state.selectedPhotographer.email}
+            </Typography>
           </Col>
         </Row>
       </Container>

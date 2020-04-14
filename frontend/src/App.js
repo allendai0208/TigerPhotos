@@ -9,8 +9,9 @@ import HomePage from './components/HomePage'
 import BrowsePage from './components/BrowsePage'
 import AboutUs from './components/AboutUs'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { createMuiTheme } from '@material-ui/core/styles'
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import Profile from './components/Profile'
+import Divider from '@material-ui/core/Divider'
 
 const theme = createMuiTheme({
   palette: {
@@ -19,7 +20,13 @@ const theme = createMuiTheme({
       main: '#ff9800',
       dark: '#f57c00',
       contrastTest: '#fff'
+    },
+    secondary: {
+      main: '#9e9e9e'
     }
+  },
+  Typography: {
+    "fontFamily": "\"Roboto\", \"Helvetica\", \"Arial\", sans-serif"
   }
 })
 
@@ -33,9 +40,10 @@ class App extends React.Component {
 
   render() {
     return(
-      <createMuiTheme theme={theme}>
+      <MuiThemeProvider theme={theme}>
         <div className="App">
-          <Navigation/>
+          <Navigation />
+          <Divider />
           <BrowserRouter>
           <Switch>
             <Route path="/" component={HomePage} exact/>
@@ -47,7 +55,7 @@ class App extends React.Component {
           </Switch>
         </BrowserRouter> 
         </div>
-      </createMuiTheme>
+      </MuiThemeProvider>
     );
   }
 
