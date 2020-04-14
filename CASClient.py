@@ -8,7 +8,7 @@
 from urllib.request import urlopen
 from urllib.parse import quote
 from re import sub, match
-from flask import request, session, redirect, abort
+from flask import request, session, redirect, abort, jsonify
 from sys import stderr
 
 #-----------------------------------------------------------------------
@@ -29,7 +29,8 @@ class CASClient:
     # "ticket" parameter added by the CAS server.
 	
     def stripTicket(self):
-        url = request.url
+        url = 'http://localhost:3000/'
+        #url = request.url
         if url is None:
             return "something is badly wrong"
         url = sub(r'ticket=[^&]*&?', '', url)
@@ -76,13 +77,20 @@ class CASClient:
                 # username in the session.               
                 session['username'] = username        
                 return username
-      
+
+        return None
+
+    #-------------------------------------------------------------------
+
+    def login(self):
+
+
         # The request does not contain a valid login ticket, so
         # redirect the browser to the login page to get one.
         login_url = self.cas_url + 'login' \
             + '?service=' + quote(self.stripTicket())
-            
-        abort(redirect(login_url))
+
+        return login_url
 
     #-------------------------------------------------------------------
 

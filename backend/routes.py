@@ -8,18 +8,30 @@ from CASClient import CASClient
 @app.route('/create')
 @app.route('/about')
 def root():
-    netid = CASClient().authenticate()
-    user = Users.query.filter_by(netid = netid).all()
-    if user is None:
-        new_user = User(netid=netid)
-        db.session.add(new_user)
-        db.session.commit()
-
     return app.send_static_file('index.html')
 
 @app.route('/api/index')
 def index():
     return 'Done', 201
+
+@app.route('/api/authenticate')
+def authenticate():
+    netid = CASClient().authenticate()
+    if (netid is not None):
+        user = Users.query.filter_by(netid = netid).all()
+        if user is None:
+            new_user = User(netid=netid)
+            db.session.add(new_user)
+            db.session.commit()
+
+    return jsonify({'netid':netid})
+
+@app.route('/api/login', methods=['GET'])
+def login():
+    loginUrl = CASClient().login()
+    print(loginUrl)
+
+    return jsonify({'loginUrl':loginUrl})
 
 @app.route('/api/browse')
 def browse():
@@ -43,9 +55,10 @@ def getPhotographer():
 
     photographer_data = Photographers.query.filter_by(first_name = photographer_first_name).all()
 
-    photographer = {'first_name': photographer_data[0].first_name, 'last_name': photographer_data[0].last_name,
-            'email': photographer_data[0].email,
-            'description': photographer_data[0].description}
+    photographer = {'first_name': photographer_data[0].first_name, 
+                    'last_name': photographer_data[0].last_name,
+                    'email': photographer_data[0].email,
+                    'description': photographer_data[0].description}
 
     return jsonify({'photographer':photographer})
     
