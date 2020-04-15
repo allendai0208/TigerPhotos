@@ -14,22 +14,33 @@ def root():
 def index():
     return 'Done', 201
 
-@app.route('/api/authenticate')
+@app.route('/api/authenticate', methods=['POST'])
 def authenticate():
-    netid = CASClient().authenticate()
-    if (netid is not None):
-        user = Users.query.filter_by(netid = netid).all()
+    url_info = request.get_json(force = True)
+    url = url_info['url']
+    
+    print('URL_info:', url_info)
+    print('URL:', url)
+
+    username = None
+    if ('ticket' in url):
+        username = CASClient().authenticate(url)
+    else:
+        username = CASClient().authenticate('')
+
+    print('Netid:',username)
+    if (username is not None):
+        user = Users.query.filter_by(netid = username).all()
         if user is None:
             new_user = User(netid=netid)
             db.session.add(new_user)
             db.session.commit()
 
-    return jsonify({'netid':netid})
+    return jsonify({'netid':username})
 
 @app.route('/api/login', methods=['GET'])
 def login():
     loginUrl = CASClient().login()
-    print(loginUrl)
 
     return jsonify({'loginUrl':loginUrl})
 
@@ -50,7 +61,7 @@ def browse():
 @app.route('/api/getPhotographer', methods=['POST'])
 def getPhotographer():  
 
-    photographer_info = request.get_json()
+    photographer_info = request.get_json(force=True)
     photographer_first_name = photographer_info['first_name']
 
     photographer_data = Photographers.query.filter_by(first_name = photographer_first_name).all()

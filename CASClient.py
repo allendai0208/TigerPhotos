@@ -6,7 +6,8 @@
 #-----------------------------------------------------------------------
 
 from urllib.request import urlopen
-from urllib.parse import quote
+from urllib.parse import quote, parse_qs
+import urllib.parse as urlparse
 from re import sub, match
 from flask import request, session, redirect, abort, jsonify
 from sys import stderr
@@ -46,7 +47,7 @@ class CASClient:
         val_url = self.cas_url + "validate" + \
             '?service=' + quote(self.stripTicket()) + \
             '&ticket=' + quote(ticket)
-        r = urlopen(val_url).readlines()   # returns 2 lines
+        r = urlopen(val_url).readlines()   # returns 2 lines        
         if len(r) != 2:
             return None     
         firstLine = r[0].decode('utf-8')
@@ -60,7 +61,7 @@ class CASClient:
     # Authenticate the remote user, and return the user's username.
     # Do not return unless the user is successfully authenticated.
    	
-    def authenticate(self):
+    def authenticate(self, url):
         
         # If the user's username is in the session, then the user was
         # authenticated previously.  So return the user's username.
@@ -69,8 +70,10 @@ class CASClient:
            
         # If the request contains a login ticket, then try to
         # validate it.
-        ticket = request.args.get('ticket')
-        if ticket is not None:
+        if url:
+            parsed = urlparse.urlparse(url)
+            ticket = str(parse_qs(parsed.query)['ticket'][0])
+            print('Ticket:',ticket)
             username = self.validate(ticket)
             if username is not None:             
                 # The user is authenticated, so store the user's

@@ -1,7 +1,6 @@
 import React from 'react';
 import Button from '@material-ui/core/Button'
 import { Redirect } from 'react-router';
-import RedirectComponent from './RedirectComponent'
 
 class LandingPage extends React.Component {
     state = {
@@ -37,12 +36,6 @@ class LandingPage extends React.Component {
         .catch(function(error) {
             console.log(error)
         })
-    }
-
-    componentDidMount = () => {
-        console.log(this.state.netid)
-        console.log(this.state.is_external)
-        console.log(this.state.redirect_url)
     }
 
     render() {

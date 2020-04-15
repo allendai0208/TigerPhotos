@@ -16,6 +16,7 @@ class Profile extends React.Component {
         const name = this.props.match.params.first_name
         fetch("/api/getPhotographer", {
             method: "POST",
+            cache: "no-cache",
             headers: {
                 "content_type":"application/json"
             },
