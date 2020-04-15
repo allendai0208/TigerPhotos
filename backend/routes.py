@@ -31,8 +31,10 @@ def authenticate():
     print('Netid:',username)
     if (username is not None):
         user = Users.query.filter_by(netid = username).all()
-        if user is None:
-            new_user = User(netid=netid)
+        print('User:',user)
+        if not user:
+            print('HERE')
+            new_user = Users(netid=username)
             db.session.add(new_user)
             db.session.commit()
 
