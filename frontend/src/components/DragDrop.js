@@ -40,8 +40,7 @@ export class DragDrop extends Component {
                 this.setState({isUploading})
                 //const image = {url: url, added: new Date()}
                 //fstore.collection(this.props.netid).add(image).then(res =>{});
-                let newPhoto = {"netid":this.props.netid, "url":url};
-                photographs.push(newPhoto)
+                photographs.push(url)
             });
           });
         }
@@ -52,7 +51,7 @@ export class DragDrop extends Component {
           headers: {
               'Content-Type': 'application/json'
           }, 
-          body: JSON.stringify(photographs)
+          body: JSON.stringify({netid:this.props.netid, url:photographs})
         });
       }
 
