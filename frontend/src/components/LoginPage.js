@@ -1,24 +1,30 @@
-import React from 'react'
+import React from 'react';
+import Button from '@material-ui/core/Button'
+import { Redirect } from 'react-router';
 
-class LogoutPage extends React.Component {
+class LoginPage extends React.Component {
 
-    componentDidMount = () => {
-        let self = this
-        fetch('/api/logout')
-        .then(response => response.json())
-        .then(function(result) {
-            console.log(result.logoutUrl)
-            window.location.assign(result.logoutUrl)
+    login = () => {
+        fetch('/api/login')      // else, do CASAuthentication and return to the homepage
+        .then(function(response) {
+            return response.json();
         })
-        .catch(e => console.log(e))  
+        .then(function(result) {
+            window.location.assign(result.loginUrl)
+        })
+        .catch(function(error) {
+            console.log('Request failed', error)
+        })
     }
 
     render() {
-        return(null);
+        return (
+            <Button color="primary" size="large" onClick={() => this.login()}>Login</Button>
+        )
     }
 }
  
-export default LogoutPage
+export default LoginPage
 
 /* 
     fetchNetid = () => {

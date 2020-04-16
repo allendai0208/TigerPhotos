@@ -106,7 +106,7 @@ class CASClient:
         
         # Redirect the browser to the logout page.
         logout_url = self.cas_url + 'logout'
-        abort(redirect(logout_url))
+        return logout_url
         
 #-----------------------------------------------------------------------
 

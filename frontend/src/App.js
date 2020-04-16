@@ -14,6 +14,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import Divider from '@material-ui/core/Divider'
 import LogoutPage from './components/LogoutPage'
+import LoginPage from './components/LoginPage'
+import NavigationBeforeLogin from './components/NavigationBeforeLogin'
 
 const theme = createMuiTheme({
   palette: {
@@ -54,6 +56,75 @@ class App extends React.Component {
     })
     .then(function(result) {        // If the netid is not null, then redirect to homepage
       console.log(result.netid)
+      self.setState(
+        {'netid':result.netid}
+      )
+    })
+    .catch(function(error) {
+       console.log(error)
+    })
+  }
+
+  render() {
+    if (this.state.netid === null) {
+      return(<MuiThemeProvider theme={theme}>
+        <div className="App">
+          <NavigationBeforeLogin/>
+          <Divider />
+          <BrowserRouter>
+          <Switch>
+            <Route path="/about" component={AboutUs} exact/>
+            <Route path="/" component={LoginPage} />
+          </Switch>
+        </BrowserRouter> 
+        </div>
+        </MuiThemeProvider>
+      );
+    } 
+    else {
+      return(
+        <MuiThemeProvider theme={theme}>
+          <div className="App">
+            <Navigation/>
+            <Divider />
+            <BrowserRouter>
+            <Switch>
+              <Route path="/" component={HomePage} exact/>
+              <Route path="/create" render = {(props) => <CreatePage netid = {this.state.netid} {...props}/>} exact/>
+              <Route path="/browse" component={BrowsePage} exact/>
+              <Route path="/about" component={AboutUs} exact/>
+              <Route path="/logout" component={LogoutPage} exact/>
+              <Route exact path="/users/:first_name" component={Profile} />
+              <Route component={ErrorPage} /> 
+            </Switch>
+          </BrowserRouter> 
+          </div>
+          </MuiThemeProvider>
+      );
+    }
+  }
+
+}
+
+export default App;
+
+/*
+  componentDidMount = () => {
+    let self = this;
+    const url = window.location.href
+    console.log(url)
+    fetch("/api/authenticate", {
+      method: "POST",
+      headers: {
+        "content_type":"application/json"
+      },
+      body: JSON.stringify({url : url})
+    })
+    .then(function(response) {
+      return response.json(); 
+    })
+    .then(function(result) {        // If the netid is not null, then redirect to homepage
+      console.log(result.netid)
       if (result.netid !== null) {
           self.setState(
               {'netid':result.netid}
@@ -75,50 +146,5 @@ class App extends React.Component {
     .catch(function(error) {
        console.log(error)
     })
-  }
-
-  render() {
-    if (this.state.netid === null) return null;
-    else {
-      return(
-        <MuiThemeProvider theme={theme}>
-          <div className="App">
-            <Navigation/>
-            <Divider />
-            <BrowserRouter>
-            <Switch>
-              <Route path="/" component={HomePage} exact/>
-              <Route path="/create" render = {(props) => <CreatePage netid = {this.state.netid} {...props}/>} exact/>
-              <Route path="/browse" component={BrowsePage} exact/>
-              <Route path="/about" component={AboutUs} exact/>
-              <Route exact path="/users/:first_name" component={Profile} />
-              <Route component={ErrorPage} /> 
-            </Switch>
-          </BrowserRouter> 
-          </div>
-          </MuiThemeProvider>
-      );
-    }
-  }
-
-}
-
-export default App;
-
-/*
-  componentDidMount = () => {
-    fetch('/api/authenticate')
-    .then(response => response.json())
-    .then(function(result) {
-      let self = this
-      if (result.netid === null)
-      self.setState(
-        {'netid':result.netid,
-         'isAuthenticating':false
-        })
-        console.log(self.state.netid)
-        console.log(self.state.isAuthenticating)
-    })
-    .catch(e => console.log(e))
   }
 */
