@@ -14,7 +14,7 @@ class Users(db.Model):
 # Note that photographer_netid is a foreign key pointing to the netid in the User class.
 class Photographers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    photographer_netid = db.Column(db.String, db.ForeignKey('users.netid'), index=True)
+    photographer_netid = db.Column(db.String, index=True)
     first_name = db.Column(db.String(64), index=True)
     last_name = db.Column(db.String(64), index=True)
     email = db.Column(db.String(120), index=True, unique=True)
@@ -56,8 +56,8 @@ class Expertise(db.Model):
 # This defines the columns and data types of the Portfolio table
 class Portfolio(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    netid = db.Column(db.String(80), db.ForeignKey('photographers.photographer_netid'), index=True)
-    picture = db.Column(db.String(255), unique=True, index=True)
+    netid = db.Column(db.String(80))
+    picture = db.Column(db.String(255))
 
     def __repr__(self):
         return 'Portfolio {} {}>'.format(self.netid, self.picture)

@@ -75,14 +75,16 @@ def browse():
 def getPhotographer():  
 
     photographer_info = request.get_json(force=True)
-    photographer_first_name = photographer_info['first_name']
+    photographer_netid = photographer_info['photographer_netid']
 
-    photographer_data = Photographers.query.filter_by(first_name = photographer_first_name).all()
+    photographer_data = Photographers.query.filter_by(photographer_netid = photographer_netid).all()
 
-    photographer = {'first_name': photographer_data[0].first_name, 
+    photographer = {'photographer_netid': photographer_data[0].photographer_netid,
+                    'first_name': photographer_data[0].first_name, 
                     'last_name': photographer_data[0].last_name,
                     'email': photographer_data[0].email,
-                    'description': photographer_data[0].description}
+                    'description': photographer_data[0].description,
+                    'profile_pic': photographer_data[0].profile_pic}
 
     return jsonify({'photographer':photographer})
     
@@ -110,7 +112,7 @@ def createProfile():
 def getPorfolio():
 
     portfolio_info = request.get_json(force=True)
-    photographer_netid = portfolio_info['netid']
+    photographer_netid = portfolio_info['photographer_netid']
 
     portfolio_list = Portfolio.query.filter_by(netid = photographer_netid).all()
     portfolio = []
