@@ -44,9 +44,4 @@ export const photos = [
       width: 4,
       height: 3
     }
-<<<<<<< HEAD
-  ];
-  
-=======
-  ];
->>>>>>> cb25347fd4c3784cebf72146ad3e37c504946051
+];
