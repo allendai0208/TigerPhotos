@@ -13,7 +13,7 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 const styles = {
     card: {
         display: 'flex',
-        width: 475,
+        width: 485,
         maxHeight: 150,
         borderRadius:"0%",
     },
