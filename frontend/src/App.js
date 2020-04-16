@@ -13,6 +13,7 @@ import BrowsePage from './components/BrowsePage'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import Divider from '@material-ui/core/Divider'
+import LogoutPage from './components/LogoutPage'
 
 const theme = createMuiTheme({
   palette: {
