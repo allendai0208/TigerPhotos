@@ -81,21 +81,23 @@ class ProfileForm extends React.Component {
         }
     }
  
-    handleClose(){this.setState({UploadModalShow: false});
-    const first_name = this.state.fields['first_name']
-            const last_name = this.state.fields['last_name']
-            const email = this.state.fields['email']
-            const description = this.state.fields['description']
-            console.log(first_name)
-            const photographer = { first_name, last_name, email, description };
-            const response = fetch('/api/createProfile', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }, 
-                body: JSON.stringify(photographer)
-            });
-            this.setState({redirect: true})
+    handleClose(){
+        this.setState({UploadModalShow: false});
+        const netid = this.props.netid
+        const first_name = this.state.fields['first_name']
+        const last_name = this.state.fields['last_name']
+        const email = this.state.fields['email']
+        const description = this.state.fields['description']
+        console.log(first_name)
+        const photographer = { netid, first_name, last_name, email, description };
+        const response = fetch('/api/createProfile', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }, 
+            body: JSON.stringify(photographer)
+        });
+        this.setState({redirect: true})
     }
     handleShow(){ this.state.UploadModalShow = true;
     }

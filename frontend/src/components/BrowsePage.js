@@ -35,7 +35,6 @@ class BrowsePage extends React.Component {
   }
 
   handler(arg1) {
-    console.log(arg1)
     this.setState({
       selectedPhotographer:arg1
     })

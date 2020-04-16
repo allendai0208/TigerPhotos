@@ -60,6 +60,7 @@ def browse():
 
     for photographer in photographer_list:
         photographers.append({
+            'photographer_netid': photographer.photographer_netid,
             'first_name': photographer.first_name,
             'last_name': photographer.last_name,
             'email': photographer.email,
@@ -91,10 +92,13 @@ def createProfile():
 
     photographer_data = request.get_json()
 
-    new_photographer = Photographers(first_name=photographer_data['first_name'], 
-                                     last_name=photographer_data['last_name'],
-                                     email=photographer_data['email'],
-                                     description=photographer_data['description'])
+    new_photographer = Photographers(
+        photographer_netid = photographer_data['photographer_netid'],
+        first_name=photographer_data['first_name'], 
+        last_name=photographer_data['last_name'],
+        email=photographer_data['email'],
+        description=photographer_data['description']
+    )
 
     db.session.add(new_photographer)
     db.session.commit()
@@ -122,11 +126,10 @@ def createPortfolio():
 
     portfolio_data = request.get_json()
 
-    for picture in portfolio_data:
-        new_picture = Portfolio(netid=picture['netid'], picture=picture['url'])
+    new_picture = Portfolio(netid=portfolio_data['netid'], picture=portfolio_data['url'])
 
-        db.session.add(new_picture)
-        db.session.commit()
+    db.session.add(new_picture)
+    db.session.commit()
         
     return 'Done', 201
     
