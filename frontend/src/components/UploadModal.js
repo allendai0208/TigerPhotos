@@ -5,7 +5,6 @@ import {DragDrop} from './DragDrop';
 export class UploadModal extends Component{
     
     render() {
-      {console.log(this.props.netid)}
         return(
         <Modal
       {...this.props}

@@ -16,7 +16,6 @@ function CreatePage(props) {
     );
   }, []);
   
-  console.log(props.netid)
   return (
     <div className="ProfilePage">
       <Container style={{marginTop: 40}}>

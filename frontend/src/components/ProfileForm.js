@@ -179,7 +179,6 @@ class ProfileForm extends React.Component {
 
     render(){
 
-        console.log(this.props.netid)
         if(this.state.redirect) {
             console.log("redirect")
             return <Redirect to='/browse'/>;
