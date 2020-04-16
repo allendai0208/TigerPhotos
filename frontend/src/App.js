@@ -3,7 +3,6 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {BrowserRouter, Switch, Redirect} from "react-router-dom"
 import {Route} from "react-router-dom"
-import { createMuiTheme } from '@material-ui/core/styles'
 import Navigation from './components/Navigation'
 import AboutUs from './components/AboutUs'
 import Profile from './components/Profile'
@@ -11,10 +10,8 @@ import CreatePage from './components/CreatePage'
 import ErrorPage from './components/ErrorPage'
 import HomePage from './components/HomePage'
 import BrowsePage from './components/BrowsePage'
-import AboutUs from './components/AboutUs'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
-import Profile from './components/Profile'
 import Divider from '@material-ui/core/Divider'
 
 const theme = createMuiTheme({
@@ -89,7 +86,6 @@ class App extends React.Component {
             <Divider />
             <BrowserRouter>
             <Switch>
-              <Route path="/landing" component={LandingPage} exact/>
               <Route path="/" component={HomePage} exact/>
               <Route path="/create" component={CreatePage} exact/>
               <Route path="/browse" component={BrowsePage} exact/>
