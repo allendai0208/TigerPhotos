@@ -1,6 +1,6 @@
 from flask import jsonify, request
 from backend import app, db
-from backend.models import Reviews, Users, Photographers
+from backend.models import Reviews, Users, Photographers, Equipment, Expertise, Portfolio
 from CASClient import CASClient
 
 @app.route('/')
@@ -46,6 +46,7 @@ def login():
 
     return jsonify({'loginUrl':loginUrl})
 
+# route that send a JSON of all photographers to frontend
 @app.route('/api/browse')
 def browse():
     photographer_list = Photographers.query.all()
@@ -60,6 +61,7 @@ def browse():
         })                                       
     return jsonify({'photographers':photographers})
 
+# route that sends a JSON of a specific photographer to frontend (given a first name)
 @app.route('/api/getPhotographer', methods=['POST'])
 def getPhotographer():  
 
@@ -75,7 +77,7 @@ def getPhotographer():
 
     return jsonify({'photographer':photographer})
     
-
+# route that creates a profile and adds it to the database (given the photographer data)
 @app.route('/api/createProfile', methods=['POST'])
 def createProfile():
 
@@ -91,26 +93,29 @@ def createProfile():
 
     return 'Done', 201
 
-'''
+# route that retrieves the portfolio of the photographer (given their netid)
 @app.route('/api/getPortfolio')
 def getPorfolio():
 
     netid = 'ajnguyen'
 
-    portfolio_list = Portfolio.query(Portfolio.netid == netid).all()
+    portfolio_list = Portfolio.query.filter_by(netid = netid).all()
     portfolio = []
 
     for picture in portfolio_list:
         portfolio.append({
-            'netid': netid,
-            'url': picture.url
+            'picture': picture.picture
         })
-
     return jsonify({'portfolio':portfolio})
 
+#@app.route('api/createPortfolio')
+#def createPortfolio():
 
-@app.route('/api/add_review', methods=['POST'])
-def add_review():
+    
+
+# route that creates a review and adds it to the database (given review data)
+@app.route('/api/createReview', methods=['POST'])
+def createReview():
 
     review_data = request.get_json()
 
@@ -121,11 +126,12 @@ def add_review():
         
     return 'Done', 201
 
-@app.route('/')
-@app.route('/api/reviews')
-def reviews():
+# route that retrieves the reviews of a given photographer (given their netid)
+@app.route('/api/getReviews')
+def getReviews():
 
-    review_list = Reviews.query.all()
+    netid = request.get_json(force=True)
+    review_list = Reviews.query.fliter_by(photographer_netid = netid).all()
     reviews = []
 
     for review in review_list:
@@ -136,5 +142,3 @@ def reviews():
             'rating': review.rating
         })                                       
     return jsonify({'reviews':reviews})
-
-'''

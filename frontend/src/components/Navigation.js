@@ -12,15 +12,16 @@ class Navigation extends React.Component {
                 <Navbar.Brand href="/">
                 <img
                     alt=""
-                    src={require("./pictures/logo1.png")}
+                    src={require("./pictures/logo_orange.png")}
                     width="130"
                     height="130"
                     className="d-inline-block align-top"
                 />{' '}
                 </Navbar.Brand>
-                <Nav>
+                <Nav className="ml-auto">
                     <Nav.Link href="/create">Create Profile</Nav.Link>
                     <Nav.Link href="/browse">Browse Photographers</Nav.Link>
+                    <Nav.Link href="/about">About Us</Nav.Link>
                 </Nav>
           </Navbar>
 

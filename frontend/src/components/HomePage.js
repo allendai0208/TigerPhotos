@@ -26,24 +26,29 @@ class HomePage extends React.Component {
                         <Grid item xs={12} sm = {3}>
                             <div className="test">
                                 <img className="test2" src={ArtLogo} alt="Avatar"></img>
-                                <Button color="primary" variant = "outlined" size="large" onClick={() => this.routeChange("/create")}>Create Your Profile</Button>
+                                <Button color="secondary" size="large" variant="outlined" disableElevation onClick={() => this.routeChange("/create")}>Create Your Profile</Button>
                             </div>
                         </Grid>
                         <Grid item xs={12} sm = {3}>
                             <div className="test">
                                 <img className="test3" src={MonitorLogo} alt="Avatar"></img>
-                                <Button color="primary" variant = "outlined" size="large" onClick={() => this.routeChange("/browse")}>Browse Photographers</Button>
+                                <Button color="secondary" size="large" variant="outlined" disableElevation onClick={() => this.routeChange("/browse")}>Browse Photographers</Button>
                             </div>
                         </Grid>
                         <Grid item xs={12} sm = {3}>
                             <div className="test">
                                 <img className="test2" src={IdeaLogo} alt="Avatar"></img>
-                                <Button color="primary" variant = "outlined" size="large" onClick={() => this.routeChange("/about")}>About Us</Button>
+                                <Button color="secondary" size="large" variant="outlined" disableElevation onClick={() => this.routeChange("/about")}>About Us</Button>
                             </div>
                         </Grid>
                     </Grid>
                 </div>
-                <img className = "tigerLogo" src = {logo}></img>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
             </div>
         )
     }

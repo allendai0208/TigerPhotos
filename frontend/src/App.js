@@ -11,7 +11,11 @@ import CreatePage from './components/CreatePage'
 import ErrorPage from './components/ErrorPage'
 import HomePage from './components/HomePage'
 import BrowsePage from './components/BrowsePage'
-import LandingPage from './components/LandingPage'
+import AboutUs from './components/AboutUs'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
+import Profile from './components/Profile'
+import Divider from '@material-ui/core/Divider'
 
 const theme = createMuiTheme({
   palette: {
@@ -20,7 +24,13 @@ const theme = createMuiTheme({
       main: '#ff9800',
       dark: '#f57c00',
       contrastTest: '#fff'
+    },
+    secondary: {
+      main: '#9e9e9e'
     }
+  },
+  Typography: {
+    "fontFamily": "\"Roboto\", \"Helvetica\", \"Arial\", sans-serif"
   }
 })
 
@@ -73,9 +83,10 @@ class App extends React.Component {
     if (this.state.netid === null) return null;
     else {
       return(
-        <createMuiTheme theme={theme}>
+        <MuiThemeProvider theme={theme}>
           <div className="App">
             <Navigation/>
+            <Divider />
             <BrowserRouter>
             <Switch>
               <Route path="/landing" component={LandingPage} exact/>
@@ -88,7 +99,7 @@ class App extends React.Component {
             </Switch>
           </BrowserRouter> 
           </div>
-        </createMuiTheme>
+          </MuiThemeProvider>
       );
     }
   }
