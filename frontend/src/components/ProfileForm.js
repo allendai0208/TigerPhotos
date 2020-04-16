@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import { Form, Input, Button } from 'semantic-ui-react';
-import { Redirect } from 'react-router'
+import { Redirect } from 'react-router';
+import {DragDrop} from './DragDrop';
+import {UploadModal} from './UploadModal';
 
 /*export const ProfileForm = ({onNewProfile}) => {
     const[first_name, setFirstname] = useState('');
@@ -74,8 +76,30 @@ class ProfileForm extends React.Component {
         this.state = {
             fields: {},
             errors: {},
-            redirect: false
+            redirect: false,
+            UploadModalShow: false
         }
+    }
+
+   
+ 
+    handleClose(){this.setState({UploadModalShow: false});
+    const first_name = this.state.fields['first_name']
+            const last_name = this.state.fields['last_name']
+            const email = this.state.fields['email']
+            const description = this.state.fields['description']
+            console.log(first_name)
+            const photographer = { first_name, last_name, email, description };
+            const response = fetch('/api/createProfile', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }, 
+                body: JSON.stringify(photographer)
+            });
+            this.setState({redirect: true})
+    }
+    handleShow(){ this.state.UploadModalShow = true;
     }
 
     handleValidation(){
@@ -129,6 +153,7 @@ class ProfileForm extends React.Component {
         if(!fields["description"]){
             formIsValid = false;
             errors["description"] = "Cannot be empty";
+
         }
 
         this.setState({errors: errors});
@@ -137,26 +162,14 @@ class ProfileForm extends React.Component {
 
     contactSubmit = e => {
         e.preventDefault();
-    
+        
         this.handleValidation();
-    
+        
         if (!this.handleValidation()) {
             alert("Form has errors.")
         } else {
-            const first_name = this.state.fields['first_name']
-            const last_name = this.state.fields['last_name']
-            const email = this.state.fields['email']
-            const description = this.state.fields['description']
-            console.log(first_name)
-            const photographer = { first_name, last_name, email, description };
-            const response = fetch('/api/createProfile', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }, 
-                body: JSON.stringify(photographer)
-            });
-            this.setState({redirect: true})
+            this.handleShow();
+            
         }
       }
 
@@ -211,6 +224,9 @@ class ProfileForm extends React.Component {
                 >
                     submit
                 </Button>
+                <UploadModal photozID ={this.state.fields["last_name"]} show = {this.state.UploadModalShow} onHide = {this.handleClose.bind(this)}
+               />
+
             </Form.Field>
         </Form>
         )
