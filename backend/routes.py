@@ -57,7 +57,8 @@ def browse():
             'first_name': photographer.first_name,
             'last_name': photographer.last_name,
             'email': photographer.email,
-            'description': photographer.description
+            'description': photographer.description,
+            'profile_pic':photographer.profile_pic
         })                                       
     return jsonify({'photographers':photographers})
 
