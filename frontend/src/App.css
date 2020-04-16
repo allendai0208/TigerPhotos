@@ -184,6 +184,22 @@ body{
   height: 125px;
 }
 
+.column1 {
+  background-color: white;
+  padding: 0px;
+}
+
+.selectedName {
+  padding-top: 10px;
+  padding-bottom: 10px
+}
+
+.search {
+  padding-bottom: 5px;
+  margin: 1px;
+}
+
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

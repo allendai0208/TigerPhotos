@@ -5,6 +5,9 @@ import Container from 'react-bootstrap/Container';
 import ProfileCard from './ProfileCard'
 import Typography from '@material-ui/core/Typography'
 import ActiveProfile from './ActiveProfile.js'
+import TextField from '@material-ui/core/TextField'
+import SearchIcon from '@material-ui/icons/Search';
+import Grid from '@material-ui/core/Grid'
 
 class BrowsePage extends React.Component {
 
@@ -48,7 +51,17 @@ class BrowsePage extends React.Component {
     return (
       <Container fluid>
         <Row >
-          <Col xs = {4}>
+          <Col xs = {4} className="column1">
+            <div className="search">
+              <Grid container className="grid" spacing={1} alignItems="flex-end">
+                <Grid item>
+                  <SearchIcon />
+                </Grid>
+                <Grid item>
+                  <TextField id="input-with-icon-grid" label="Search by Name" />
+                </Grid>
+              </Grid>
+            </div>
             {recentPhotographersMarkup}
           </Col>
           <Col>
