@@ -22,6 +22,7 @@ class Navigation extends React.Component {
                     <Nav.Link href="/create">Create Profile</Nav.Link>
                     <Nav.Link href="/browse">Browse Photographers</Nav.Link>
                     <Nav.Link href="/about">About Us</Nav.Link>
+                    <Nav.Link href="/logout">Logout</Nav.Link>
                 </Nav>
           </Navbar>
 

@@ -40,11 +40,17 @@ def authenticate():
 
     return jsonify({'netid':username})
 
-@app.route('/api/login', methods=['GET'])
+@app.route('/api/login')
 def login():
     loginUrl = CASClient().login()
 
     return jsonify({'loginUrl':loginUrl})
+
+@app.route('/api/logout')
+def logout():
+    logoutUrl = CASClient().logout()
+
+    return jsonify({'logoutUrl':logoutUrl})
 
 # route that send a JSON of all photographers to frontend
 @app.route('/api/browse')
@@ -61,6 +67,7 @@ def browse():
             'profile_pic':photographer.profile_pic
         })                                       
     return jsonify({'photographers':photographers})
+
 
 # route that sends a JSON of a specific photographer to frontend (given a first name)
 @app.route('/api/getPhotographer', methods=['POST'])
