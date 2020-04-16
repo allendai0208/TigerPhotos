@@ -59,13 +59,22 @@ def browse():
     photographers = []
 
     for photographer in photographer_list:
+        
+        # query each row in portfolio pertaining to the specific photographer
+        portfolio_list = Portfolio.query.filter_by(netid = photographer.photographer_netid).all()
+        urls = []
+
+        for row in portfolio_list:
+            urls.append(row.picture)
+
         photographers.append({
             'photographer_netid': photographer.photographer_netid,
             'first_name': photographer.first_name,
             'last_name': photographer.last_name,
             'email': photographer.email,
             'description': photographer.description,
-            'profile_pic':photographer.profile_pic
+            'profile_pic':photographer.profile_pic,
+            'urls': urls
         })                                       
     return jsonify({'photographers':photographers})
 
