@@ -117,7 +117,7 @@ def getPorfolio():
         })
     return jsonify({'portfolio':portfolio})
 
-@app.route('api/createPortfolio')
+@app.route('/api/createPortfolio', methods=['POST'])
 def createPortfolio():
 
     portfolio_data = request.get_json()
