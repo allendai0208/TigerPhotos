@@ -40,11 +40,20 @@ export class DragDrop extends Component {
                 //const image = {url: url, added: new Date()}
                 //fstore.collection(this.props.netid).add(image).then(res =>{});
                 let newPhoto = {"netid":this.props.netid, "url":url};
+                console.log(newPhoto)
                 this.setState({photo_list: [...this.state.photo_list, newPhoto]})
             });
+          });
+        }
+
+        const response = fetch('/api/createPortfolio', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          }, 
+          body: JSON.stringify(this.state.photo_list)
         });
       }
-    }
 
 
     render() {

@@ -123,7 +123,7 @@ def createPortfolio():
     portfolio_data = request.get_json()
 
     for picture in portfolio_data:
-        new_picture = Portfolio(netid=picture['netid'], picture=picture['picture'])
+        new_picture = Portfolio(netid=picture['netid'], picture=picture['url'])
 
         db.session.add(new_picture)
         db.session.commit()
