@@ -17,7 +17,6 @@ export class DragDrop extends Component {
 ///Applications/Python\ 3.6/Install\ Certificates.command
       handleUpload(files){
         console.log(this.props.netid)
-        let photographs = []
         for (let i = 0; i < files.length; i++){
           const uploadTask = storage.ref(`images/${files.item(i).name}`).put(files.item(i));
           uploadTask.on('state_changed', 
@@ -40,11 +39,17 @@ export class DragDrop extends Component {
                 this.setState({isUploading})
                 //const image = {url: url, added: new Date()}
                 //fstore.collection(this.props.netid).add(image).then(res =>{});
-                photographs.push(url)
+                let photograph = {netid:this.props.netid, url:url}
+                const response = fetch('/api/createPortfolio', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  }, 
+                  body: JSON.stringify(photograph)
+              });
             });
           });
         }
-        console.log(photographs)
       }
 
     render() {
