@@ -21,7 +21,7 @@ const theme = createMuiTheme({
   palette: {
     primary: {
       light: '#ffb7df',
-      main: '#ffb74d',
+      main: '#ff9800',
       dark: '#f57c00',
       contrastTest: '#fff'
     },
@@ -37,7 +37,8 @@ const theme = createMuiTheme({
 class App extends React.Component {
 
   state = {
-    netid: null
+    netid: null,
+    go_to_login: false
   }
 
   componentDidMount = () => {
@@ -56,9 +57,16 @@ class App extends React.Component {
     })
     .then(function(result) {        // If the netid is not null, then redirect to homepage
       console.log(result.netid)
-      self.setState(
-        {'netid':result.netid}
-      )
+      if (result.netid === null) {
+        self.setState(
+          {'go_to_login':true}
+        )
+      }
+      else {
+        self.setState(
+          {'netid':result.netid}
+        )
+      }
     })
     .catch(function(error) {
        console.log(error)
@@ -66,7 +74,7 @@ class App extends React.Component {
   }
 
   render() {
-    if (this.state.netid === null) {
+    if (this.state.netid === null && this.state.go_to_login) {
       return(<MuiThemeProvider theme={theme}>
         <div className="App">
           <NavigationBeforeLogin/>
