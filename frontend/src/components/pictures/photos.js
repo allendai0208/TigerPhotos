@@ -44,4 +44,4 @@ export const photos = [
       width: 4,
       height: 3
     }
-  ];
+];
