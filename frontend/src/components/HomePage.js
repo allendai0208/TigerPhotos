@@ -2,7 +2,6 @@
 
 import React from "react"
 import Button from '@material-ui/core/Button'
-import logo from "./pictures/tigerLogo.png"
 import ArtLogo from './pictures/art.png'
 import IdeaLogo from './pictures/idea.png'
 import MonitorLogo from './pictures/monitor.png'

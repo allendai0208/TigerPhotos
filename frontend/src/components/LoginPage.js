@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from '@material-ui/core/Button'
-import { Redirect } from 'react-router';
+import Container from '@material-ui/core/Container'
+import logo from "./pictures/tigerLogo.png"
 
 class LoginPage extends React.Component {
 
@@ -19,12 +20,24 @@ class LoginPage extends React.Component {
 
     render() {
         return (
-            <Button color="primary" size="large" onClick={() => this.login()}>Login</Button>
+            <div>
+                <Container maxWidth="sm" className="login_box">
+                    <img className = "tigerLogo2" src = {logo}></img>
+                    <p className = "login_text">Welcome to TigerPhotos!</p>
+                    <Button color="primary" size="large" variant="outlined" className="login_button" onClick={() => this.login()}>Login</Button>
+                </Container>
+            </div>
         )
     }
 }
  
 export default LoginPage
+
+/*                 <div className="heading">
+                    <p className="welcome">Welcome to </p>
+                    <p className="tigerphotos">TigerPhotos</p>
+                </div>
+                <Button color="primary" size="large" onClick={() => this.login()}>Login</Button> */ 
 
 /* 
     fetchNetid = () => {

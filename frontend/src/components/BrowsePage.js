@@ -8,6 +8,15 @@ import ActiveProfile from './ActiveProfile.js'
 import TextField from '@material-ui/core/TextField'
 import SearchIcon from '@material-ui/icons/Search';
 import Grid from '@material-ui/core/Grid'
+import GridList from '@material-ui/core/GridList'
+import Paper from '@material-ui/core/Paper'
+
+const styles = {
+  main: { 
+    display: 'inline-block',
+    height: "inherit"
+  }
+}
 
 class BrowsePage extends React.Component {
 
@@ -43,35 +52,35 @@ class BrowsePage extends React.Component {
 
   render() {
     let recentPhotographersMarkup = this.state.photographers ? (
-      this.state.photographers.map((photographer) => < ProfileCard photographer={photographer} handler = {this.handler}/> )
+      this.state.photographers.map((photographer) => < ProfileCard photographer={photographer} handler = {this.handler} /> )
     ) : (
       <p>Loading...</p>
     )
 
     return (
-      <Container fluid>
-        <Row >
-          <Col xs = {4} className="column1">
-            <div className="search">
-              <Grid container className="grid" spacing={1} alignItems="flex-end">
-                <Grid item>
-                  <SearchIcon />
-                </Grid>
-                <Grid item>
-                  <TextField id="input-with-icon-grid" label="Search by Name" />
-                </Grid>
+    <Container fluid>
+      <Row >
+        <Col xs = {4} className="column1">
+          <div className="search">
+            <Grid container className="grid" spacing={1} alignItems="flex-end">
+              <Grid item>
+                <SearchIcon />
               </Grid>
-            </div>
-            {recentPhotographersMarkup}
-          </Col>
-          <Col>
-            <Container>
-              <ActiveProfile selectedPhotographer = {this.state.selectedPhotographer}/>
-            </Container>
-          </Col>
-        </Row>
-      </Container>
- 
+              <Grid item>
+                <TextField id="input-with-icon-grid" label="Search by Name" />
+              </Grid>
+            </Grid>
+          </div>
+          {recentPhotographersMarkup}
+        </Col>
+        <Col>
+          <Container>
+            <ActiveProfile selectedPhotographer = {this.state.selectedPhotographer}/>
+          </Container>
+        </Col>
+      </Row>
+    </Container>
+
     )
   }
 
@@ -96,5 +105,28 @@ class BrowsePage extends React.Component {
     </div>
   );
 } */
+
+/*       <Container fluid>
+        <Row >
+          <Col xs = {4} className="column1">
+            <div className="search">
+              <Grid container className="grid" spacing={1} alignItems="flex-end">
+                <Grid item>
+                  <SearchIcon />
+                </Grid>
+                <Grid item>
+                  <TextField id="input-with-icon-grid" label="Search by Name" />
+                </Grid>
+              </Grid>
+            </div>
+            {recentPhotographersMarkup}
+          </Col>
+          <Col>
+            <Container>
+              <ActiveProfile selectedPhotographer = {this.state.selectedPhotographer}/>
+            </Container>
+          </Col>
+        </Row>
+      </Container> */ 
 
 export default BrowsePage;

@@ -5,17 +5,13 @@ body{
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
   sans-serif;
-  background-color: floralwhite;
 }
 
 .App {
   background-color: floralwhite;
+  min-height: 100vh; min-width: 100vw;
 }
 
-.homepage {
-  margin: 0;
-  padding:0px; 
-}
 
 .browseRight {
   border:solid;
@@ -88,12 +84,6 @@ body{
   color: gray; 
 }
 
-.titleHeader {
-  font-size:50px;
-  text-align:center;
-  font-family:"Comic Sans MS";
-}
-
 .navbar {
   font-size: 15px;
   background-color:orange;
@@ -128,6 +118,7 @@ body{
   text-align:center;
   color: orange; 
   font-family: 'Pacifico', cursive;
+  opacity: 0.6
 }
 
 .PhotographerText {
@@ -140,7 +131,7 @@ body{
 
 .heading {
   margin: 40px;
-  width:500px;
+  width:600px;
   height:210px;
   margin-left:auto;
   margin-right:auto;
@@ -187,6 +178,7 @@ body{
 .column1 {
   background-color: white;
   padding: 0px;
+  align-items: "flex-start"
 }
 
 .selectedName {
@@ -199,6 +191,54 @@ body{
   margin: 1px;
 }
 
+.cards {
+  width: 100%;
+  display: 'flex',
+}
+
+.gridlist {
+  display: 'flex';
+    flex-wrap: 'wrap';
+    justify-content: 'space-around';
+    overflow: 'hidden';
+}
+
+.gridlist2 {
+  width: 100%;
+  height: 100%
+}
+
+.login_box {
+  display: flexbox;
+  max-width:30%;
+  height:400px;
+  margin-left:auto;
+  margin-right:auto;
+  border-color: lightgray;
+  border-style: double;
+  border-radius: 2px;
+  padding: 40px;
+  margin-top: 175px;
+  text-align: center;
+}
+
+.tigerLogo2 {
+  display:block;
+  margin-left:auto;
+  margin-right:auto;
+  width:200px;
+  height:200px
+}
+
+.login_text {
+  font-size: 30px;
+  text-align:center;
+  margin: 20px;
+  padding: 5px 0;
+  line-height:1;
+  color: orange; 
+  opacity: 0.8
+}
 
 .App-header {
   background-color: #282c34;

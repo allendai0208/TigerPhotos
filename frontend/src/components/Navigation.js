@@ -8,13 +8,13 @@ import { requirePropFactory } from "@material-ui/core"
 class Navigation extends React.Component {
     render() {
         return (
-            <Navbar bg="light">
+            <Navbar bg="light" className="navbar">
                 <Navbar.Brand href="/">
                 <img
                     alt=""
-                    src={require("./pictures/logo_orange.png")}
+                    src={require("./pictures/logo_orange_crop.png")}
                     width="130"
-                    height="130"
+                    height="40"
                     className="d-inline-block align-top"
                 />{' '}
                 </Navbar.Brand>

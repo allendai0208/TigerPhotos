@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import { Form, Input, Button } from 'semantic-ui-react';
+import { Form, Input} from 'semantic-ui-react';
+import Button from '@material-ui/core/Button'
 import { Redirect } from 'react-router'
 
 /*export const ProfileForm = ({onNewProfile}) => {
@@ -173,22 +174,23 @@ class ProfileForm extends React.Component {
         }
         return (
             <Form>
+            <span style={{color: "red"}}>{this.state.errors["first_name"]}</span> 
             <Form.Field>
                 <Input 
-                    placeholder="First Name:" 
+                    placeholder="First Name" 
                     value={this.state.fields["first_name"]}
                     onChange={this.handleChange.bind(this, "first_name")}
                 />
             </Form.Field>
-            <span style={{color: "red"}}>{this.state.errors["first_name"]}</span> 
+            <span style={{color: "red"}}>{this.state.errors["last_name"]}</span>
             <Form.Field>
                 <Input 
-                    placeholder="Last Name:" 
+                    placeholder="Last Name" 
                     value={this.state.fields["last_name"]}
                     onChange={this.handleChange.bind(this, "last_name")}
                 />
             </Form.Field>
-            <span style={{color: "red"}}>{this.state.errors["last_name"]}</span>
+            <span style={{color: "red"}}>{this.state.errors["email"]}</span>
             <Form.Field>
                 <Input 
                     placeholder="Email" 
@@ -196,7 +198,7 @@ class ProfileForm extends React.Component {
                     onChange={this.handleChange.bind(this, "email")}
                 />
             </Form.Field>
-            <span style={{color: "red"}}>{this.state.errors["email"]}</span>
+            <span style={{color: "red"}}>{this.state.errors["description"]}</span>
             <Form.Field>
                 <Input 
                     placeholder="Description" 
@@ -204,9 +206,8 @@ class ProfileForm extends React.Component {
                     onChange={this.handleChange.bind(this, "description")}
                 />
             </Form.Field>
-            <span style={{color: "red"}}>{this.state.errors["description"]}</span>
             <Form.Field>
-                <Button 
+                <Button color='primary' size='large'
                     onClick={this.contactSubmit.bind(this)}
                 >
                     submit

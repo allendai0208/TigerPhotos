@@ -1,8 +1,6 @@
 import React from "react"
-import {NavLink} from "react-router-dom"
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
-import { requirePropFactory } from "@material-ui/core"
 
 
 class NavigationBeforeLogin extends React.Component {
@@ -12,9 +10,9 @@ class NavigationBeforeLogin extends React.Component {
                 <Navbar.Brand href="/">
                 <img
                     alt=""
-                    src={require("./pictures/logo_orange.png")}
+                    src={require("./pictures/logo_orange_crop.png")}
                     width="130"
-                    height="130"
+                    height="40"
                     className="d-inline-block align-top"
                 />{' '}
                 </Navbar.Brand>

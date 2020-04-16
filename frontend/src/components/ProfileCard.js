@@ -1,7 +1,5 @@
 import React from 'react'
 import withStyles from '@material-ui/core/styles/withStyles'
-import {Link} from 'react-router-dom'
-import ActiveProfile from './ActiveProfile.js'
 
 // MUI stuff
 import Card from '@material-ui/core/Card';
@@ -13,9 +11,10 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 const styles = {
     card: {
         display: 'flex',
-        width: 485,
         maxHeight: 150,
         borderRadius:"0%",
+        width: "inherit",
+        alignItems: 'stretch'
     },
     image: {
         minWidth: 200,
@@ -23,8 +22,9 @@ const styles = {
         objectFit: 'cover'
     },
     content: {
+        width: "100%",
         textAlign:'left',
-        margin: 10
+        margin: 10,
     }
 }
 
@@ -36,7 +36,7 @@ class ProfileCard extends React.Component {
         return (
             <div>
                 <ButtonBase onClick = {() => this.props.handler(this.props.photographer)}>
-                <Card className={classes.card} variant="outlined">
+                    <Card className={classes.card} variant="outlined" >
                         <CardMedia image={require("./pictures/Allen2.JPG")} title = "Profile image" className={classes.image} />
                         <CardContent class={classes.content}>
                             <Typography variant="h5" style = {{color:"orange"}}>

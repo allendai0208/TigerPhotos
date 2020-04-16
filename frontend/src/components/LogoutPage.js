@@ -3,7 +3,6 @@ import React from 'react'
 class LogoutPage extends React.Component {
 
     componentDidMount = () => {
-        let self = this
         fetch('/api/logout')
         .then(response => response.json())
         .then(function(result) {
