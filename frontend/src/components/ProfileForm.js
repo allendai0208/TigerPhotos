@@ -80,8 +80,6 @@ class ProfileForm extends React.Component {
             UploadModalShow: false
         }
     }
-
-   
  
     handleClose(){this.setState({UploadModalShow: false});
     const first_name = this.state.fields['first_name']
@@ -180,6 +178,8 @@ class ProfileForm extends React.Component {
     }
 
     render(){
+
+        console.log(this.props.netid)
         if(this.state.redirect) {
             console.log("redirect")
             return <Redirect to='/browse'/>;
@@ -224,7 +224,7 @@ class ProfileForm extends React.Component {
                 >
                     submit
                 </Button>
-                <UploadModal photozID ={this.state.fields["last_name"]} show = {this.state.UploadModalShow} onHide = {this.handleClose.bind(this)}
+                <UploadModal netid = {this.props.netid} show = {this.state.UploadModalShow} onHide = {this.handleClose.bind(this)}
                />
 
             </Form.Field>

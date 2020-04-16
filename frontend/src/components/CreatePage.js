@@ -5,7 +5,7 @@ import { Container } from 'semantic-ui-react';
 import {BrowseBar} from './BrowseBar'
 import Navigation from './Navigation'
 
-function CreatePage() {
+function CreatePage(props) {
   const [photographers, setPhotographers] = useState([]);
 
   useEffect(() => {
@@ -15,12 +15,13 @@ function CreatePage() {
       })
     );
   }, []);
-
+  
+  console.log(props.netid)
   return (
     <div className="ProfilePage">
       <Container style={{marginTop: 40}}>
         <p className="CreateProfileText">Create Your Profile</p>
-        <ProfileForm onNewProfile={photographer => 
+        <ProfileForm netid = {props.netid} onNewProfile={photographer => 
           setPhotographers(currentPhotographers => [...currentPhotographers, photographer])
           }/>
       </Container>

@@ -3,14 +3,9 @@ import {Modal, Button, Row, Col, Form} from 'react-bootstrap';
 import {DragDrop} from './DragDrop';
 
 export class UploadModal extends Component{
-    constructor(props){
-    super(props);
-    this.state = {
-      photozID: null
-    }
-    }
-
+    
     render() {
+      {console.log(this.props.netid)}
         return(
         <Modal
       {...this.props}
@@ -24,7 +19,7 @@ export class UploadModal extends Component{
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-       <DragDrop net_ID={this.props.photozID}/>
+       <DragDrop netid={this.props.netid}/>
       </Modal.Body>
       <Modal.Footer>
         <Button variant = "secondary" onClick = {this.props.onHide}> All Done!</Button>

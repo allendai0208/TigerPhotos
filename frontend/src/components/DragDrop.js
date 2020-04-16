@@ -9,14 +9,14 @@ export class DragDrop extends Component {
           this.state = {
             progress: 0,
             isUploading: null,
-            net_ID: "me"
+            photo_list : []
           }
        
       }
     
 ///Applications/Python\ 3.6/Install\ Certificates.command
       handleUpload(files){
-
+        console.log(this.props.netid)
         for (let i = 0; i < files.length; i++){
           const uploadTask = storage.ref(`images/${files.item(i).name}`).put(files.item(i));
           uploadTask.on('state_changed', 
@@ -31,16 +31,16 @@ export class DragDrop extends Component {
                // error function ....
             console.log(error);
           }, 
-        () => {
+          () => {
             // complete function ....
             storage.ref('images').child(files.item(i).name).getDownloadURL().then(url => {
                 console.log(url);
                 const isUploading = false;
                 this.setState({isUploading})
-                const image = {url: url, added: new Date()}
-                fstore.collection(this.props.net_ID).add(image).then(res =>{
-                  
-                });
+                //const image = {url: url, added: new Date()}
+                //fstore.collection(this.props.netid).add(image).then(res =>{});
+                let newPhoto = {"netid":this.props.netid, "url":url};
+                this.setState({photo_list: [...this.state.photo_list, newPhoto]})
             });
         });
       }
@@ -48,6 +48,7 @@ export class DragDrop extends Component {
 
 
     render() {
+      {console.log(this.props.netid)}
       const style = {
         height: '100vh',
         display: 'flex',
