@@ -105,9 +105,10 @@ def createProfile():
 @app.route('/api/getPortfolio')
 def getPorfolio():
 
-    netid = 'ajnguyen'
+    portfolio_info = request.get_json(force=True)
+    photographer_netid = portfolio_info['netid']
 
-    portfolio_list = Portfolio.query.filter_by(netid = netid).all()
+    portfolio_list = Portfolio.query.filter_by(netid = photographer_netid).all()
     portfolio = []
 
     for picture in portfolio_list:
@@ -116,9 +117,18 @@ def getPorfolio():
         })
     return jsonify({'portfolio':portfolio})
 
-#@app.route('api/createPortfolio')
-#def createPortfolio():
+@app.route('api/createPortfolio')
+def createPortfolio():
 
+    portfolio_data = request.get_json()
+
+    for picture in portfolio_data:
+        new_picture = Portfolio(netid=picture['netid'], picture=picture['picture'])
+
+        db.session.add(new_picture)
+        db.session.commit()
+        
+    return 'Done', 201
     
 
 # route that creates a review and adds it to the database (given review data)
@@ -139,7 +149,7 @@ def createReview():
 def getReviews():
 
     netid = request.get_json(force=True)
-    review_list = Reviews.query.fliter_by(photographer_netid = netid).all()
+    review_list = Reviews.query.filter_by(photographer_netid = netid).all()
     reviews = []
 
     for review in review_list:
