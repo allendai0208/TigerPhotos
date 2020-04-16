@@ -43,15 +43,10 @@ export default ActiveGallery */
 
 import ImageViewer from 'react-simple-image-viewer';
  
-function ActiveGallery() {
+function ActiveGallery(props) {
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
-  const images = [
-    'http://placeimg.com/1200/800/nature',
-    
-    'http://placeimg.com/1920/1080/nature',
-    'http://placeimg.com/1500/500/nature',
-  ];
+  const images = props.urls
  
   const openImageViewer = useCallback((index) => {
     setCurrentImage(index);

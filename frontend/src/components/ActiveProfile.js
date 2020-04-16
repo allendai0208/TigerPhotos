@@ -20,7 +20,7 @@ class ActiveProfile extends React.Component{
                     {this.props.selectedPhotographer.description}
                 </Typography>
                 <br />  
-                <ActiveGallery />
+                <ActiveGallery urls = {this.props.selectedPhotographer.urls}/>
             </div>
         )
     }

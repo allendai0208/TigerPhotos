@@ -3,7 +3,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import ProfileCard from './ProfileCard'
-import Typography from '@material-ui/core/Typography'
 import ActiveProfile from './ActiveProfile.js'
 import TextField from '@material-ui/core/TextField'
 import SearchIcon from '@material-ui/icons/Search';
@@ -18,15 +17,21 @@ class BrowsePage extends React.Component {
 
   state = {
     photographers: [],
-    selectedPhotographer: []
+    selectedPhotographer: [],
+    profileHasBeenClicked: false
   }
 
+  //Get all pertinent fields regarding all photographers
+  //This will get a list of photographers, each photographer in the list is a dict
+  //containing their netid (photographer_netid), first name  (first_name),
+  //last name (last_name), email (email), description (description), profile picture (profile_pic)
+  //urls of portfolio photos (urls)
   fetchPhotographers = () => {
     fetch('/api/browse')
     .then(response => response.json())
     .then(result => this.setState({
       photographers: result.photographers
-    }))
+    })).then(console.log(this.state.photographers))
     .catch(e => console.log(e))
   }
 
@@ -34,9 +39,10 @@ class BrowsePage extends React.Component {
     this.fetchPhotographers()
   }
 
-  handler(arg1) {
+  handler(arg1, arg2) {
     this.setState({
-      selectedPhotographer:arg1
+      selectedPhotographer:arg1,
+      profileHasBeenClicked:arg2
     })
   }
 
@@ -65,7 +71,7 @@ class BrowsePage extends React.Component {
           </Col>
           <Col>
             <Container>
-              <ActiveProfile selectedPhotographer = {this.state.selectedPhotographer}/>
+              {this.state.profileHasBeenClicked ? <ActiveProfile selectedPhotographer = {this.state.selectedPhotographer}/> : null}
             </Container>
           </Col>
         </Row>
