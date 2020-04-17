@@ -14,12 +14,12 @@ class Users(db.Model):
 # Note that photographer_netid is a foreign key pointing to the netid in the User class.
 class Photographers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    photographer_netid = db.Column(db.String, index=True)
+    photographer_netid = db.Column(db.String, index=True, unique=True)
     first_name = db.Column(db.String(64), index=True)
     last_name = db.Column(db.String(64), index=True)
     email = db.Column(db.String(120), index=True, unique=True)
     description = db.Column(db.String(300), index=True)
-    profile_pic = db.Column(db.String(255), index=True)
+    profile_pic = db.Column(db.String(255), index=True, unique=True)
 
     def __repr__(self):
         return '<Photographers {} {}>'.format(self.first_name, self.last_name)
