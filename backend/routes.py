@@ -132,11 +132,7 @@ def getPorfolio():
         })
     return jsonify({'portfolio':portfolio})
 
-<<<<<<< HEAD
-@app.route('/api/createPortfolio')
-=======
 @app.route('/api/createPortfolio', methods=['POST'])
->>>>>>> fbase
 def createPortfolio():
 
     portfolio_data = request.get_json()

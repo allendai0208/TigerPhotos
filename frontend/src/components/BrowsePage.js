@@ -71,24 +71,11 @@ class BrowsePage extends React.Component {
               <Grid item>
                 <SearchIcon />
               </Grid>
-<<<<<<< HEAD
               <Grid item>
-                <TextField id="input-with-icon-grid" label="Search by Name" />
+                <TextField id="intput-with-icon-grid" label="Search by Name" />
               </Grid>
             </Grid>
           </div>
-          {recentPhotographersMarkup}
-        </Col>
-        <Col>
-          <Container>
-            <ActiveProfile selectedPhotographer = {this.state.selectedPhotographer}/>
-          </Container>
-        </Col>
-      </Row>
-    </Container>
-
-=======
-            </div>
             {recentPhotographersMarkup}
           </Col>
           <Col>
@@ -99,7 +86,6 @@ class BrowsePage extends React.Component {
         </Row>
       </Container>
  
->>>>>>> fbase
     )
   }
 
