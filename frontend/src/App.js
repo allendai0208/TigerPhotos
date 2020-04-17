@@ -74,7 +74,8 @@ class App extends React.Component {
   }
 
   render() {
-    if (this.state.netid === null && this.state.go_to_login) {
+    if (this.state.netid === null && !this.state.go_to_login) return null
+    else if (this.state.netid === null && this.state.go_to_login) {
       return(<MuiThemeProvider theme={theme}>
         <div className="App">
           <NavigationBeforeLogin/>
