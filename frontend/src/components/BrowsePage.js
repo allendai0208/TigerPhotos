@@ -61,7 +61,7 @@ class BrowsePage extends React.Component {
       <Container fluid>
         <Row >
           <div>
-            <Col xs = {3} className="column1">
+            <Col xs = {15} className="column1">
                 {recentPhotographersMarkup}
             </Col>
           </div>

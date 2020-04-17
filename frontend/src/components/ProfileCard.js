@@ -11,19 +11,23 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 const styles = {
     card: {
         display: 'flex',
-        maxHeight: 150,
+        height: "150px",
         borderRadius:"0%",
-        width: "400px",
-        alignItems: 'stretch'
+        width: "375px",
+        justifyContent: 'center',
     },
     image: {
-        minWidth: 200,
-        minHeight: 150,
-        objectFit: 'cover'
+        marginTop: "15px",
+        marginLeft: "10px",
+        marginRight: "10px",
+        height: '75%',
+        width: "175px",
+        borderRadius:"50%",
     },
     content: {
         width: "100%",
         textAlign:'left',
+        marginTop: "20px",
         margin: 10,
     }
 }
