@@ -13,6 +13,7 @@
     "firebase": "^7.14.0",
     "nodemon": "^2.0.3",
     "react": "^16.13.1",
+    "react-avatar-edit": "^0.8.3",
     "react-bnb-gallery": "^1.1.9",
     "react-bootstrap": "^1.0.0",
     "react-dom": "^16.13.1",
