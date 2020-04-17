@@ -13,7 +13,7 @@ const styles = {
         display: 'flex',
         maxHeight: 150,
         borderRadius:"0%",
-        width: "inherit",
+        width: "400px",
         alignItems: 'stretch'
     },
     image: {
@@ -43,7 +43,7 @@ class ProfileCard extends React.Component {
                                 {first_name+" "+last_name}
                             </Typography>
                             <Typography variant="body1">
-                                {description}
+                                {this.props.photographer.email}
                             </Typography>
                         </CardContent>
                     </Card>  

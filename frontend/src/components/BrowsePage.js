@@ -4,11 +4,6 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import ProfileCard from './ProfileCard'
 import ActiveProfile from './ActiveProfile.js'
-import TextField from '@material-ui/core/TextField'
-import SearchIcon from '@material-ui/icons/Search';
-import Grid from '@material-ui/core/Grid'
-import GridList from '@material-ui/core/GridList'
-import Paper from '@material-ui/core/Paper'
 
 const styles = {
   main: { 
@@ -63,29 +58,22 @@ class BrowsePage extends React.Component {
     )
 
     return (
-    <Container fluid>
-      <Row >
-        <Col xs = {4} className="column1">
-          <div className="search">
-            <Grid container className="grid" spacing={1} alignItems="flex-end">
-              <Grid item>
-                <SearchIcon />
-              </Grid>
-              <Grid item>
-                <TextField id="intput-with-icon-grid" label="Search by Name" />
-              </Grid>
-            </Grid>
+      <Container fluid>
+        <Row >
+          <div>
+            <Col xs = {3} className="column1">
+                {recentPhotographersMarkup}
+            </Col>
           </div>
-            {recentPhotographersMarkup}
-          </Col>
-          <Col>
-            <Container>
-              {this.state.profileHasBeenClicked ? <ActiveProfile selectedPhotographer = {this.state.selectedPhotographer}/> : null}
-            </Container>
-          </Col>
+          <div>
+            <Col>
+              <Container>
+                {this.state.profileHasBeenClicked ? <ActiveProfile selectedPhotographer = {this.state.selectedPhotographer}/> : null}
+              </Container>
+            </Col>
+          </div>
         </Row>
       </Container>
- 
     )
   }
 
