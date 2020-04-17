@@ -2,7 +2,7 @@ import React from "react"
 import keith from './pictures/keithPicture.JPG'
 import alicia from './pictures/aliciaPicture.jpg'
 import aaron from './pictures/aaronPicture.jpg'
-import allen from './pictures/allenPicture.jpg'
+import allen from './pictures/allenPicture2.jpg'
 import mwad from './pictures/mwadPicture.jpg'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -42,8 +42,8 @@ class AboutUs extends React.Component {
                             <Col>
                                 <img className = "aboutImage" src = {allen}></img>
                                 <p className = "aboutName">Allen Dai</p>
-                                <p className = "aboutJob">Supreme Leader</p>
-                                <p className = "aboutParagraph">I am from Chicago, and I spend my free time bossing my subordinates around.</p>
+                                <p className = "aboutJob">Back end</p>
+                                <p className = "aboutParagraph">Hey there! A little bit about me, I like to cook, watch random Youtube videos, and play games in my free time.</p>
                             </Col>
                             <Col>
                                 <img className = "aboutImage" src = {alicia}></img>
