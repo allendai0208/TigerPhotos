@@ -7,6 +7,7 @@ from CASClient import CASClient
 @app.route('/browse')
 @app.route('/create')
 @app.route('/about')
+@app.route('/logout')
 def root():
     return app.send_static_file('index.html')
 
