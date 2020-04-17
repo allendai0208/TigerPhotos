@@ -7,7 +7,7 @@ class ActiveProfile extends React.Component{
 
     render() {
         return (
-            <div>
+            <span >
                 <Typography variant="h2" className="selectedName">
                     {this.props.selectedPhotographer.first_name} {this.props.selectedPhotographer.last_name}
                 </Typography>
@@ -21,7 +21,7 @@ class ActiveProfile extends React.Component{
                 </Typography>
                 <br />  
                 <ActiveGallery urls = {this.props.selectedPhotographer.urls}/>
-            </div>
+            </span>
         )
     }
 }

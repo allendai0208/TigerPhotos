@@ -65,13 +65,9 @@ class BrowsePage extends React.Component {
                 {recentPhotographersMarkup}
             </Col>
           </div>
-          <div>
             <Col>
-              <Container>
-                {this.state.profileHasBeenClicked ? <ActiveProfile selectedPhotographer = {this.state.selectedPhotographer}/> : null}
-              </Container>
+              {this.state.profileHasBeenClicked ? <ActiveProfile selectedPhotographer = {this.state.selectedPhotographer}/> : null}
             </Col>
-          </div>
         </Row>
       </Container>
     )

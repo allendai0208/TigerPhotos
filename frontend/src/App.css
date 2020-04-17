@@ -241,6 +241,10 @@ body{
   opacity: 0.8
 }
 
+.activeProfile {
+  display: inline;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
