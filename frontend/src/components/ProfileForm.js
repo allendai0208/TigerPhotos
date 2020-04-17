@@ -77,8 +77,34 @@ class ProfileForm extends React.Component {
             fields: {},
             errors: {},
             redirect: false,
-            UploadModalShow: false
+            UploadModalShow: false,
+            file: '',
+            imagePreviewUrl: ''
         }
+        
+        this._handleImageChange = this._handleImageChange.bind(this);
+        this._handleSubmit = this._handleSubmit.bind(this);
+    }
+
+    _handleSubmit(e) {
+        e.preventDefault();
+        // TODO: do something with -> this.state.file
+      }
+    
+    _handleImageChange(e) {
+        e.preventDefault();
+    
+        let reader = new FileReader();
+        let file = e.target.files[0];
+    
+        reader.onloadend = () => {
+          this.setState({
+            file: file,
+            imagePreviewUrl: reader.result
+          });
+        }
+    
+        reader.readAsDataURL(file)
     }
  
     handleClose(){
@@ -184,7 +210,22 @@ class ProfileForm extends React.Component {
             console.log("redirect")
             return <Redirect to='/browse'/>;
         }
+
+        let {imagePreviewUrl} = this.state;
+        let $imagePreview = null;
+        if (imagePreviewUrl) {
+            $imagePreview = (<img src={imagePreviewUrl} />);
+        }
+
         return (
+            <div>
+            <div>
+                <form onSubmit={this._handleSubmit}>
+                <input type="file" onChange={this._handleImageChange} />
+                <button type="submit" onClick={this._handleSubmit}>Upload Image</button>
+                </form>
+                {$imagePreview}
+            </div>
             <Form>
             <span style={{color: "red"}}>{this.state.errors["first_name"]}</span> 
             <Form.Field>
@@ -229,6 +270,7 @@ class ProfileForm extends React.Component {
 
             </Form.Field>
         </Form>
+        </div>
         )
     }
 }
