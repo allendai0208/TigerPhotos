@@ -3,7 +3,7 @@ import  ProfileForm from './ProfileForm';
 import { Container } from 'semantic-ui-react';
 
 
-function CreatePage() {
+function CreatePage(props) {
   const [photographers, setPhotographers] = useState([]);
 
   useEffect(() => {
@@ -13,12 +13,12 @@ function CreatePage() {
       })
     );
   }, []);
-
+  
   return (
     <div className="ProfilePage">
       <Container style={{marginTop: 40}}>
         <p className="CreateProfileText">Create Your Profile</p>
-        <ProfileForm onNewProfile={photographer => 
+        <ProfileForm netid = {props.netid} onNewProfile={photographer => 
           setPhotographers(currentPhotographers => [...currentPhotographers, photographer])
           }/>
       </Container>

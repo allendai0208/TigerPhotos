@@ -15,7 +15,7 @@ class HomePage extends React.Component {
 
     render() {
         return (
-            <div classname="homepage"> 
+            <div className="homepage"> 
                 <div className="heading">
                     <p className="welcome">Welcome to </p>
                     <p className="tigerphotos">TigerPhotos</p>

@@ -59,12 +59,22 @@ def browse():
     photographers = []
 
     for photographer in photographer_list:
+        
+        # query each row in portfolio pertaining to the specific photographer
+        portfolio_list = Portfolio.query.filter_by(netid = photographer.photographer_netid).all()
+        urls = []
+
+        for row in portfolio_list:
+            urls.append(row.picture)
+
         photographers.append({
+            'photographer_netid': photographer.photographer_netid,
             'first_name': photographer.first_name,
             'last_name': photographer.last_name,
             'email': photographer.email,
             'description': photographer.description,
-            'profile_pic':photographer.profile_pic
+            'profile_pic':photographer.profile_pic,
+            'urls': urls
         })                                       
     return jsonify({'photographers':photographers})
 
@@ -74,14 +84,16 @@ def browse():
 def getPhotographer():  
 
     photographer_info = request.get_json(force=True)
-    photographer_first_name = photographer_info['first_name']
+    photographer_netid = photographer_info['photographer_netid']
 
-    photographer_data = Photographers.query.filter_by(first_name = photographer_first_name).all()
+    photographer_data = Photographers.query.filter_by(photographer_netid = photographer_netid).all()
 
-    photographer = {'first_name': photographer_data[0].first_name, 
+    photographer = {'photographer_netid': photographer_data[0].photographer_netid,
+                    'first_name': photographer_data[0].first_name, 
                     'last_name': photographer_data[0].last_name,
                     'email': photographer_data[0].email,
-                    'description': photographer_data[0].description}
+                    'description': photographer_data[0].description,
+                    'profile_pic': photographer_data[0].profile_pic}
 
     return jsonify({'photographer':photographer})
     
@@ -91,10 +103,13 @@ def createProfile():
 
     photographer_data = request.get_json()
 
-    new_photographer = Photographers(first_name=photographer_data['first_name'], 
-                                     last_name=photographer_data['last_name'],
-                                     email=photographer_data['email'],
-                                     description=photographer_data['description'])
+    new_photographer = Photographers(
+        photographer_netid = photographer_data['photographer_netid'],
+        first_name=photographer_data['first_name'], 
+        last_name=photographer_data['last_name'],
+        email=photographer_data['email'],
+        description=photographer_data['description']
+    )
 
     db.session.add(new_photographer)
     db.session.commit()
@@ -106,7 +121,7 @@ def createProfile():
 def getPorfolio():
 
     portfolio_info = request.get_json(force=True)
-    photographer_netid = portfolio_info['netid']
+    photographer_netid = portfolio_info['photographer_netid']
 
     portfolio_list = Portfolio.query.filter_by(netid = photographer_netid).all()
     portfolio = []
@@ -117,16 +132,19 @@ def getPorfolio():
         })
     return jsonify({'portfolio':portfolio})
 
+<<<<<<< HEAD
 @app.route('/api/createPortfolio')
+=======
+@app.route('/api/createPortfolio', methods=['POST'])
+>>>>>>> fbase
 def createPortfolio():
 
     portfolio_data = request.get_json()
 
-    for picture in portfolio_data:
-        new_picture = Portfolio(netid=picture['netid'], picture=picture['picture'])
+    new_picture = Portfolio(netid=portfolio_data['netid'], picture=portfolio_data['url'])
 
-        db.session.add(new_picture)
-        db.session.commit()
+    db.session.add(new_picture)
+    db.session.commit()
         
     return 'Done', 201
     

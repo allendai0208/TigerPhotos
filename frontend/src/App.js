@@ -98,8 +98,8 @@ class App extends React.Component {
             <BrowserRouter>
             <Switch>
               <Route path="/" component={HomePage} exact/>
-              <Route path="/create" component={CreatePage} exact/>
-              <Route path="/browse" component={BrowsePage} exact/>
+              <Route path="/create" render = {(props) => <CreatePage netid = {this.state.netid} {...props}/>} exact/>
+              <Route path="/browse" component = {BrowsePage} exact/>
               <Route path="/about" component={AboutUs} exact/>
               <Route path="/logout" component={LogoutPage} exact/>
               <Route exact path="/users/:first_name" component={Profile} />

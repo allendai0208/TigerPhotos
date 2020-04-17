@@ -35,8 +35,8 @@ class ProfileCard extends React.Component {
         const {classes, photographer : {first_name, last_name, description}} = this.props
         return (
             <div>
-                <ButtonBase onClick = {() => this.props.handler(this.props.photographer)}>
-                    <Card className={classes.card} variant="outlined" >
+                <ButtonBase onClick = {() => this.props.handler(this.props.photographer, true)}>
+                <Card className={classes.card} variant="outlined">
                         <CardMedia image={require("./pictures/Allen2.JPG")} title = "Profile image" className={classes.image} />
                         <CardContent class={classes.content}>
                             <Typography variant="h5" style = {{color:"orange"}}>
