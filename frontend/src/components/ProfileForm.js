@@ -3,6 +3,8 @@ import { Form, Input, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router';
 import {DragDrop} from './DragDrop';
 import {UploadModal} from './UploadModal';
+import MyEditor from './MyEditor';
+import {storage, fstore} from './firebase/config';
 
 /*export const ProfileForm = ({onNewProfile}) => {
     const[first_name, setFirstname] = useState('');
@@ -70,17 +72,28 @@ import {UploadModal} from './UploadModal';
     }; */ 
 
 class ProfileForm extends React.Component {
+
     constructor(props){
         super(props);
+        this.getImage = this.getImage.bind(this)
 
         this.state = {
             fields: {},
             errors: {},
             redirect: false,
-            UploadModalShow: false
+            UploadModalShow: false,
+            image: null
         }
     }
  
+    getImage(i) {
+        this.setState(
+            {image : i}
+        )
+        console.log(this.state.image)
+        console.log(this.state.image.name)
+    }
+
     handleClose(){
         this.setState({UploadModalShow: false});
         const photographer_netid = this.props.netid
@@ -88,17 +101,37 @@ class ProfileForm extends React.Component {
         const last_name = this.state.fields['last_name']
         const email = this.state.fields['email']
         const description = this.state.fields['description']
-        const photographer = { photographer_netid, first_name, last_name, email, description };
-        const response = fetch('/api/createProfile', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
+        const uploadTask = storage.ref(`profpic/${this.state.image.name}`).put(this.state.image);
+        console.log(uploadTask)
+        let profile_pic = null;
+        uploadTask.on('state_changed', 
+            (snapshot) => {
             }, 
-            body: JSON.stringify(photographer)
-        });
-        this.setState({redirect: true})
+            (error) => {
+                // error function ....
+                console.log(error);
+            }, 
+            () => {
+            // complete function ....
+            storage.ref('profpic').child(`${this.state.image.name}`).getDownloadURL().then(url => {
+                console.log(url);
+                profile_pic = url
+                console.log(profile_pic)
+                const photographer = { photographer_netid, first_name, last_name, email, description, profile_pic};
+                fetch('/api/createProfile', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }, 
+                    body: JSON.stringify(photographer)
+                });
+                this.setState({redirect: true})
+            });
+        });        
     }
-    handleShow(){ this.state.UploadModalShow = true;
+    
+    handleShow(){ 
+        this.state.UploadModalShow = true;
     }
 
     handleValidation(){
@@ -170,6 +203,7 @@ class ProfileForm extends React.Component {
             this.handleShow();
             
         }
+        console.log('HERE<---------')
       }
 
     handleChange(field, e){         
@@ -185,6 +219,8 @@ class ProfileForm extends React.Component {
             return <Redirect to='/browse'/>;
         }
         return (
+            <div>
+            <MyEditor handler = {this.getImage}/>
             <Form>
             <span style={{color: "red"}}>{this.state.errors["first_name"]}</span> 
             <Form.Field>
@@ -229,6 +265,7 @@ class ProfileForm extends React.Component {
 
             </Form.Field>
         </Form>
+        </div>
         )
     }
 }

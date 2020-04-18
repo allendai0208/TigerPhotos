@@ -36,12 +36,14 @@ const styles = {
 class ProfileCard extends React.Component {
 
     render() {
-        const {classes, photographer : {first_name, last_name, description}} = this.props
+        const {classes, photographer : {first_name, last_name, description, profile_pic}} = this.props
+        console.log(this.props.photographer)
+        console.log(this.props.photographer.profile_pic)
         return (
             <div className="card column">
                 <ButtonBase onClick = {() => this.props.handler(this.props.photographer, true)}>
-                    <Card className={classes.card} variant="outlined">
-                        <CardMedia image={require("./pictures/Allen2.JPG")} title = "Profile image" className={classes.image} />
+                <Card className={classes.card} variant="outlined">
+                <CardMedia image={profile_pic} title = "Profile image" className={classes.image} />
                         <CardContent class={classes.content}>
                             <Typography variant="h5" style = {{color:"orange"}}>
                                 {first_name+" "+last_name}
@@ -59,3 +61,5 @@ class ProfileCard extends React.Component {
 }
 
 export default withStyles(styles)(ProfileCard);
+
+// 

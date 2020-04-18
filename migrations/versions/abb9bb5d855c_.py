@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 35133f1cb7af
+Revision ID: abb9bb5d855c
 Revises: 
-Create Date: 2020-04-16 19:23:42.984526
+Create Date: 2020-04-17 13:01:07.411645
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '35133f1cb7af'
+revision = 'abb9bb5d855c'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -32,8 +32,8 @@ def upgrade():
     op.create_index(op.f('ix_photographers_email'), 'photographers', ['email'], unique=True)
     op.create_index(op.f('ix_photographers_first_name'), 'photographers', ['first_name'], unique=False)
     op.create_index(op.f('ix_photographers_last_name'), 'photographers', ['last_name'], unique=False)
-    op.create_index(op.f('ix_photographers_photographer_netid'), 'photographers', ['photographer_netid'], unique=False)
-    op.create_index(op.f('ix_photographers_profile_pic'), 'photographers', ['profile_pic'], unique=False)
+    op.create_index(op.f('ix_photographers_photographer_netid'), 'photographers', ['photographer_netid'], unique=True)
+    op.create_index(op.f('ix_photographers_profile_pic'), 'photographers', ['profile_pic'], unique=True)
     op.create_table('portfolio',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('netid', sa.String(length=80), nullable=True),

@@ -7,6 +7,7 @@ from CASClient import CASClient
 @app.route('/browse')
 @app.route('/create')
 @app.route('/about')
+@app.route('/logout')
 def root():
     return app.send_static_file('index.html')
 
@@ -108,7 +109,8 @@ def createProfile():
         first_name=photographer_data['first_name'], 
         last_name=photographer_data['last_name'],
         email=photographer_data['email'],
-        description=photographer_data['description']
+        description=photographer_data['description'],
+        profile_pic = photographer_data['profile_pic']
     )
 
     db.session.add(new_photographer)
