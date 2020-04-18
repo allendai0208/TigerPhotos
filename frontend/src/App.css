@@ -182,6 +182,10 @@ body{
   overflow-y: scroll;
 }
 
+.cardcolumn {
+  width: 100%;
+}
+
 .selectedName {
   padding-top: 10px;
   padding-bottom: 10px

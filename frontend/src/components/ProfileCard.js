@@ -13,7 +13,7 @@ const styles = {
         display: 'flex',
         height: "150px",
         borderRadius:"0%",
-        width: "375px",
+        width: "100%",
         justifyContent: 'center',
     },
     image: {
@@ -38,9 +38,9 @@ class ProfileCard extends React.Component {
     render() {
         const {classes, photographer : {first_name, last_name, description}} = this.props
         return (
-            <div>
+            <div className="card column">
                 <ButtonBase onClick = {() => this.props.handler(this.props.photographer, true)}>
-                <Card className={classes.card} variant="outlined">
+                    <Card className={classes.card} variant="outlined">
                         <CardMedia image={require("./pictures/Allen2.JPG")} title = "Profile image" className={classes.image} />
                         <CardContent class={classes.content}>
                             <Typography variant="h5" style = {{color:"orange"}}>
