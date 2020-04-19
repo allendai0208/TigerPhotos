@@ -91,16 +91,16 @@ def getPhotographer():
 
     photographer_data = Photographers.query.filter_by(photographer_netid = photographer_netid).all()
 
-    photographer = []
+    photographer = {}
     
     if len(photographer_data) != 0:
-        photographer.append({
+        photographer = {
                 'photographer_netid': photographer_data[0].photographer_netid,
                 'first_name': photographer_data[0].first_name, 
                 'last_name': photographer_data[0].last_name,
                 'email': photographer_data[0].email,
                 'description': photographer_data[0].description,
-                'profile_pic': photographer_data[0].profile_pic})
+                'profile_pic': photographer_data[0].profile_pic}
 
     return jsonify({'photographer':photographer})
     
