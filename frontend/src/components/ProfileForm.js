@@ -82,10 +82,28 @@ class ProfileForm extends React.Component {
             errors: {},
             redirect: false,
             UploadModalShow: false,
-            image: null
+            image: null,
+            photographer: {}
         }
     }
- 
+    
+    // Get the pertinent information to the user when the component mounts to autofill the form fields with their information if possible
+    componentDidMount() {
+
+        let photonetid = {"photographer_netid":this.props.netid}
+        const response = fetch('/api/getPhotographer', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }, 
+            body: JSON.stringify(photonetid)
+        }).then(response => response.json())
+        .then(result => this.setState({
+          photographer: result.photographer
+        })).then(console.log(this.state.photographers))
+        .catch(e => console.log(e));
+    }
+
     getImage(i) {
         this.setState(
             {image : i}
@@ -220,51 +238,60 @@ class ProfileForm extends React.Component {
         }
         return (
             <div>
-            <MyEditor handler = {this.getImage}/>
-            <Form>
-            <span style={{color: "red"}}>{this.state.errors["first_name"]}</span> 
-            <Form.Field>
-                <Input 
-                    placeholder="First Name" 
-                    value={this.state.fields["first_name"]}
-                    onChange={this.handleChange.bind(this, "first_name")}
+                <div className = "formFields">Upload a Profile Picture!</div>
+                <MyEditor handler = {this.getImage}/>
+                <br/>
+                <Form>
+                <span style={{color: "red"}}>{this.state.errors["first_name"]}</span> 
+                <div className = "formFields">First Name:</div>
+                <Form.Field>
+                    <Input 
+                        placeholder="First Name" 
+                        value={this.state.fields["first_name"]}
+                        onChange={this.handleChange.bind(this, "first_name")}
+                    />
+                </Form.Field>
+                <br/>
+                <span style={{color: "red"}}>{this.state.errors["last_name"]}</span>
+                <div className = "formFields">Last Name:</div>
+                <Form.Field>
+                    <Input 
+                        placeholder="Last Name" 
+                        value={this.state.fields["last_name"]}
+                        onChange={this.handleChange.bind(this, "last_name")}
+                    />
+                </Form.Field>
+                <br/>
+                <span style={{color: "red"}}>{this.state.errors["email"]}</span>
+                <div className = "formFields">Email:</div>
+                <Form.Field>
+                    <Input 
+                        placeholder="Email" 
+                        value={this.state.fields["email"]}
+                        onChange={this.handleChange.bind(this, "email")}
+                    />
+                </Form.Field>
+                <br/>
+                <span style={{color: "red"}}>{this.state.errors["description"]}</span>
+                <div className = "formFields">Description about yourself:</div>
+                <Form.Field>
+                    <Input 
+                        placeholder="Description" 
+                        value={this.state.fields["description"]} 
+                        onChange={this.handleChange.bind(this, "description")}
+                    />
+                </Form.Field>
+                <Form.Field>
+                    <Button color='primary' size='large'
+                        onClick={this.contactSubmit.bind(this)}
+                    >
+                        submit
+                    </Button>
+                    <UploadModal netid = {this.props.netid} show = {this.state.UploadModalShow} onHide = {this.handleClose.bind(this)}
                 />
-            </Form.Field>
-            <span style={{color: "red"}}>{this.state.errors["last_name"]}</span>
-            <Form.Field>
-                <Input 
-                    placeholder="Last Name" 
-                    value={this.state.fields["last_name"]}
-                    onChange={this.handleChange.bind(this, "last_name")}
-                />
-            </Form.Field>
-            <span style={{color: "red"}}>{this.state.errors["email"]}</span>
-            <Form.Field>
-                <Input 
-                    placeholder="Email" 
-                    value={this.state.fields["email"]}
-                    onChange={this.handleChange.bind(this, "email")}
-                />
-            </Form.Field>
-            <span style={{color: "red"}}>{this.state.errors["description"]}</span>
-            <Form.Field>
-                <Input 
-                    placeholder="Description" 
-                    value={this.state.fields["description"]} 
-                    onChange={this.handleChange.bind(this, "description")}
-                />
-            </Form.Field>
-            <Form.Field>
-                <Button color='primary' size='large'
-                    onClick={this.contactSubmit.bind(this)}
-                >
-                    submit
-                </Button>
-                <UploadModal netid = {this.props.netid} show = {this.state.UploadModalShow} onHide = {this.handleClose.bind(this)}
-               />
 
-            </Form.Field>
-        </Form>
+                </Form.Field>
+            </Form>
         </div>
         )
     }

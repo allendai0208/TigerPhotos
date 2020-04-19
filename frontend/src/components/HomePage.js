@@ -25,7 +25,7 @@ class HomePage extends React.Component {
                         <Grid item xs={12} sm = {3}>
                             <div className="test">
                                 <img className="test2" src={ArtLogo} alt="Avatar"></img>
-                                <Button color="secondary" size="large" variant="outlined" disableElevation onClick={() => this.routeChange("/create")}>Create Your Profile</Button>
+                                <Button color="secondary" size="large" variant="outlined" disableElevation onClick={() => this.routeChange("/create")}>My Profile</Button>
                             </div>
                         </Grid>
                         <Grid item xs={12} sm = {3}>

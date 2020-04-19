@@ -17,7 +17,7 @@ function CreatePage(props) {
   return (
     <div className="ProfilePage">
       <Container style={{marginTop: 40}}>
-        <p className="CreateProfileText">Create Your Profile</p>
+        <p className="CreateProfileText">My Profile</p>
         <ProfileForm netid = {props.netid} onNewProfile={photographer => 
           setPhotographers(currentPhotographers => [...currentPhotographers, photographer])
           }/>

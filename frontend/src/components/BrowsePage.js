@@ -75,47 +75,4 @@ class BrowsePage extends React.Component {
 
 } 
 
-/*function BrowsePage() {
-  const [photographers, setPhotographers] = useState([]);
-
-  useEffect(() => {
-    fetch("/api/browse").then(response => 
-      response.json().then(data => {
-        setPhotographers(data.photographers);
-      })
-    );
-  }, []);
-
-  return (
-    <div className="ProfilePage">
-      <Container style={{marginTop: 40}}>
-        <BrowseBar photographers={photographers} />
-      </Container>
-    </div>
-  );
-} */
-
-/*       <Container fluid>
-        <Row >
-          <Col xs = {4} className="column1">
-            <div className="search">
-              <Grid container className="grid" spacing={1} alignItems="flex-end">
-                <Grid item>
-                  <SearchIcon />
-                </Grid>
-                <Grid item>
-                  <TextField id="input-with-icon-grid" label="Search by Name" />
-                </Grid>
-              </Grid>
-            </div>
-            {recentPhotographersMarkup}
-          </Col>
-          <Col>
-            <Container>
-              <ActiveProfile selectedPhotographer = {this.state.selectedPhotographer}/>
-            </Container>
-          </Col>
-        </Row>
-      </Container> */ 
-
 export default BrowsePage;
