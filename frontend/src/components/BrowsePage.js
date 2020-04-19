@@ -1,3 +1,11 @@
+// This component is the parent component to two subcomponents - ProfileCard and ActiveProfile
+// These two components do the actual rendering of the parofiles and their information
+// This component simply formats those two components into a bootstrap grid
+// This component also gets all the pertinent information about ALL photographers.
+// The photographer information for ALL photographers is stored in state.
+// When a profile card is clicked, the selectedPhotographer field in state is updated to reflect the information about the clicked profile.
+// The selectedPhotographer field is passed as a prop to ActiveProfile where it is formatted and rendered.
+
 import React, { useEffect, useState } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -50,6 +58,7 @@ class BrowsePage extends React.Component {
     })
   }
 
+  
   render() {
     let recentPhotographersMarkup = this.state.photographers ? (
       this.state.photographers.map((photographer) => < ProfileCard photographer={photographer} handler = {this.handler} /> )

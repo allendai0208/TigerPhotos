@@ -1,3 +1,7 @@
+// This is the component that renders the actual input fields and gallery preview.
+// We get the information about the current user by calling the /getPhotogapher route in routes.py
+// and passing in their netid which is passed as a prop to this component
+// We then autofill the fields based on the information returned from /getPhotographer
 import React, {useState} from 'react';
 import { Form, Input, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router';
@@ -6,70 +10,6 @@ import {UploadModal} from './UploadModal';
 import MyEditor from './MyEditor';
 import {storage, fstore} from './firebase/config';
 
-/*export const ProfileForm = ({onNewProfile}) => {
-    const[first_name, setFirstname] = useState('');
-    const[last_name, setLastname] = useState('');
-    const[email, setEmail] = useState('');
-    const[description, setDescription] = useState('');
-
-    return (
-        <Form>
-            <Form.Field>
-                <Input 
-                    placeholder="First Name:" 
-                    value={first_name} 
-                    onChange={e => setFirstname(e.target.value)}
-                />
-            </Form.Field>
-            <Form.Field>
-                <Input 
-                    placeholder="Last Name:" 
-                    value={last_name} 
-                    onChange={e => setLastname(e.target.value)}
-                />
-            </Form.Field>
-            <Form.Field>
-                <Input 
-                    placeholder="Email" 
-                    value={email} 
-                    onChange={e => setEmail(e.target.value)}
-                />
-            </Form.Field>
-            <Form.Field>
-                <Input 
-                    placeholder="Description" 
-                    value={description} 
-                    onChange={e => setDescription(e.target.value)}
-                />
-            </Form.Field>
-            <Form.Field>
-                <Button 
-                    onClick={ async () => {
-                        const photographer = { first_name, last_name, email, description };
-                        const response = await fetch('/api/createProfile', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            }, 
-                            body: JSON.stringify(photographer)
-                        });
-                    
-                        if (response.ok) {
-                            console.log('response worked');
-                            onNewProfile(photographer);
-                            setFirstname('');
-                            setLastname('');
-                            setEmail('');
-                            setDescription('');
-                        }
-                    }}
-                >
-                    submit
-                </Button>
-            </Form.Field>
-        </Form>
-        );
-    }; */ 
 
 class ProfileForm extends React.Component {
 
@@ -83,6 +23,7 @@ class ProfileForm extends React.Component {
             redirect: false,
             UploadModalShow: false,
             image: null,
+            // information about current photographer (based on the current user's netid)
             photographer: {}
         }
     }
@@ -230,6 +171,7 @@ class ProfileForm extends React.Component {
         this.setState({fields});
     }
 
+    // The actual rendering of the form. Use the state which has stored the current photographer's information to autofill the fields
     render(){
 
         if(this.state.redirect) {
@@ -289,7 +231,6 @@ class ProfileForm extends React.Component {
                     </Button>
                     <UploadModal netid = {this.props.netid} show = {this.state.UploadModalShow} onHide = {this.handleClose.bind(this)}
                 />
-
                 </Form.Field>
             </Form>
         </div>
@@ -298,45 +239,3 @@ class ProfileForm extends React.Component {
 }
 
 export default ProfileForm
-
-/* <div>           
-                <form name="contactform" className="contactform" onSubmit= {this.contactSubmit.bind(this)}>
-                    <div className="col-md-6">
-                        <fieldset>
-                            <input ref="name" type="text" size="30" placeholder="Name" onChange={this.handleChange.bind(this, "name")} value={this.state.fields["name"]}/>
-                            <span style={{color: "red"}}>{this.state.errors["name"]}</span>
-                            <br/>
-                            <input refs="email" type="text" size="30" placeholder="Email" onChange={this.handleChange.bind(this, "email")} value={this.state.fields["email"]}/>
-                            <span style={{color: "red"}}>{this.state.errors["email"]}</span>
-                            <br/>
-                            <input refs="phone" type="text" size="30" placeholder="Phone" onChange={this.handleChange.bind(this, "phone")} value={this.state.fields["phone"]}/>
-                            <br/>
-                            <input refs="address" type="text" size="30" placeholder="Address" onChange={this.handleChange.bind(this, "address")} value={this.state.fields["address"]}/>
-                            <br/>
-                        </fieldset>
-                    </div>
-
-                </form>
-            </div> 
-            
-            
-            
-                                    const first_name = this.state.fields['first_name']
-                        const last_name = this.state.fields['last_name']
-                        const email = this.state.fields['email']
-                        const description = this.state.fields['description']
-                        console.log(first_name)
-                        const photographer = { first_name, last_name, email, description };
-                        const response = await fetch('/api/createProfile', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            }, 
-                            body: JSON.stringify(photographer)
-                        });
-                    
-                        if (response.ok) {
-                            console.log('response worked');
-                            this.props.onNewProfile(photographer);
-                            this.setState({ fields : {}}) 
-                        }*/ 

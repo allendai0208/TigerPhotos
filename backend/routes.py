@@ -28,6 +28,8 @@ def authenticate():
         username = CASClient().authenticate(url)
     else:
         username = CASClient().authenticate('')
+    
+    username = username.strip('\n')
 
     print('Netid:',username)
     if (username is not None):
