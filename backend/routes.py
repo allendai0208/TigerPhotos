@@ -93,7 +93,7 @@ def getPhotographer():
 
     photographer = []
     
-    if photographer_data is not None:
+    if len(photographer_data) != 0:
         photographer.append({
                 'photographer_netid': photographer_data[0].photographer_netid,
                 'first_name': photographer_data[0].first_name, 
