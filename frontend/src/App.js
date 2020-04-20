@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {BrowserRouter, Switch, Redirect} from "react-router-dom"
+import {BrowserRouter, Switch} from "react-router-dom"
 import {Route} from "react-router-dom"
 import Navigation from './components/Navigation'
 import AboutUs from './components/AboutUs'

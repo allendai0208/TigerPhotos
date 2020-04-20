@@ -22,7 +22,7 @@ class LoginPage extends React.Component {
         return (
             <div>
                 <Container maxWidth="sm" className="login_box">
-                    <img className = "tigerLogo2" src = {logo}></img>
+                    <img className = "tigerLogo2" src = {logo} alt = ""></img>
                     <p className = "login_text">Welcome to TigerPhotos!</p>
                     <Button color="primary" size="large" variant="outlined" className="login_button" onClick={() => this.login()}>Login</Button>
                 </Container>

@@ -1,3 +1,4 @@
+// Component to display errors, parent is app.js
 import React from "react"
 
 class ErrorPage extends React.Component {

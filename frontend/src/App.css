@@ -12,6 +12,12 @@ body{
   min-height: 100vh; min-width: 100vw;
 }
 
+.formFields {
+  margin-bottom:5px;
+  font-family: "Roboto";
+  font-size:15px;
+  color:gray;
+}
 
 .browseRight {
   border:solid;

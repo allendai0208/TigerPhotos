@@ -1,18 +1,18 @@
 import React, {Component} from 'react';
-import {storage, fstore} from './firebase/config';
+import {storage} from './firebase/config';
 import Dropzone from 'react-dropzone';
 import Progress from './Progress';
 
 export class DragDrop extends Component {
-    constructor(props) {
-        super(props);
-          this.state = {
-            progress: 0,
-            isUploading: null,
-            photo_list : []
-          }
-       
-      }
+    
+  constructor(props) {
+    super(props);
+    this.state = {
+      progress: 0,
+      isUploading: null,
+      photo_list : []
+    }
+  }
     
 ///Applications/Python\ 3.6/Install\ Certificates.command
       handleUpload(files){
@@ -40,7 +40,7 @@ export class DragDrop extends Component {
                 //const image = {url: url, added: new Date()}
                 //fstore.collection(this.props.netid).add(image).then(res =>{});
                 let photograph = {netid:this.props.netid, url:url}
-                const response = fetch('/api/createPortfolio', {
+                fetch('/api/createPortfolio', {
                   method: 'POST',
                   headers: {
                       'Content-Type': 'application/json'
@@ -53,13 +53,15 @@ export class DragDrop extends Component {
       }
 
     render() {
-      const style = {
+      // This is commented out because it's not being used, whoever wrote this please determine if we need it or not and delete if we don't - Keith
+      /*const style = {
         height: '100vh',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center'
       };
+      */
       return (
         <div className="mt-5 text-center form-group">
   
@@ -88,22 +90,5 @@ export class DragDrop extends Component {
     }
   }
 
-/*render() {
-    return (
 
- <div class="container">
-	<div class="row">
-	  <div class="col-md-6">
-	      <form method="post" action="#" id="#"/>
-              <div class="form-group files">
-                <label>Upload Your File </label>
-                <input type="file" class="form-control" multiple=""/>
-              </div>
-              <button type="button" class="btn btn-primary btn-block" onClick={files => this.handleUpload(files)}>Upload</button> 
-            </div>
-          
-	</div>
-</div>
-    )
-}*/
 

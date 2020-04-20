@@ -1,75 +1,14 @@
-import React, {useState} from 'react';
+// This is the component that renders the actual input fields and gallery preview.
+// We get the information about the current user by calling the /getPhotogapher route in routes.py
+// and passing in their netid which is passed as a prop to this component
+// We then autofill the fields based on the information returned from /getPhotographer
+import React from 'react';
 import { Form, Input, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router';
-import {DragDrop} from './DragDrop';
 import {UploadModal} from './UploadModal';
-import MyEditor from './MyEditor';
-import {storage, fstore} from './firebase/config';
-
-/*export const ProfileForm = ({onNewProfile}) => {
-    const[first_name, setFirstname] = useState('');
-    const[last_name, setLastname] = useState('');
-    const[email, setEmail] = useState('');
-    const[description, setDescription] = useState('');
-
-    return (
-        <Form>
-            <Form.Field>
-                <Input 
-                    placeholder="First Name:" 
-                    value={first_name} 
-                    onChange={e => setFirstname(e.target.value)}
-                />
-            </Form.Field>
-            <Form.Field>
-                <Input 
-                    placeholder="Last Name:" 
-                    value={last_name} 
-                    onChange={e => setLastname(e.target.value)}
-                />
-            </Form.Field>
-            <Form.Field>
-                <Input 
-                    placeholder="Email" 
-                    value={email} 
-                    onChange={e => setEmail(e.target.value)}
-                />
-            </Form.Field>
-            <Form.Field>
-                <Input 
-                    placeholder="Description" 
-                    value={description} 
-                    onChange={e => setDescription(e.target.value)}
-                />
-            </Form.Field>
-            <Form.Field>
-                <Button 
-                    onClick={ async () => {
-                        const photographer = { first_name, last_name, email, description };
-                        const response = await fetch('/api/createProfile', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            }, 
-                            body: JSON.stringify(photographer)
-                        });
-                    
-                        if (response.ok) {
-                            console.log('response worked');
-                            onNewProfile(photographer);
-                            setFirstname('');
-                            setLastname('');
-                            setEmail('');
-                            setDescription('');
-                        }
-                    }}
-                >
-                    submit
-                </Button>
-            </Form.Field>
-        </Form>
-        );
-    }; */ 
+import {storage} from './firebase/config';
+import AvatarEditor from 'react-avatar-editor'
+import Dropzone from 'react-dropzone'
 
 class ProfileForm extends React.Component {
 
@@ -78,20 +17,34 @@ class ProfileForm extends React.Component {
         this.getImage = this.getImage.bind(this)
 
         this.state = {
-            fields: {},
+            //Contains the information pertaining to the currently browsing photographer
+            fields: {first_name:"", last_name:"", email:"", description:"", profile_pic:""},
             errors: {},
             redirect: false,
             UploadModalShow: false,
-            image: null
+            // Profile picture of the currently browsing photographer - have this field to avoid nested state updates
+            image: null,
         }
     }
- 
-    getImage(i) {
-        this.setState(
-            {image : i}
-        )
-        console.log(this.state.image)
-        console.log(this.state.image.name)
+    
+    // Get the pertinent information to the user when the component mounts to autofill the form fields with their information if possible
+    componentDidMount() {
+
+        const photonetid = {photographer_netid:this.props.netid}
+        fetch('/api/getPhotographer', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }, 
+            body: JSON.stringify(photonetid)
+        }).then(response => response.json())
+        .then(result => this.setState({fields:result, image:result.profile_pic}))
+        .catch(e => console.log(e))
+    }
+
+    // Called on button click to upload photo
+    handleNewImage(e) {
+        this.setState({image:e.target.files[0]})
     }
 
     handleClose(){
@@ -131,7 +84,7 @@ class ProfileForm extends React.Component {
     }
     
     handleShow(){ 
-        this.state.UploadModalShow = true;
+        this.setState({UploadModalShow: true})
     }
 
     handleValidation(){
@@ -175,7 +128,7 @@ class ProfileForm extends React.Component {
             let lastAtPos = fields["email"].lastIndexOf('@');
             let lastDotPos = fields["email"].lastIndexOf('.');
 
-            if (!(lastAtPos < lastDotPos && lastAtPos > 0 && fields["email"].indexOf('@@') == -1 && lastDotPos > 2 && (fields["email"].length - lastDotPos) > 2)) {
+            if (!(lastAtPos < lastDotPos && lastAtPos > 0 && fields["email"].indexOf('@@') === -1 && lastDotPos > 2 && (fields["email"].length - lastDotPos) > 2)) {
                 formIsValid = false;
                 errors["email"] = "Email is not valid";
             }
@@ -212,6 +165,7 @@ class ProfileForm extends React.Component {
         this.setState({fields});
     }
 
+    // The actual rendering of the form. Use the state which has stored the current photographer's information to autofill the fields
     render(){
 
         if(this.state.redirect) {
@@ -220,96 +174,82 @@ class ProfileForm extends React.Component {
         }
         return (
             <div>
-            <MyEditor handler = {this.getImage}/>
-            <Form>
-            <span style={{color: "red"}}>{this.state.errors["first_name"]}</span> 
-            <Form.Field>
-                <Input 
-                    placeholder="First Name" 
-                    value={this.state.fields["first_name"]}
-                    onChange={this.handleChange.bind(this, "first_name")}
-                />
-            </Form.Field>
-            <span style={{color: "red"}}>{this.state.errors["last_name"]}</span>
-            <Form.Field>
-                <Input 
-                    placeholder="Last Name" 
-                    value={this.state.fields["last_name"]}
-                    onChange={this.handleChange.bind(this, "last_name")}
-                />
-            </Form.Field>
-            <span style={{color: "red"}}>{this.state.errors["email"]}</span>
-            <Form.Field>
-                <Input 
-                    placeholder="Email" 
-                    value={this.state.fields["email"]}
-                    onChange={this.handleChange.bind(this, "email")}
-                />
-            </Form.Field>
-            <span style={{color: "red"}}>{this.state.errors["description"]}</span>
-            <Form.Field>
-                <Input 
-                    placeholder="Description" 
-                    value={this.state.fields["description"]} 
-                    onChange={this.handleChange.bind(this, "description")}
-                />
-            </Form.Field>
-            <Form.Field>
-                <Button color='primary' size='large'
-                    onClick={this.contactSubmit.bind(this)}
-                >
-                    submit
-                </Button>
-                <UploadModal netid = {this.props.netid} show = {this.state.UploadModalShow} onHide = {this.handleClose.bind(this)}
-               />
+                <div className = "formFields">Upload a Profile Picture!</div>
 
-            </Form.Field>
-        </Form>
+                {/* This code shows the Dropzone, sets image field in state when image is dropped */}
+                <Dropzone
+                    onDrop={(i) => this.setState({image:i})}      
+                    noClick
+                    noKeyboard
+                    style={{ width: '250px', height: '250px' }}
+                    >
+                    {({ getRootProps, getInputProps }) => (
+                        <div {...getRootProps()}>
+                        <AvatarEditor width={250} height={250} image={this.state.image} />
+                        <input {...getInputProps()} />
+                        </div>
+                    )}
+                </Dropzone>
+                <br/>
+                {/* Might have som bugs idk wtf this code does*/}
+                New File:
+                <input name = "newImage" type = "file" onChange = {(e) => this.handleNewImage(e)}/>
+                <br/>
+            
+                
+                <Form>
+                <span style={{color: "red"}}>{this.state.errors["first_name"]}</span> 
+                <div className = "formFields">First Name:</div>
+                <Form.Field>
+                    <Input 
+                        placeholder= "First Name"
+                        value={this.state.fields["first_name"]}
+                        onChange={this.handleChange.bind(this, "first_name")}
+                    />
+                </Form.Field>
+                <br/>
+                <span style={{color: "red"}}>{this.state.errors["last_name"]}</span>
+                <div className = "formFields">Last Name:</div>
+                <Form.Field>
+                    <Input 
+                        placeholder="Last Name" 
+                        value={this.state.fields["last_name"]}
+                        onChange={this.handleChange.bind(this, "last_name")}
+                    />
+                </Form.Field>
+                <br/>
+                <span style={{color: "red"}}>{this.state.errors["email"]}</span>
+                <div className = "formFields">Email:</div>
+                <Form.Field>
+                    <Input 
+                        placeholder="Email" 
+                        value={this.state.fields["email"]}
+                        onChange={this.handleChange.bind(this, "email")}
+                    />
+                </Form.Field>
+                <br/>
+                <span style={{color: "red"}}>{this.state.errors["description"]}</span>
+                <div className = "formFields">Description about yourself:</div>
+                <Form.Field>
+                    <Input 
+                        placeholder="Description" 
+                        value={this.state.fields["description"]} 
+                        onChange={this.handleChange.bind(this, "description")}
+                    />
+                </Form.Field>
+                <Form.Field>
+                    <Button color='blue' size='large'
+                        onClick={this.contactSubmit.bind(this)}
+                    >
+                        submit
+                    </Button>
+                    <UploadModal netid = {this.props.netid} show = {this.state.UploadModalShow} onHide = {this.handleClose.bind(this)}
+                />
+                </Form.Field>
+            </Form>
         </div>
         )
     }
 }
 
 export default ProfileForm
-
-/* <div>           
-                <form name="contactform" className="contactform" onSubmit= {this.contactSubmit.bind(this)}>
-                    <div className="col-md-6">
-                        <fieldset>
-                            <input ref="name" type="text" size="30" placeholder="Name" onChange={this.handleChange.bind(this, "name")} value={this.state.fields["name"]}/>
-                            <span style={{color: "red"}}>{this.state.errors["name"]}</span>
-                            <br/>
-                            <input refs="email" type="text" size="30" placeholder="Email" onChange={this.handleChange.bind(this, "email")} value={this.state.fields["email"]}/>
-                            <span style={{color: "red"}}>{this.state.errors["email"]}</span>
-                            <br/>
-                            <input refs="phone" type="text" size="30" placeholder="Phone" onChange={this.handleChange.bind(this, "phone")} value={this.state.fields["phone"]}/>
-                            <br/>
-                            <input refs="address" type="text" size="30" placeholder="Address" onChange={this.handleChange.bind(this, "address")} value={this.state.fields["address"]}/>
-                            <br/>
-                        </fieldset>
-                    </div>
-
-                </form>
-            </div> 
-            
-            
-            
-                                    const first_name = this.state.fields['first_name']
-                        const last_name = this.state.fields['last_name']
-                        const email = this.state.fields['email']
-                        const description = this.state.fields['description']
-                        console.log(first_name)
-                        const photographer = { first_name, last_name, email, description };
-                        const response = await fetch('/api/createProfile', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            }, 
-                            body: JSON.stringify(photographer)
-                        });
-                    
-                        if (response.ok) {
-                            console.log('response worked');
-                            this.props.onNewProfile(photographer);
-                            this.setState({ fields : {}}) 
-                        }*/ 

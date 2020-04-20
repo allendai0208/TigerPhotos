@@ -28,6 +28,8 @@ def authenticate():
         username = CASClient().authenticate(url)
     else:
         username = CASClient().authenticate('')
+    
+    username = username.strip('\n')
 
     print('Netid:',username)
     if (username is not None):
@@ -89,14 +91,18 @@ def getPhotographer():
 
     photographer_data = Photographers.query.filter_by(photographer_netid = photographer_netid).all()
 
-    photographer = {'photographer_netid': photographer_data[0].photographer_netid,
-                    'first_name': photographer_data[0].first_name, 
-                    'last_name': photographer_data[0].last_name,
-                    'email': photographer_data[0].email,
-                    'description': photographer_data[0].description,
-                    'profile_pic': photographer_data[0].profile_pic}
+    photographer = {}
+    
+    if len(photographer_data) != 0:
+        photographer = {
+                'photographer_netid': photographer_data[0].photographer_netid,
+                'first_name': photographer_data[0].first_name, 
+                'last_name': photographer_data[0].last_name,
+                'email': photographer_data[0].email,
+                'description': photographer_data[0].description,
+                'profile_pic': photographer_data[0].profile_pic}
 
-    return jsonify({'photographer':photographer})
+    return jsonify(photographer)
     
 # route that creates a profile and adds it to the database (given the photographer data)
 @app.route('/api/createProfile', methods=['POST'])

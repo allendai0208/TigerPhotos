@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Modal, Button, Row, Col, Form} from 'react-bootstrap';
+import {Modal, Button} from 'react-bootstrap';
 import {DragDrop} from './DragDrop';
 
 export class UploadModal extends Component{
@@ -27,7 +27,3 @@ export class UploadModal extends Component{
         );
     }
 }
-
-/*<div className= "container">
-           If you would like to upload your portfolio to your profile please click the 'Upload' button below.<br/> Otherwise, press 'Next'.
-       </div>*/

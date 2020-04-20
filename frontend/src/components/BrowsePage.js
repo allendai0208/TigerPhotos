@@ -1,16 +1,26 @@
-import React, { useEffect, useState } from 'react';
+// This component is the parent component to two subcomponents - ProfileCard and ActiveProfile
+// These two components do the actual rendering of the profiles and their information
+// This component simply formats those two components into a bootstrap grid
+// This component also gets all the pertinent information about ALL photographers (we call flask api in componentDidMount).
+// The photographer information for ALL photographers is stored in state.
+// When a profile card is clicked, the selectedPhotographer field in state is updated to reflect the information about the clicked profile.
+// The selectedPhotographer field is passed as a prop to ActiveProfile where it is formatted and rendered.
+
+import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import ProfileCard from './ProfileCard'
 import ActiveProfile from './ActiveProfile.js'
 
-const styles = {
+// This is commented out because it wasn't being used, whoever wrote this should check to see if we need it and if not we should delete it - Keith
+/*const styles = {
   main: { 
     display: 'inline-block',
     height: "inherit"
   }
 }
+*/
 
 class BrowsePage extends React.Component {
 
@@ -50,6 +60,7 @@ class BrowsePage extends React.Component {
     })
   }
 
+  
   render() {
     let recentPhotographersMarkup = this.state.photographers ? (
       this.state.photographers.map((photographer) => < ProfileCard photographer={photographer} handler = {this.handler} /> )
@@ -74,48 +85,5 @@ class BrowsePage extends React.Component {
   }
 
 } 
-
-/*function BrowsePage() {
-  const [photographers, setPhotographers] = useState([]);
-
-  useEffect(() => {
-    fetch("/api/browse").then(response => 
-      response.json().then(data => {
-        setPhotographers(data.photographers);
-      })
-    );
-  }, []);
-
-  return (
-    <div className="ProfilePage">
-      <Container style={{marginTop: 40}}>
-        <BrowseBar photographers={photographers} />
-      </Container>
-    </div>
-  );
-} */
-
-/*       <Container fluid>
-        <Row >
-          <Col xs = {4} className="column1">
-            <div className="search">
-              <Grid container className="grid" spacing={1} alignItems="flex-end">
-                <Grid item>
-                  <SearchIcon />
-                </Grid>
-                <Grid item>
-                  <TextField id="input-with-icon-grid" label="Search by Name" />
-                </Grid>
-              </Grid>
-            </div>
-            {recentPhotographersMarkup}
-          </Col>
-          <Col>
-            <Container>
-              <ActiveProfile selectedPhotographer = {this.state.selectedPhotographer}/>
-            </Container>
-          </Col>
-        </Row>
-      </Container> */ 
 
 export default BrowsePage;
