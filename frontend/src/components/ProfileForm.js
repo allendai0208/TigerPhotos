@@ -2,14 +2,13 @@
 // We get the information about the current user by calling the /getPhotogapher route in routes.py
 // and passing in their netid which is passed as a prop to this component
 // We then autofill the fields based on the information returned from /getPhotographer
-import React, {useState} from 'react';
+import React from 'react';
 import { Form, Input, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router';
-import {DragDrop} from './DragDrop';
 import {UploadModal} from './UploadModal';
-import MyEditor from './MyEditor';
-import {storage, fstore} from './firebase/config';
-
+import {storage} from './firebase/config';
+import AvatarEditor from 'react-avatar-editor'
+import Dropzone from 'react-dropzone'
 
 class ProfileForm extends React.Component {
 
@@ -18,39 +17,34 @@ class ProfileForm extends React.Component {
         this.getImage = this.getImage.bind(this)
 
         this.state = {
-            fields: {},
+            //Contains the information pertaining to the currently browsing photographer
+            fields: {first_name:"", last_name:"", email:"", description:"", profile_pic:""},
             errors: {},
             redirect: false,
             UploadModalShow: false,
+            // Profile picture of the currently browsing photographer - have this field to avoid nested state updates
             image: null,
-            // information about current photographer (based on the current user's netid)
-            photographer: {}
         }
     }
     
     // Get the pertinent information to the user when the component mounts to autofill the form fields with their information if possible
     componentDidMount() {
 
-        let photonetid = {"photographer_netid":this.props.netid}
-        const response = fetch('/api/getPhotographer', {
+        const photonetid = {photographer_netid:this.props.netid}
+        fetch('/api/getPhotographer', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             }, 
             body: JSON.stringify(photonetid)
         }).then(response => response.json())
-        .then(result => this.setState({
-          photographer: result.photographer
-        })).then(console.log(this.state.photographers))
-        .catch(e => console.log(e));
+        .then(result => this.setState({fields:result, image:result.profile_pic}))
+        .catch(e => console.log(e))
     }
 
-    getImage(i) {
-        this.setState(
-            {image : i}
-        )
-        console.log(this.state.image)
-        console.log(this.state.image.name)
+    // Called on button click to upload photo
+    handleNewImage(e) {
+        this.setState({image:e.target.files[0]})
     }
 
     handleClose(){
@@ -90,7 +84,7 @@ class ProfileForm extends React.Component {
     }
     
     handleShow(){ 
-        this.state.UploadModalShow = true;
+        this.setState({UploadModalShow: true})
     }
 
     handleValidation(){
@@ -134,7 +128,7 @@ class ProfileForm extends React.Component {
             let lastAtPos = fields["email"].lastIndexOf('@');
             let lastDotPos = fields["email"].lastIndexOf('.');
 
-            if (!(lastAtPos < lastDotPos && lastAtPos > 0 && fields["email"].indexOf('@@') == -1 && lastDotPos > 2 && (fields["email"].length - lastDotPos) > 2)) {
+            if (!(lastAtPos < lastDotPos && lastAtPos > 0 && fields["email"].indexOf('@@') === -1 && lastDotPos > 2 && (fields["email"].length - lastDotPos) > 2)) {
                 formIsValid = false;
                 errors["email"] = "Email is not valid";
             }
@@ -181,14 +175,34 @@ class ProfileForm extends React.Component {
         return (
             <div>
                 <div className = "formFields">Upload a Profile Picture!</div>
-                <MyEditor handler = {this.getImage}/>
+
+                {/* This code shows the Dropzone, sets image field in state when image is dropped */}
+                <Dropzone
+                    onDrop={(i) => this.setState({image:i})}      
+                    noClick
+                    noKeyboard
+                    style={{ width: '250px', height: '250px' }}
+                    >
+                    {({ getRootProps, getInputProps }) => (
+                        <div {...getRootProps()}>
+                        <AvatarEditor width={250} height={250} image={this.state.image} />
+                        <input {...getInputProps()} />
+                        </div>
+                    )}
+                </Dropzone>
                 <br/>
+                {/* Might have som bugs idk wtf this code does*/}
+                New File:
+                <input name = "newImage" type = "file" onChange = {(e) => this.handleNewImage(e)}/>
+                <br/>
+            
+                
                 <Form>
                 <span style={{color: "red"}}>{this.state.errors["first_name"]}</span> 
                 <div className = "formFields">First Name:</div>
                 <Form.Field>
                     <Input 
-                        placeholder="First Name" 
+                        placeholder= "First Name"
                         value={this.state.fields["first_name"]}
                         onChange={this.handleChange.bind(this, "first_name")}
                     />
@@ -224,7 +238,7 @@ class ProfileForm extends React.Component {
                     />
                 </Form.Field>
                 <Form.Field>
-                    <Button color='primary' size='large'
+                    <Button color='blue' size='large'
                         onClick={this.contactSubmit.bind(this)}
                     >
                         submit

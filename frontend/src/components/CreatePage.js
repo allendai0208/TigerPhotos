@@ -1,9 +1,12 @@
+// This component is just the parent component to the ProfileForm component, wrapped in a Container to make it resizable
 import React, { useEffect, useState } from 'react';
 import  ProfileForm from './ProfileForm';
 import { Container } from 'semantic-ui-react';
 
 
 function CreatePage(props) {
+
+  //Whoever wrote this please fix it so that photographers doesn't give us an error about not being used. - Keith
   const [photographers, setPhotographers] = useState([]);
 
   useEffect(() => {

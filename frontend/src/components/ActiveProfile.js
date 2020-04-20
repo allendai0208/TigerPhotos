@@ -1,3 +1,4 @@
+// This component renders the information pertaining to the most recently clicked ProfileCard.
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
 import ActiveGallery from './ActiveGallery'

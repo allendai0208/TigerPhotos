@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Modal, Button, Row, Col, Form} from 'react-bootstrap';
+import {Modal, Button} from 'react-bootstrap';
 import {DragDrop} from './DragDrop';
 
 export class UploadModal extends Component{

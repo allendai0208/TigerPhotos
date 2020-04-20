@@ -102,7 +102,7 @@ def getPhotographer():
                 'description': photographer_data[0].description,
                 'profile_pic': photographer_data[0].profile_pic}
 
-    return jsonify({'photographer':photographer})
+    return jsonify(photographer)
     
 # route that creates a profile and adds it to the database (given the photographer data)
 @app.route('/api/createProfile', methods=['POST'])

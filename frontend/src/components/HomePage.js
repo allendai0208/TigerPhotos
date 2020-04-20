@@ -1,4 +1,4 @@
-//Home page that contains three buttons that link to browse, create profile, and about us page (yet to complete)
+//Home page that contains three buttons that link to browse, create profile, and about us page
 
 import React from "react"
 import Button from '@material-ui/core/Button'
@@ -21,7 +21,7 @@ class HomePage extends React.Component {
                     <p className="tigerphotos">TigerPhotos</p>
                 </div>
                 <div>
-                    <Grid container spacing={10} justify="center" spacing={1}>
+                    <Grid container spacing={10} justify="center">
                         <Grid item xs={12} sm = {3}>
                             <div className="test">
                                 <img className="test2" src={ArtLogo} alt="Avatar"></img>
@@ -42,12 +42,6 @@ class HomePage extends React.Component {
                         </Grid>
                     </Grid>
                 </div>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
             </div>
         )
     }

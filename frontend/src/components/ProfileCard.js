@@ -36,7 +36,7 @@ const styles = {
 class ProfileCard extends React.Component {
 
     render() {
-        const {classes, photographer : {first_name, last_name, description, profile_pic}} = this.props
+        const {classes, photographer : {first_name, last_name, profile_pic}} = this.props
         console.log(this.props.photographer)
         console.log(this.props.photographer.profile_pic)
         return (
@@ -61,5 +61,4 @@ class ProfileCard extends React.Component {
 }
 
 export default withStyles(styles)(ProfileCard);
-
-// 
+ 

@@ -1,9 +1,6 @@
 import React from "react"
-import {NavLink} from "react-router-dom"
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
-import { requirePropFactory } from "@material-ui/core"
-
 
 class Navigation extends React.Component {
     render() {
@@ -19,7 +16,7 @@ class Navigation extends React.Component {
                 />{' '}
                 </Navbar.Brand>
                 <Nav className="ml-auto">
-                    <Nav.Link href="/create">Create Profile</Nav.Link>
+                    <Nav.Link href="/create">My Profile</Nav.Link>
                     <Nav.Link href="/browse">Browse Photographers</Nav.Link>
                     <Nav.Link href="/about">About Us</Nav.Link>
                     <Nav.Link href="/logout">Logout</Nav.Link>
