@@ -7,7 +7,7 @@ import { Form, Input, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router';
 import {UploadModal} from './UploadModal';
 import {storage} from './firebase/config';
-import AvatarEditor from 'react-avatar-editor'
+import ReactAvatarEditor from 'react-avatar-editor'
 import Dropzone from 'react-dropzone'
 
 class ProfileForm extends React.Component {
@@ -29,21 +29,15 @@ class ProfileForm extends React.Component {
     // Get the pertinent information to the user when the component mounts to autofill the form fields with their information if possible
     componentDidMount() {
 
-        const photonetid = {photographer_netid:this.props.netid}
         fetch('/api/getPhotographer', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             }, 
-            body: JSON.stringify(photonetid)
+            body: JSON.stringify({photographer_netid:this.props.netid})
         }).then(response => response.json())
         .then(result => this.setState({fields:result, image:result.profile_pic}))
         .catch(e => console.log(e))
-    }
-
-    // Called on button click to upload photo
-    handleNewImage(e) {
-        this.setState({image:e.target.files[0]})
     }
 
     handleClose(){
@@ -159,6 +153,15 @@ class ProfileForm extends React.Component {
         }
       }
 
+    handleDrop = dropped=> {
+        this.setState({image:dropped[0]})
+    }
+    
+    // Called on button click to upload photo
+    handleNewImage(e) {
+        this.setState({image:e.target.files[0]})
+    }
+
     handleChange(field, e){         
         let fields = this.state.fields;
         fields[field] = e.target.value;        
@@ -177,26 +180,33 @@ class ProfileForm extends React.Component {
                 <div className = "formFields">Upload a Profile Picture!</div>
 
                 {/* This code shows the Dropzone, sets image field in state when image is dropped */}
-                <Dropzone
-                    onDrop={(i) => this.setState({image:i})}      
+                {/* 
+                 <Dropzone
+                    onDrop={this.handleDrop}
                     noClick
                     noKeyboard
                     style={{ width: '250px', height: '250px' }}
                     >
                     {({ getRootProps, getInputProps }) => (
                         <div {...getRootProps()}>
-                        <AvatarEditor width={250} height={250} image={this.state.image} />
+                        <ReactAvatarEditor width={250} height={250} image={this.state.image} />
                         <input {...getInputProps()} />
                         </div>
                     )}
+                    
                 </Dropzone>
+                */}
                 <br/>
+<<<<<<< HEAD
                 {/* This adds an html file input button with a custom method for onChange*/}
+=======
+                
+                {/* Might have som bugs idk wtf this code does*/}
+>>>>>>> 5bc77421e671131de52fe0468abe8417887d9604
                 New File:
                 <input name = "newImage" type = "file" onChange = {(e) => this.handleNewImage(e)}/>
                 <br/>
-            
-                
+                    
                 <Form>
                 <span style={{color: "red"}}>{this.state.errors["first_name"]}</span> 
                 <div className = "formFields">First Name:</div>
@@ -247,6 +257,7 @@ class ProfileForm extends React.Component {
                 />
                 </Form.Field>
             </Form>
+            
         </div>
         )
     }
