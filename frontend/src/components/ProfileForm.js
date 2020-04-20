@@ -86,6 +86,7 @@ class ProfileForm extends React.Component {
         this.setState({UploadModalShow: true})
     }
 
+    // Makes sure all the required fields give proper warnings
     handleValidation(){
         let fields = this.state.fields;
         let errors = {};
@@ -144,6 +145,7 @@ class ProfileForm extends React.Component {
         return formIsValid;
     }
 
+    // Pops up the alert if form is submitted with errors
     contactSubmit = e => {
         e.preventDefault();
         
@@ -155,7 +157,6 @@ class ProfileForm extends React.Component {
             this.handleShow();
             
         }
-        console.log('HERE<---------')
       }
 
     handleChange(field, e){         
@@ -190,7 +191,7 @@ class ProfileForm extends React.Component {
                     )}
                 </Dropzone>
                 <br/>
-                {/* Might have som bugs idk wtf this code does*/}
+                {/* This adds an html file input button with a custom method for onChange*/}
                 New File:
                 <input name = "newImage" type = "file" onChange = {(e) => this.handleNewImage(e)}/>
                 <br/>

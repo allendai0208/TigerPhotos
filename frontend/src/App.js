@@ -17,6 +17,7 @@ import LogoutPage from './components/LogoutPage'
 import LoginPage from './components/LoginPage'
 import NavigationBeforeLogin from './components/NavigationBeforeLogin'
 
+// This defines the main theme of the webpages
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -41,6 +42,7 @@ class App extends React.Component {
     go_to_login: false
   }
 
+  // This method checks if the user is authenticated or not. 
   componentDidMount = () => {
     let self = this;
     const url = window.location.href
@@ -55,16 +57,16 @@ class App extends React.Component {
     .then(function(response) {
       return response.json(); 
     })
-    .then(function(result) {        // If the netid is not null, then redirect to homepage
+    .then(function(result) {        // If the netid is null, then redirect to the login page
       console.log(result.netid)
       if (result.netid === null) {
         self.setState(
-          {'go_to_login':true}
+          {'go_to_login':true}      
         )
       }
       else {
         self.setState(
-          {'netid':result.netid}
+          {'netid':result.netid}     // Else update the state and grant the user access to webpages
         )
       }
     })
@@ -74,7 +76,10 @@ class App extends React.Component {
   }
 
   render() {
+    // Wait for authentication to finish
     if (this.state.netid === null && !this.state.go_to_login) return null
+    
+    // If netid is null and user has failed authentication, go to the login page  
     else if (this.state.netid === null && this.state.go_to_login) {
       return(<MuiThemeProvider theme={theme}>
         <div className="App">
@@ -90,6 +95,8 @@ class App extends React.Component {
         </MuiThemeProvider>
       );
     } 
+
+    // Else the user has been authenticated and they can navigate our website normally
     else {
       return(
         <MuiThemeProvider theme={theme}>
