@@ -197,12 +197,7 @@ class ProfileForm extends React.Component {
                 </Dropzone>
                 */}
                 <br/>
-<<<<<<< HEAD
                 {/* This adds an html file input button with a custom method for onChange*/}
-=======
-                
-                {/* Might have som bugs idk wtf this code does*/}
->>>>>>> 5bc77421e671131de52fe0468abe8417887d9604
                 New File:
                 <input name = "newImage" type = "file" onChange = {(e) => this.handleNewImage(e)}/>
                 <br/>
