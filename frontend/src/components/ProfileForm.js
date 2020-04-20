@@ -14,8 +14,7 @@ class ProfileForm extends React.Component {
 
     constructor(props){
         super(props);
-        this.getImage = this.getImage.bind(this)
-
+        
         this.state = {
             //Contains the information pertaining to the currently browsing photographer
             fields: {first_name:"", last_name:"", email:"", description:"", profile_pic:""},

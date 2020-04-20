@@ -192,9 +192,18 @@ body{
   width: 100%;
 }
 
+.browse_header {
+  background-color: oldlace;
+}
+
 .selectedName {
   padding-top: 10px;
-  padding-bottom: 10px
+  padding-bottom: 10px;
+  padding-left: 10px;
+}
+
+.browse_description {
+  padding-top: 15px
 }
 
 .search {
@@ -253,6 +262,10 @@ body{
 
 .activeProfile {
   display: inline;
+}
+
+.reviewForm {
+  padding-top: 15px
 }
 
 .App-header {
