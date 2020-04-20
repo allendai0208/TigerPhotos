@@ -28,7 +28,6 @@ class ProfileForm extends React.Component {
     
     // Get the pertinent information to the user when the component mounts to autofill the form fields with their information if possible
     componentDidMount() {
-
         fetch('/api/getPhotographer', {
             method: 'POST',
             headers: {
@@ -155,11 +154,13 @@ class ProfileForm extends React.Component {
 
     handleDrop = dropped=> {
         this.setState({image:dropped[0]})
+        console.log(this.state.image)
     }
     
     // Called on button click to upload photo
     handleNewImage(e) {
         this.setState({image:e.target.files[0]})
+        console.log(this.state.image)
     }
 
     handleChange(field, e){         
@@ -171,7 +172,8 @@ class ProfileForm extends React.Component {
     // The actual rendering of the form. Use the state which has stored the current photographer's information to autofill the fields
     render(){
 
-        if(this.state.redirect) {
+        if(this.state.image === null) return null
+        else if(this.state.redirect) {
             console.log("redirect")
             return <Redirect to='/browse'/>;
         }
@@ -179,8 +181,7 @@ class ProfileForm extends React.Component {
             <div>
                 <div className = "formFields">Upload a Profile Picture!</div>
 
-                {/* This code shows the Dropzone, sets image field in state when image is dropped */}
-                {/* 
+                {/* This code shows the Dropzone, sets image field in state when image is dropped */} 
                  <Dropzone
                     onDrop={this.handleDrop}
                     noClick
@@ -195,7 +196,6 @@ class ProfileForm extends React.Component {
                     )}
                     
                 </Dropzone>
-                */}
                 <br/>
                 {/* This adds an html file input button with a custom method for onChange*/}
                 New File:
