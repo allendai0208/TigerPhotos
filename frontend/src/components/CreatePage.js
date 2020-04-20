@@ -5,25 +5,12 @@ import { Container } from 'semantic-ui-react';
 
 
 function CreatePage(props) {
-
-  //Whoever wrote this please fix it so that photographers doesn't give us an error about not being used. - Keith
-  const [photographers, setPhotographers] = useState([]);
-
-  useEffect(() => {
-    fetch("/api/browse").then(response => 
-      response.json().then(data => {
-        setPhotographers(data.photographers);
-      })
-    );
-  }, []);
   
   return (
     <div className="ProfilePage">
       <Container style={{marginTop: 40}}>
         <p className="CreateProfileText">My Profile</p>
-        <ProfileForm netid = {props.netid} onNewProfile={photographer => 
-          setPhotographers(currentPhotographers => [...currentPhotographers, photographer])
-          }/>
+        <ProfileForm netid = {props.netid} />
       </Container>
     </div>
   );
