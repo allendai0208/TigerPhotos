@@ -9,6 +9,7 @@ import {UploadModal} from './UploadModal';
 import {storage} from './firebase/config';
 import ReactAvatarEditor from 'react-avatar-editor'
 import Dropzone from 'react-dropzone'
+import {NewUpload} from './NewUpload';
 
 class ProfileForm extends React.Component {
 
@@ -242,7 +243,9 @@ class ProfileForm extends React.Component {
                         onChange={this.handleChange.bind(this, "description")}
                     />
                 </Form.Field>
+
                 <Form.Field>
+                <NewUpload netid={this.props.netid} ></NewUpload>
                     <Button color='blue' size='large'
                         onClick={this.contactSubmit.bind(this)}
                     >
