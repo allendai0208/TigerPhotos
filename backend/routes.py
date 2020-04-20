@@ -71,14 +71,25 @@ def browse():
         for row in portfolio_list:
             urls.append(row.picture)
 
+        review_list = Portoflio.query.filter_by(photographer_netid = photographer.photographer_net).all()
+        reviews = []
+
+        for row in review_list:
+            reviews.append({
+                'user_netid' : row.user_netid,
+                'review' : row.review,
+                'rating' : row.rating
+            })
+
         photographers.append({
-            'photographer_netid': photographer.photographer_netid,
-            'first_name': photographer.first_name,
-            'last_name': photographer.last_name,
-            'email': photographer.email,
-            'description': photographer.description,
-            'profile_pic':photographer.profile_pic,
-            'urls': urls
+            'photographer_netid' : photographer.photographer_netid,
+            'first_name' : photographer.first_name,
+            'last_name' : photographer.last_name,
+            'email' : photographer.email,
+            'description' : photographer.description,
+            'profile_pic' : photographer.profile_pic,
+            'urls' : urls,
+            'reviews' : reviews
         })                                       
     return jsonify({'photographers':photographers})
 
@@ -160,9 +171,14 @@ def createPortfolio():
 @app.route('/api/createReview', methods=['POST'])
 def createReview():
 
-    review_data = request.get_json()
+    review_info = request.get_json(force=True)
+    print('REVIEW_INFO:',review_info)
+    print('rating:',review_info['rating'])
 
-    new_review = Reviews(netid=review_data['netid'], photographer_netid=review_data['photographer_netid'], description=review_data['description'], rating=review_data['rating'])
+    new_review = Reviews(user_netid=review_info['user_netid'], 
+                         photographer_netid=review_info['photographer_netid'], 
+                         review=review_info['review'], 
+                         rating=review_info['rating'])
 
     db.session.add(new_review)
     db.session.commit()

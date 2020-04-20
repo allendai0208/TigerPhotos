@@ -8,26 +8,34 @@ class ReviewForm extends React.Component {
         super(props)
 
         this.state = {
-            description: "",
+            review: "",
             rating: 1
         }
     }
 
     handleSubmit() {
         const user_netid = this.props.user_netid
-        const photo_netid = this.props.photo_netid
-        const photo_description = this.props.description
-        const photo_review = this.props.review
-        console.log(photo_netid)
+        const photographer_netid = this.props.photographer_netid
+        const review = this.state.review
+        const rating = this.state.rating
+        console.log(photographer_netid)
         console.log(user_netid)
-        const review = { user_netid, photo_netid, photo_description, photo_review };
-        fetch('/api/add_review', {
-            method: 'POST',
+        console.log(review)
+        console.log(rating)
+        const review_info = { user_netid, photographer_netid, review, rating };
+        fetch("/api/createReview", {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json'
-            }, 
-            body: JSON.stringify(review)
-        });
+              "content_type":"application/json"
+            },
+            body: JSON.stringify({user_netid : user_netid,
+                                  photographer_netid : photographer_netid,
+                                  review : review,
+                                  rating : rating})
+        })
+        .catch(function(error) {
+            console.log(error)
+         });
     }
 
     render() {
@@ -37,8 +45,8 @@ class ReviewForm extends React.Component {
                     <TextArea 
                         className="reviewDescription"
                         placeholder="Write your review" 
-                        value={this.state.description} 
-                        onChange={event => this.setState({ description: event.target.value })}
+                        value={this.state.review} 
+                        onChange={event => this.setState({ review: event.target.value })}
                     />
                 </Form.Field>
                 <Form.Field>
@@ -50,25 +58,7 @@ class ReviewForm extends React.Component {
                     />
                 </Form.Field>
                 <Form.Field>
-                    <Button onClick={this.handleSubmit.bind(this)}
-                        onClick={ async () => {
-                            const user_netid = this.props.user_netid
-                            const photo_netid = this.props.photo_netid
-                            const photo_description = this.props.description
-                            const photo_review = this.props.review
-                            console.log(photo_netid)
-                            console.log(user_netid)
-                            const review = { user_netid, photo_netid, photo_description, photo_review };
-                            const response = await fetch('/api/add_review', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                }, 
-                                body: JSON.stringify(review)
-                            });
-                        
-                        }}
-                    >
+                    <Button onClick={this.handleSubmit.bind(this)}>
                         submit
                     </Button>
                 </Form.Field>

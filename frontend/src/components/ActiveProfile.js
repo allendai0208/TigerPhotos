@@ -40,6 +40,7 @@ class ActiveProfile extends React.Component{
             )
         }
         else if (this.state.page_id === 1) {
+            this.props.selectedPhotographer.reviews.map() =>
             page = (
                 <div>hi</div>
             )
@@ -47,7 +48,7 @@ class ActiveProfile extends React.Component{
         else if (this.state.page_id === 2) {
             console.log("user netid is " + this.props.user_netid)
             page = (
-                <ReviewForm photo_netid={this.props.selectedPhotographer.photographer_netid} user_netid = {this.props.user_netid}/>
+                <ReviewForm photographer_netid={this.props.selectedPhotographer.photographer_netid} user_netid = {this.props.user_netid}/>
             )
         }
 
