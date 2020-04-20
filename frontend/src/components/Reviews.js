@@ -1,3 +1,4 @@
+// Not being used currently
 import React from 'react';
 import { List, Rating, Header } from 'semantic-ui-react';
 

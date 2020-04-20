@@ -27,7 +27,3 @@ export class UploadModal extends Component{
         );
     }
 }
-
-/*<div className= "container">
-           If you would like to upload your portfolio to your profile please click the 'Upload' button below.<br/> Otherwise, press 'Next'.
-       </div>*/

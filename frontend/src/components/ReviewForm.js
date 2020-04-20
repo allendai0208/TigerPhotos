@@ -1,3 +1,4 @@
+// Not used currently
 import React, {useState} from 'react';
 import { Form, Input, Rating, Button } from 'semantic-ui-react';
 

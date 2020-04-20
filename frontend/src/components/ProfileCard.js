@@ -1,3 +1,4 @@
+// This component renders the card for a photographer, information about the photographer is passed in as props from BrowsePage
 import React from 'react'
 import withStyles from '@material-ui/core/styles/withStyles'
 
