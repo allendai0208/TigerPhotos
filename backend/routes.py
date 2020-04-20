@@ -3,6 +3,8 @@ from backend import app, db
 from backend.models import Reviews, Users, Photographers, Equipment, Expertise, Portfolio
 from CASClient import CASClient
 
+# This serves static files to the frontend. It is necessary in deployment. 
+# Index.html is found in frontend/build
 @app.route('/')
 @app.route('/browse')
 @app.route('/create')
@@ -11,17 +13,14 @@ from CASClient import CASClient
 def root():
     return app.send_static_file('index.html')
 
-@app.route('/api/index')
-def index():
-    return 'Done', 201
-
+# This authenticates the user by either checking if they are in the current session or
+# verifying the ticket from CAS that is contained in the url. To be used in App.js
 @app.route('/api/authenticate', methods=['POST'])
 def authenticate():
     url_info = request.get_json(force = True)
+
+    # the current url from the frontend
     url = url_info['url']
-    
-    print('URL_info:', url_info)
-    print('URL:', url)
 
     username = None
     if ('ticket' in url):
@@ -29,14 +28,15 @@ def authenticate():
     else:
         username = CASClient().authenticate('')
     
+    # Now username is supposed to be the user's netid, or None if they are not authenticated
     username = username.strip('\n')
 
     print('Netid:',username)
     if (username is not None):
+        # If the user is not already in the database, add him/her
         user = Users.query.filter_by(netid = username).all()
         print('User:',user)
         if not user:
-            print('HERE')
             new_user = Users(netid=username)
             db.session.add(new_user)
             db.session.commit()
@@ -45,6 +45,7 @@ def authenticate():
 
 @app.route('/api/login')
 def login():
+    # Pass the CAS login url to the frontend. To be used in LoginPage.js
     loginUrl = CASClient().login()
 
     return jsonify({'loginUrl':loginUrl})
@@ -89,6 +90,7 @@ def getPhotographer():
     photographer_info = request.get_json(force=True)
     photographer_netid = photographer_info['photographer_netid']
 
+    # Retrieves the photographer's info from the database based on their netid
     photographer_data = Photographers.query.filter_by(photographer_netid = photographer_netid).all()
 
     photographer = {}
@@ -140,6 +142,7 @@ def getPorfolio():
         })
     return jsonify({'portfolio':portfolio})
 
+# Adds the uploaded portfolio to the database under the user's (photographer's) netid
 @app.route('/api/createPortfolio', methods=['POST'])
 def createPortfolio():
 
