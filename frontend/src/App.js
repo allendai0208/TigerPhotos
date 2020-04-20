@@ -45,7 +45,7 @@ class App extends React.Component {
   // This method checks if the user is authenticated or not. 
   componentDidMount = () => {
     let self = this;
-    const url = window.location.href
+    const url = window.location.href     // This method gets the current url
     console.log(url)
     fetch("/api/authenticate", {
       method: "POST",

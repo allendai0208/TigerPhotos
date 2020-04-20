@@ -5,12 +5,14 @@ import logo from "./pictures/tigerLogo.png"
 
 class LoginPage extends React.Component {
 
+    // Changes the window to the CAS login page 
     login = () => {
-        fetch('/api/login')      // else, do CASAuthentication and return to the homepage
+        fetch('/api/login')     
         .then(function(response) {
             return response.json();
         })
         .then(function(result) {
+            // This function redirects to an external url while preserving browser history
             window.location.assign(result.loginUrl)
         })
         .catch(function(error) {
@@ -18,6 +20,7 @@ class LoginPage extends React.Component {
         })
     }
 
+    // Contains css styling for the login page and a login button 
     render() {
         return (
             <div>
