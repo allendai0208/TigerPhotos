@@ -12,6 +12,15 @@ body{
   min-height: 100vh; min-width: 100vw;
 }
 
+.createGallery {
+  height:200px;
+  width:200px;
+  overflow:hidden;
+  display:inline-block;
+  background-position: center center;
+  margin:5px;
+}
+
 .formFields {
   margin-bottom:5px;
   font-family: "Roboto";

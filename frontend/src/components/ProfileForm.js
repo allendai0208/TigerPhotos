@@ -180,8 +180,10 @@ class ProfileForm extends React.Component {
         }
         return (
             <div>
-                <div className = "formFields">Upload a Profile Picture!</div>
-
+                <div className = "formFields">
+                    Upload a Profile Picture:   
+                    <input name = "newImage" type = "file" onChange = {(e) => this.handleNewImage(e)}/>
+                </div>
                 {/* This code shows the Dropzone, sets image field in state when image is dropped */} 
                  <Dropzone
                     onDrop={this.handleDrop}
@@ -197,10 +199,6 @@ class ProfileForm extends React.Component {
                     )}
                     
                 </Dropzone>
-                <br/>
-                {/* This adds an html file input button with a custom method for onChange*/}
-                New File:
-                <input name = "newImage" type = "file" onChange = {(e) => this.handleNewImage(e)}/>
                 <br/>
                     
                 <Form>
@@ -243,16 +241,14 @@ class ProfileForm extends React.Component {
                         onChange={this.handleChange.bind(this, "description")}
                     />
                 </Form.Field>
-
+                <br/>
+                <div className = "formFields">Upload photos from your portfolio to show of to potential clients</div>
                 <Form.Field>
-                <NewUpload netid={this.props.netid} ></NewUpload>
-                    <Button color='blue' size='large'
-                        onClick={this.contactSubmit.bind(this)}
-                    >
-                        submit
+                    <NewUpload netid={this.props.netid}/>
+                    <Button color='blue' size='large' onClick={this.contactSubmit.bind(this)}>
+                    submit
                     </Button>
-                    <UploadModal netid = {this.props.netid} show = {this.state.UploadModalShow} onHide = {this.handleClose.bind(this)}
-                />
+                    <UploadModal netid = {this.props.netid} show = {this.state.UploadModalShow} onHide = {this.handleClose.bind(this)}/>
                 </Form.Field>
             </Form>
             
