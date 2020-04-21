@@ -111,20 +111,36 @@ def getPhotographer():
 def createProfile():
 
     photographer_data = request.get_json()
+    netid = photographer_data['photographer_netid']
 
-    new_photographer = Photographers(
+    photographer = Photographers.query.filter_by(photographer_netid = netid).first()
+
+    if photographer is None:
+        new_photographer = Photographers(
         photographer_netid = photographer_data['photographer_netid'],
         first_name=photographer_data['first_name'], 
         last_name=photographer_data['last_name'],
         email=photographer_data['email'],
         description=photographer_data['description'],
         profile_pic = photographer_data['profile_pic']
-    )
+        )
 
-    db.session.add(new_photographer)
-    db.session.commit()
+        db.session.add(new_photographer)
+        db.session.commit()
 
-    return 'Done', 201
+        return 'Done', 201
+    
+    else:
+        photographer.first_name = photographer_data['first_name']
+        photographer.last_name = photographer_data['last_name']
+        photographer.email = photographer_data['email']
+        photographer.description = photographer_data['description']
+        photographer.profile_pic = photographer_data['profile_pic']
+
+        db.session.commit()
+
+        return 'Done', 201
+
 
 # route that retrieves the portfolio of the photographer (given their netid)
 @app.route('/api/getPortfolio')
