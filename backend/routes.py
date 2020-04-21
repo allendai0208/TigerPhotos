@@ -102,7 +102,9 @@ def getPhotographer():
                 'last_name': photographer_data[0].last_name,
                 'email': photographer_data[0].email,
                 'description': photographer_data[0].description,
-                'profile_pic': photographer_data[0].profile_pic}
+                'profile_pic': photographer_data[0].profile_pic,
+                'key': photographer_data[0].key
+        }
 
     return jsonify(photographer)
     
@@ -115,6 +117,7 @@ def createProfile():
 
     photographer = Photographers.query.filter_by(photographer_netid = netid).first()
 
+    # adds to database if netid doesn't exist
     if photographer is None:
         new_photographer = Photographers(
         photographer_netid = photographer_data['photographer_netid'],
@@ -122,7 +125,8 @@ def createProfile():
         last_name=photographer_data['last_name'],
         email=photographer_data['email'],
         description=photographer_data['description'],
-        profile_pic = photographer_data['profile_pic']
+        profile_pic = photographer_data['profile_pic'],
+        key = photographer_data['key']
         )
 
         db.session.add(new_photographer)
@@ -130,12 +134,14 @@ def createProfile():
 
         return 'Done', 201
     
+    # modifies existing entries
     else:
         photographer.first_name = photographer_data['first_name']
         photographer.last_name = photographer_data['last_name']
         photographer.email = photographer_data['email']
         photographer.description = photographer_data['description']
         photographer.profile_pic = photographer_data['profile_pic']
+        photographer.key = photographer_data['key']
 
         db.session.commit()
 
@@ -154,7 +160,8 @@ def getPorfolio():
 
     for picture in portfolio_list:
         portfolio.append({
-            'picture': picture.picture
+            'picture': picture.picture,
+            'key': picture.key
         })
     return jsonify({'portfolio':portfolio})
 
@@ -164,7 +171,7 @@ def createPortfolio():
 
     portfolio_data = request.get_json()
 
-    new_picture = Portfolio(netid=portfolio_data['netid'], picture=portfolio_data['url'])
+    new_picture = Portfolio(netid=portfolio_data['netid'], picture=portfolio_data['url'], key=portfolio_data['key'])
 
     db.session.add(new_picture)
     db.session.commit()

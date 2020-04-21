@@ -20,6 +20,7 @@ class Photographers(db.Model):
     email = db.Column(db.String(120), index=True, unique=True)
     description = db.Column(db.String(300), index=True)
     profile_pic = db.Column(db.String(255), index=True, unique=True)
+    key = db.Column(db.String(255), index=True, unique=True)
 
     def __repr__(self):
         return '<Photographers {} {}>'.format(self.first_name, self.last_name)
@@ -56,8 +57,10 @@ class Expertise(db.Model):
 # This defines the columns and data types of the Portfolio table
 class Portfolio(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    netid = db.Column(db.String(80))
-    picture = db.Column(db.String(255))
+    netid = db.Column(db.String(80), db.ForeignKey('photographers.photographer_netid'), index=True)
+    picture = db.Column(db.String(255), index=True, unique=True)
+    key = db.Column(db.String(255), index=True, unique=True)
+
 
     def __repr__(self):
         return 'Portfolio {} {}>'.format(self.netid, self.picture)
