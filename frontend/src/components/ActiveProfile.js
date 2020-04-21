@@ -5,6 +5,7 @@ import ActiveGallery from './ActiveGallery'
 import Divider from '@material-ui/core/Divider'
 import Button from '@material-ui/core/Button'
 import ReviewForm from './ReviewForm'
+import {BrowseBar} from './BrowseBar'
 
 class ActiveProfile extends React.Component{
 
@@ -13,19 +14,26 @@ class ActiveProfile extends React.Component{
 
         // if 0 displays about, if 1 displays reviews, if 2 displays write review, if 3 displays contact
         this.state = {
-            page_id:0
+            page_id:0,
+            current_review: "" 
         }
         this.handleClick = this.handleClick.bind(this)
-
+        this.handler = this.handler.bind(this)
     }
 
+    // sets page_id to corresponding number when button is clicked
     handleClick(i) {
         this.setState({
             page_id: i
         })
-        console.log("this is the state" + this.state.page_id)
-        console.log(i)
     }
+
+    // used so review is saved when user navigates using buttons
+    handler(arg1) {
+        this.setState({
+          current_review:arg1
+        })
+      }
 
     render() {
         let page = null
@@ -40,18 +48,21 @@ class ActiveProfile extends React.Component{
             )
         }
         else if (this.state.page_id === 1) {
-            this.props.selectedPhotographer.reviews.map() =>
             page = (
-                <div>hi</div>
+                <BrowseBar reviews={this.props.selectedPhotographer.reviews} />
             )
         }
         else if (this.state.page_id === 2) {
-            console.log("user netid is " + this.props.user_netid)
             page = (
-                <ReviewForm photographer_netid={this.props.selectedPhotographer.photographer_netid} user_netid = {this.props.user_netid}/>
+                <ReviewForm 
+                    photographer_netid={this.props.selectedPhotographer.photographer_netid} 
+                    user_netid={this.props.user_netid} 
+                    current_review={this.state.current_review} 
+                    handler1={this.handler}
+                    handler2={this.props.handler2}/>
             )
         }
-
+        // renders the heading and about information when first loaded 
         return (
             <div>
                 <div className="browse_header">
@@ -64,8 +75,7 @@ class ActiveProfile extends React.Component{
                     <Button color="secondary" onClick={() => this.handleClick(3)}>Contact</Button>
                     <Divider/>
                 </div>
-            {page}
-
+                {page}
             </div>
         )
     }

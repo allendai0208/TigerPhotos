@@ -1,6 +1,5 @@
-
-import React, {useState} from 'react';
-import { Form, Input, Rating, Button } from 'semantic-ui-react';
+import React from 'react';
+import { Form, Rating, Button } from 'semantic-ui-react';
 import {TextArea} from 'semantic-ui-react';
 
 class ReviewForm extends React.Component {
@@ -9,46 +8,83 @@ class ReviewForm extends React.Component {
 
         this.state = {
             review: "",
-            rating: 1
+            rating: 1,
+            errors: {}
+        }
+    } 
+
+    componentDidMount() {
+        if (this.props.current_review != "") {
+            this.setState({
+                review: this.props.current_review
+            })
         }
     }
 
-    handleSubmit() {
-        const user_netid = this.props.user_netid
-        const photographer_netid = this.props.photographer_netid
+    handleValidation() {
+        let formIsValid = true; 
+        let errors={}
         const review = this.state.review
-        const rating = this.state.rating
-        console.log(photographer_netid)
-        console.log(user_netid)
-        console.log(review)
-        console.log(rating)
-        const review_info = { user_netid, photographer_netid, review, rating };
-        fetch("/api/createReview", {
-            method: "POST",
-            headers: {
-              "content_type":"application/json"
-            },
-            body: JSON.stringify({user_netid : user_netid,
-                                  photographer_netid : photographer_netid,
-                                  review : review,
-                                  rating : rating})
+
+        if(!review) {
+            formIsValid = false
+            errors["review"] = "Cannot be empty"
+        }
+
+        this.setState({errors:errors})
+        return formIsValid 
+    }
+
+    handleSubmit() {
+        if (!this.handleValidation()) {
+            alert("Form has errors")
+        }
+        else {
+            const user_netid = this.props.user_netid
+            const photographer_netid = this.props.photographer_netid
+            const review = this.state.review
+            const rating = this.state.rating
+            fetch("/api/createReview", {
+                method: "POST",
+                headers: {
+                  "content_type":"application/json"
+                },
+                body: JSON.stringify({user_netid : user_netid,
+                                      photographer_netid : photographer_netid,
+                                      review : review,
+                                      rating : rating})
+            })
+            .catch(function(error) {
+                console.log(error)
+             });
+             this.setState({
+                review: ""
+            })
+            alert("Form submitted")
+        }
+    }
+
+    handleChange(event) {
+        this.setState({
+            review: event.target.value
         })
-        .catch(function(error) {
-            console.log(error)
-         });
+        this.props.handler1(event.target.value)
     }
 
     render() {
+        console.log(this.props.user_netid)
+
         return (
             <Form className="reviewForm">
+                <span style={{color: "red"}}>{this.state.errors["review"]}</span>
                 <Form.Field>
-                    <TextArea 
+                    <Form.TextArea 
                         className="reviewDescription"
                         placeholder="Write your review" 
                         value={this.state.review} 
                         onChange={event => this.setState({ review: event.target.value })}
                     />
-                </Form.Field>
+                </Form.Field> 
                 <Form.Field>
                     <Rating 
                         icon="star"
@@ -70,6 +106,20 @@ class ReviewForm extends React.Component {
 }
 
 export default ReviewForm
+
+/*                 <Form.Field>
+                    <Form.TextArea 
+                        className="reviewDescription"
+                        placeholder="Write your review" 
+                        value={this.state.review} 
+                        onChange={event => this.setState({ review: event.target.value })}
+                    />
+                </Form.Field> 
+                                <Form.Field>
+                    <Button onClick={this.handleSubmit.bind(this)}>
+                        submit
+                    </Button>
+                </Form.Field>*/ 
 
 /*export const ReviewForm = ({props, onNewReview}) => {
     const[netid, setNetid] = useState('');

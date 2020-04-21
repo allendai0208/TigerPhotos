@@ -71,7 +71,7 @@ def browse():
         for row in portfolio_list:
             urls.append(row.picture)
 
-        review_list = Portoflio.query.filter_by(photographer_netid = photographer.photographer_net).all()
+        review_list = Reviews.query.filter_by(photographer_netid = photographer.photographer_netid).all()
         reviews = []
 
         for row in review_list:

@@ -2,29 +2,34 @@
 import React from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemText from '@material-ui/core/ListItemText';
-import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent'
+import {Rating} from 'semantic-ui-react'
 
-export const BrowseBar = ({ photographers }) => {
+// This component renders cards that contain the reviews for the selected photographer 
+
+export const BrowseBar = ({ reviews }) => {
     return(
-        <div>
-            <Typography variant="h5" gutterBottom>
-                Photographers
+        <div> 
+            <Typography variant="h5" gutterBottom style={{paddingTop: 10, textAlign: 'center'}}>
+                Reviews
             </Typography>
-            <List height="100%" width={300}> 
-                {photographers.map(photographer => {
+                
+                {reviews.map(review => {
                     return (
-                        <ListItem divider alignItems="flex-start" button >
-                        <ListItemAvatar>
-                        <Avatar alt="Profile Picture" src={require("./pictures/Allen2.JPG")} />
-                        </ListItemAvatar>
-                        <ListItemText primary={photographer.first_name + " " + photographer.last_name} secondary={photographer.description} />
-                    </ListItem> 
+                        <Card variant="outlined" style={{marginLeft: 50, marginRight: 50, marginBottom: 10}}>
+                            <CardContent>
+                                <Typography  color="secondary">{review.user_netid}</Typography>
+                                <Rating icon="star" defaultRating={review.rating} maxRating={5} disabled />
+                                <Typography variant="h5" >{review.review}</Typography>
+                                <Typography style={{textAlign: 'right'}} color="secondary">{new Date().getMonth()+1 + "/" + new Date().getDate() + "/" + new Date().getFullYear()}</Typography>
+                            </CardContent>
+                        </Card>
                     );
                 })}
-            </List>
+                
+            
         </div>
     );
 };

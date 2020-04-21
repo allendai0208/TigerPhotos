@@ -32,7 +32,7 @@ class BrowsePage extends React.Component {
   state = {
     photographers: [],
     selectedPhotographer: [],
-    profileHasBeenClicked: false
+    profileHasBeenClicked: false,
   }
 
   //Get all pertinent fields regarding all photographers
@@ -67,7 +67,8 @@ class BrowsePage extends React.Component {
     ) : (
       <p>Loading...</p>
     )
-
+    console.log(this.state.photographers)
+    console.log("review added" + this.state.review_added)
     return (
       <Container fluid>
         <Row >
@@ -77,7 +78,7 @@ class BrowsePage extends React.Component {
             </Col>
           </div>
             <Col>
-              {this.state.profileHasBeenClicked ? <ActiveProfile selectedPhotographer = {this.state.selectedPhotographer} user_netid = {this.props.netid} /> : null}
+              {this.state.profileHasBeenClicked ? <ActiveProfile selectedPhotographer = {this.state.selectedPhotographer} user_netid = {this.props.netid}/> : null}
             </Col>
         </Row>
       </Container>
