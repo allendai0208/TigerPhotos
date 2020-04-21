@@ -160,6 +160,7 @@ def getPorfolio():
 
     for picture in portfolio_list:
         portfolio.append({
+            'netid': photographer_netid,
             'picture': picture.picture,
             'key': picture.key
         })
@@ -170,8 +171,7 @@ def getPorfolio():
 def createPortfolio():
 
     portfolio_data = request.get_json()
-    netid = portfolio_data['netid']
-    pictures = portfolio_data['portfolio']
+    netid = portfolio_data[0].netid
 
     photographer_portfolio = Portfolio.query.filter_by(netid = netid).all()
 
@@ -180,7 +180,7 @@ def createPortfolio():
             db.session.delete(row)
             db.session.commit()
 
-    for row in pictures:
+    for row in portfolio_data:
 
         new_picture = Portfolio(netid=netid, picture=row['url'], key=row['key'])
 
@@ -223,7 +223,7 @@ def getReviews():
 @app.route('/api/getExpertise')
 def getExpertise():
 
-    # expertise_data = request.get_json(force=True)
+    expertise_data = request.get_json(force=True)
 
     photographers = Photographers.query.filter((Photographers.first_name == "Keith") | (Photographers.first_name == "Allen")).all()
 
