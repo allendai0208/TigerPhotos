@@ -218,3 +218,4 @@ def getReviews():
             'rating': review.rating
         })                                       
     return jsonify({'reviews':reviews})
+

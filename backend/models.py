@@ -61,7 +61,6 @@ class Portfolio(db.Model):
     picture = db.Column(db.String(255), index=True, unique=True)
     key = db.Column(db.String(255), index=True, unique=True)
 
-
     def __repr__(self):
         return 'Portfolio {} {}>'.format(self.netid, self.picture)
 
