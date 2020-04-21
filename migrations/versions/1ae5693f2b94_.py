@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 49603b7f59a7
+Revision ID: 1ae5693f2b94
 Revises: 
-Create Date: 2020-04-20 15:21:25.750229
+Create Date: 2020-04-21 15:48:17.542299
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '49603b7f59a7'
+revision = '1ae5693f2b94'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -26,20 +26,16 @@ def upgrade():
     sa.Column('email', sa.String(length=120), nullable=True),
     sa.Column('description', sa.String(length=300), nullable=True),
     sa.Column('profile_pic', sa.String(length=255), nullable=True),
+    sa.Column('key', sa.String(length=255), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_photographers_description'), 'photographers', ['description'], unique=False)
     op.create_index(op.f('ix_photographers_email'), 'photographers', ['email'], unique=True)
     op.create_index(op.f('ix_photographers_first_name'), 'photographers', ['first_name'], unique=False)
+    op.create_index(op.f('ix_photographers_key'), 'photographers', ['key'], unique=False)
     op.create_index(op.f('ix_photographers_last_name'), 'photographers', ['last_name'], unique=False)
     op.create_index(op.f('ix_photographers_photographer_netid'), 'photographers', ['photographer_netid'], unique=True)
-    op.create_index(op.f('ix_photographers_profile_pic'), 'photographers', ['profile_pic'], unique=True)
-    op.create_table('portfolio',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('netid', sa.String(length=80), nullable=True),
-    sa.Column('picture', sa.String(length=255), nullable=True),
-    sa.PrimaryKeyConstraint('id')
-    )
+    op.create_index(op.f('ix_photographers_profile_pic'), 'photographers', ['profile_pic'], unique=False)
     op.create_table('users',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('netid', sa.String(length=64), nullable=True),
@@ -66,6 +62,17 @@ def upgrade():
     )
     op.create_index(op.f('ix_expertise_area'), 'expertise', ['area'], unique=True)
     op.create_index(op.f('ix_expertise_netid'), 'expertise', ['netid'], unique=False)
+    op.create_table('portfolio',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('netid', sa.String(length=80), nullable=True),
+    sa.Column('picture', sa.String(length=255), nullable=True),
+    sa.Column('key', sa.String(length=255), nullable=True),
+    sa.ForeignKeyConstraint(['netid'], ['photographers.photographer_netid'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_index(op.f('ix_portfolio_key'), 'portfolio', ['key'], unique=True)
+    op.create_index(op.f('ix_portfolio_netid'), 'portfolio', ['netid'], unique=False)
+    op.create_index(op.f('ix_portfolio_picture'), 'portfolio', ['picture'], unique=True)
     op.create_table('reviews',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('netid', sa.String(length=80), nullable=True),
@@ -90,6 +97,10 @@ def downgrade():
     op.drop_index(op.f('ix_reviews_netid'), table_name='reviews')
     op.drop_index(op.f('ix_reviews_description'), table_name='reviews')
     op.drop_table('reviews')
+    op.drop_index(op.f('ix_portfolio_picture'), table_name='portfolio')
+    op.drop_index(op.f('ix_portfolio_netid'), table_name='portfolio')
+    op.drop_index(op.f('ix_portfolio_key'), table_name='portfolio')
+    op.drop_table('portfolio')
     op.drop_index(op.f('ix_expertise_netid'), table_name='expertise')
     op.drop_index(op.f('ix_expertise_area'), table_name='expertise')
     op.drop_table('expertise')
@@ -99,10 +110,10 @@ def downgrade():
     op.drop_index(op.f('ix_users_timestamp'), table_name='users')
     op.drop_index(op.f('ix_users_netid'), table_name='users')
     op.drop_table('users')
-    op.drop_table('portfolio')
     op.drop_index(op.f('ix_photographers_profile_pic'), table_name='photographers')
     op.drop_index(op.f('ix_photographers_photographer_netid'), table_name='photographers')
     op.drop_index(op.f('ix_photographers_last_name'), table_name='photographers')
+    op.drop_index(op.f('ix_photographers_key'), table_name='photographers')
     op.drop_index(op.f('ix_photographers_first_name'), table_name='photographers')
     op.drop_index(op.f('ix_photographers_email'), table_name='photographers')
     op.drop_index(op.f('ix_photographers_description'), table_name='photographers')

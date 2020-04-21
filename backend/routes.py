@@ -69,7 +69,7 @@ def browse():
         urls = []
 
         for row in portfolio_list:
-            urls.append(row.picture)
+            urls.append(row.picture)     
 
         photographers.append({
             'photographer_netid': photographer.photographer_netid,
@@ -92,9 +92,18 @@ def getPhotographer():
 
     # Retrieves the photographer's info from the database based on their netid
     photographer_data = Photographers.query.filter_by(photographer_netid = photographer_netid).all()
-
     photographer = {}
-    
+
+    portfolio_list = Portfolio.query.filter_by(netid = photographer_netid).all()
+    portfolio = []
+
+    for picture in portfolio_list:
+        portfolio.append({
+            'netid': photographer_netid,
+            'picture': picture.picture,
+            'key': picture.key
+        })
+
     if len(photographer_data) != 0:
         photographer = {
                 'photographer_netid': photographer_data[0].photographer_netid,
@@ -103,7 +112,8 @@ def getPhotographer():
                 'email': photographer_data[0].email,
                 'description': photographer_data[0].description,
                 'profile_pic': photographer_data[0].profile_pic,
-                'key': photographer_data[0].key
+                'key': photographer_data[0].key,
+                'portfolio': portfolio
         }
 
     return jsonify(photographer)
@@ -150,7 +160,7 @@ def createProfile():
 
 # route that retrieves the portfolio of the photographer (given their netid)
 @app.route('/api/getPortfolio')
-def getPorfolio():
+def getPortfolio():
 
     portfolio_info = request.get_json(force=True)
     photographer_netid = portfolio_info['photographer_netid']
@@ -219,24 +229,3 @@ def getReviews():
         })                                       
     return jsonify({'reviews':reviews})
 
-# route that retrieves the photographers of given area of expertise (given their netid)
-@app.route('/api/getExpertise')
-def getExpertise():
-
-    expertise_data = request.get_json(force=True)
-
-    photographers = Photographers.query.filter((Photographers.first_name == "Keith") | (Photographers.first_name == "Allen")).all()
-
-    photographer_list = []
-    for photographer in photographers:
-        photographer_list.append({
-        'photographer_netid': photographer.photographer_netid,
-        'first_name': photographer.first_name,
-        'last_name': photographer.last_name,
-        'email': photographer.email,
-        'description': photographer.description,
-        'profile_pic': photographer.profile_pic,
-        'key': photographer.key
-        })
-
-    return jsonify({'photographers':photographer_list})

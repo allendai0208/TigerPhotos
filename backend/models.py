@@ -19,8 +19,8 @@ class Photographers(db.Model):
     last_name = db.Column(db.String(64), index=True)
     email = db.Column(db.String(120), index=True, unique=True)
     description = db.Column(db.String(300), index=True)
-    profile_pic = db.Column(db.String(255), index=True, unique=True)
-    key = db.Column(db.String(255), index=True, unique=True)
+    profile_pic = db.Column(db.String(255), index=True)
+    key = db.Column(db.String(255), index=True)
 
     def __repr__(self):
         return '<Photographers {} {}>'.format(self.first_name, self.last_name)
@@ -49,7 +49,7 @@ class Equipment(db.Model):
 class Expertise(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     netid = db.Column(db.String(80), db.ForeignKey('photographers.photographer_netid'), index=True)
-    area = db.Column(db.String(80), unique=True, index=True)
+    area = db.Column(db.String(80), index=True)
 
     def __repr__(self):
         return 'Expertise {} {}>'.format(self.netid, self.area)
