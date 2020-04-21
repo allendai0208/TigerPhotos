@@ -170,14 +170,24 @@ def getPorfolio():
 def createPortfolio():
 
     portfolio_data = request.get_json()
+    netid = portfolio_data['netid']
+    pictures = portfolio_data['pictures']
 
-    new_picture = Portfolio(netid=portfolio_data['netid'], picture=portfolio_data['url'], key=portfolio_data['key'])
+    photographer_portfolio = Portfolio.query.filter_by(netid = netid).all()
 
-    db.session.add(new_picture)
-    db.session.commit()
+    if photographer_portfolio is not None:
+        for row in photographer_portfolio:
+            db.session.delete(row)
+            db.session.commit()
+
+    for row in pictures:
+
+        new_picture = Portfolio(netid=netid, picture=row['url'], key=row['key'])
+
+        db.session.add(new_picture)
+        db.session.commit()
         
     return 'Done', 201
-    
 
 # route that creates a review and adds it to the database (given review data)
 @app.route('/api/createReview', methods=['POST'])
