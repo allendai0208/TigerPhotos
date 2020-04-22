@@ -5,7 +5,7 @@ from datetime import datetime
 class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     netid = db.Column(db.String(64), index=True, unique=True)
-    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.now)
     
     def __repr__(self):
         return '<Users{}>'.format(self.netid)
@@ -31,7 +31,7 @@ class Reviews(db.Model):
     photographer_netid = db.Column(db.String(80), db.ForeignKey('photographers.photographer_netid'), index=True)
     review = db.Column(db.String(255), index=True)
     rating = db.Column(db.Integer, index=True)
-    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.now)
 
     def __repr__(self):
         return 'Reviews {} {}>'.format(self.netid, self.photographer_netid)
