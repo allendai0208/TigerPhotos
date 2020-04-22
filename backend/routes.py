@@ -191,23 +191,15 @@ def createReview():
         
     return 'Done', 201
 
-'''
-@app.route('/api/updateReview', methods=['POST'])
-def updateReview():
+@app.route('/api/deleteReview', methods=['POST'])
+def deleteReview():
 
     review_info = request.get_json(force=True)
 
-    User.query.filter_by(user_netid=review_info['user_netid']).delete()
-
-    updated_review = Reviews(user_netid=review_info['user_netid'], 
-                         photographer_netid=review_info['photographer_netid'], 
-                         review=review_info['review'], 
-                         rating=review_info['rating'])
-
-    db.session.add(new_review)
+    Reviews.query.filter_by(user_netid=review_info['user_netid']).delete()
     db.session.commit()
 
-    return 'Done', 201 '''                     
+    return 'Done', 201                   
 
 # route that retrieves the reviews of a given photographer (given their netid)
 @app.route('/api/getReviews')
