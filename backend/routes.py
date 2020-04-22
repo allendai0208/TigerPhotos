@@ -176,7 +176,7 @@ def createReview():
     print('rating:',review_info['rating'])
 
     # If the user already has a review for this photographer, delete the old review
-    review_exists = Reviews.query.filter_by(user_netid=review_info['user_netid'].all()    # Used as a bool
+    review_exists = Reviews.query.filter_by(user_netid=review_info['user_netid']).all()    # Used as a bool
     if len(review_exists) != 0:
         Reviews.query.filter_by(user_netid=review_info['user_netid'].delete()    # Delete the old review
 
@@ -189,7 +189,7 @@ def createReview():
     db.session.commit()
         
     return 'Done', 201
-    
+
 '''
 @app.route('/api/updateReview', methods=['POST'])
 def updateReview():
