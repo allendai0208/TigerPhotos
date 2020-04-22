@@ -175,6 +175,11 @@ def createReview():
     print('REVIEW_INFO:',review_info)
     print('rating:',review_info['rating'])
 
+    # If the user already has a review for this photographer, delete the old review
+    review_exists = Reviews.query.filter_by(user_netid=review_info['user_netid'].all()    # Used as a bool
+    if len(review_exists) != 0:
+        Reviews.query.filter_by(user_netid=review_info['user_netid'].delete()    # Delete the old review
+
     new_review = Reviews(user_netid=review_info['user_netid'], 
                          photographer_netid=review_info['photographer_netid'], 
                          review=review_info['review'], 
@@ -184,7 +189,8 @@ def createReview():
     db.session.commit()
         
     return 'Done', 201
-
+    
+'''
 @app.route('/api/updateReview', methods=['POST'])
 def updateReview():
 
@@ -200,7 +206,7 @@ def updateReview():
     db.session.add(new_review)
     db.session.commit()
 
-    return 'Done', 201                     
+    return 'Done', 201 '''                     
 
 # route that retrieves the reviews of a given photographer (given their netid)
 @app.route('/api/getReviews')
