@@ -242,6 +242,16 @@ body{
   text-align: center;
 }
 
+.defaultActiveProfile_text {
+  font-size: 30px;
+  text-align:center;
+  margin: 20px;
+  padding: 5px 0;
+  line-height:1;
+  color: grey; 
+  opacity: 0.6
+}
+
 .tigerLogo2 {
   display:block;
   margin-left:auto;
