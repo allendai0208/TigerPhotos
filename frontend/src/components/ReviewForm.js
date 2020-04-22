@@ -1,6 +1,9 @@
 import React from 'react';
 import { Form, Rating, Button } from 'semantic-ui-react';
-import {TextArea} from 'semantic-ui-react';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
 
 class ReviewForm extends React.Component {
     constructor(props) {
@@ -9,7 +12,8 @@ class ReviewForm extends React.Component {
         this.state = {
             review: "",
             rating: 0,
-            errors: {}
+            errors: {},
+            message: ""
         }
     } 
 
@@ -17,10 +21,9 @@ class ReviewForm extends React.Component {
         if (this.props.current_review != "") {
             this.setState({
                 review: this.props.current_review,
-                rating: this.props.current_rating
+                rating: this.props.current_rating,
+                message: this.props.message
             })
-            this.props.handler1(this.props.current_review)
-            this.props.handler2(this.props.current_rating)
         }
     }
 
@@ -81,10 +84,31 @@ class ReviewForm extends React.Component {
         this.props.handler2(data.rating)
     }
 
+    handleDelete() {
+        const user_netid = this.props.user_netid
+        const photographer_netid = this.props.photographer_netid
+        const review = this.state.review
+        const rating = this.state.rating
+        fetch("/api/deleteReview", {
+            method: "POST",
+            headers: {
+              "content_type":"application/json"
+            },
+            body: JSON.stringify({user_netid : user_netid,
+                                  photographer_netid : photographer_netid,
+                                  review : review,
+                                  rating : rating})
+        })
+        .catch(function(error) {
+            console.log(error)
+         });
+    }
+
     render() {
 
         return (
             <Form className="reviewForm">
+                <div style={{marginBottom: 5, color: "grey"}}>{this.state.message}</div>
                 <span style={{color: "red"}}>{this.state.errors["review"]}</span>
                 <Form.Field>
                     <Form.TextArea 
@@ -94,24 +118,35 @@ class ReviewForm extends React.Component {
                         onChange={event => this.handleChange(event)}
                     />
                 </Form.Field> 
-                <Form.Field>
-                    <Rating 
-                        icon="star"
-                        rating={this.state.rating}
-                        maxRating={5}
-                        onRate={(_, data) => this.handleRate(_, data)}
-                    />
-                </Form.Field>
+                <Grid container className="reviewGrid">
+                    <Grid item xs={11}>
+                        <Form.Field>
+                            <Rating 
+                                icon="star"
+                                rating={this.state.rating}
+                                maxRating={5}
+                                onRate={(_, data) => this.handleRate(_, data)}
+                            />
+                        </Form.Field>
+                    </Grid>
+                    <Grid item xs={1}>
+                        <Form.Field>
+                            <Tooltip title="Delete">
+                                <IconButton aria-label="delete review" onClick={this.handleDelete.bind(this)}>
+                                    <DeleteIcon />
+                                </IconButton>
+                            </Tooltip>
+                        </Form.Field>
+                    </Grid>
+                </Grid>
                 <Form.Field>
                     <Button onClick={this.handleSubmit.bind(this)}>
                         submit
                     </Button>
                 </Form.Field>
             </Form>
-
         )
     }
-
 }
 
 export default ReviewForm

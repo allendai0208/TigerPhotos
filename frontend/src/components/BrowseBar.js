@@ -23,7 +23,7 @@ export const BrowseBar = ({ reviews }) => {
                                 <Typography  color="secondary">{review.user_netid}</Typography>
                                 <Rating icon="star" defaultRating={review.rating} maxRating={5} disabled />
                                 <Typography variant="h5" >{review.review}</Typography>
-                                {console.log(review.date)}
+                                {console.log(review)}
                                 <Typography style={{textAlign: 'right'}} color="secondary">{review.date}</Typography>
                             </CardContent>
                         </Card>

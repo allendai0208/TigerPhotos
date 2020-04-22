@@ -275,7 +275,12 @@ body{
 }
 
 .reviewForm {
-  padding-top: 15px
+  padding-top: 15px;
+  width: 75%
+}
+
+.reviewGrid {
+  justify-content: flex-end!important
 }
 
 .App-header {

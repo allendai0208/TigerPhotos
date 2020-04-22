@@ -79,7 +79,7 @@ def browse():
                 'user_netid' : row.user_netid,
                 'review' : row.review,
                 'rating' : row.rating,
-                'date' : str(row.timestamp.split(' '))[0]
+                'date' : str(row.timestamp).split(' ')[0]
             })
 
         photographers.append({

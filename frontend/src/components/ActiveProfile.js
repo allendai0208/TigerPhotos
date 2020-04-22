@@ -75,6 +75,7 @@ class ActiveProfile extends React.Component{
         else if (this.state.page_id === 2) {
             let old_review = this.props.selectedPhotographer.reviews.filter(d => d.user_netid === this.props.user_netid)[0]
             if(old_review !== undefined && this.state.loaded === false) {
+                console.log("here")
                 page = (
                     <ReviewForm 
                         photographer_netid={this.props.selectedPhotographer.photographer_netid} 
@@ -82,7 +83,8 @@ class ActiveProfile extends React.Component{
                         current_review={old_review["review"]}
                         current_rating={old_review["rating"]}
                         handler1={this.handler}
-                        handler2={this.handler2}/>
+                        handler2={this.handler2}
+                        message='You are updating your previous review. Your old review will not be saved.'/>
                 )
                 this.setState({
                     loaded: true
