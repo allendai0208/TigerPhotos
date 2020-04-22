@@ -27,12 +27,11 @@ def authenticate():
         username = CASClient().authenticate(url)
     else:
         username = CASClient().authenticate('')
-    
-    # Now username is supposed to be the user's netid, or None if they are not authenticated
-    username = username.strip('\n')
 
     print('Netid:',username)
     if (username is not None):
+        # Now username is supposed to be the user's netid, or None if they are not authenticated
+        username = username.strip('\n')
         # If the user is not already in the database, add him/her
         user = Users.query.filter_by(netid = username).all()
         print('User:',user)
@@ -69,7 +68,13 @@ def browse():
         urls = []
 
         for row in portfolio_list:
-            urls.append(row.picture)     
+            urls.append(row.picture)
+
+        expertise_list = Expertise.query.filter_by(netid = photographer.photographer_netid).all()
+        expertise = []
+
+        for row in expertise_list:
+            expertise.append(row.area)
 
         photographers.append({
             'photographer_netid': photographer.photographer_netid,
@@ -78,7 +83,8 @@ def browse():
             'email': photographer.email,
             'description': photographer.description,
             'profile_pic':photographer.profile_pic,
-            'urls': urls
+            'urls': urls,
+            'expertise': expertise
         })                                       
     return jsonify({'photographers':photographers})
 
@@ -114,6 +120,18 @@ def getPhotographer():
                 'profile_pic': photographer_data[0].profile_pic,
                 'key': photographer_data[0].key,
                 'portfolio': portfolio
+        }
+    
+    else:
+        photographer = {
+                'photographer_netid': "",
+                'first_name': "", 
+                'last_name': "",
+                'email': "",
+                'description': "",
+                'profile_pic': "",
+                'key': "",
+                'portfolio': []
         }
 
     return jsonify(photographer)
