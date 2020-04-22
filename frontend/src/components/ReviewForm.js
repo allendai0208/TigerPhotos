@@ -16,7 +16,8 @@ class ReviewForm extends React.Component {
     componentDidMount() {
         if (this.props.current_review != "") {
             this.setState({
-                review: this.props.current_review
+                review: this.props.current_review,
+                rating: this.props.current_rating
             })
         }
     }
@@ -71,8 +72,14 @@ class ReviewForm extends React.Component {
         this.props.handler1(event.target.value)
     }
 
+    handleRate(_, data) {
+        this.setState({
+            rating: data.rating
+        })
+        this.props.handler2(data.rating)
+    }
+
     render() {
-        console.log(this.props.user_netid)
 
         return (
             <Form className="reviewForm">
@@ -82,7 +89,7 @@ class ReviewForm extends React.Component {
                         className="reviewDescription"
                         placeholder="Write your review" 
                         value={this.state.review} 
-                        onChange={event => this.setState({ review: event.target.value })}
+                        onChange={event => this.handleChange(event)}
                     />
                 </Form.Field> 
                 <Form.Field>
@@ -90,7 +97,7 @@ class ReviewForm extends React.Component {
                         icon="star"
                         rating={this.state.rating}
                         maxRating={5}
-                        onRate={(_, data) => this.setState({ rating: data.rating })}
+                        onRate={(_, data) => this.handleRate(_, data)}
                     />
                 </Form.Field>
                 <Form.Field>

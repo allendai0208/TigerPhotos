@@ -38,8 +38,6 @@ class ProfileCard extends React.Component {
 
     render() {
         const {classes, photographer : {first_name, last_name, profile_pic}} = this.props
-        console.log(this.props.photographer)
-        console.log(this.props.photographer.profile_pic)
         return (
             <div className="card column">
                 <ButtonBase onClick = {() => this.props.handler(this.props.photographer, true)}>

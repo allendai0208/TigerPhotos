@@ -15,10 +15,14 @@ class ActiveProfile extends React.Component{
         // if 0 displays about, if 1 displays reviews, if 2 displays write review, if 3 displays contact
         this.state = {
             page_id:0,
-            current_review: "" 
+            current_review: "" ,
+            current_rating: 1,
+            loaded: false
         }
         this.handleClick = this.handleClick.bind(this)
         this.handler = this.handler.bind(this)
+        this.handler2 = this.handler2.bind(this)
+        this.setReview = this.setReview.bind(this)
     }
 
     // sets page_id to corresponding number when button is clicked
@@ -33,7 +37,23 @@ class ActiveProfile extends React.Component{
         this.setState({
           current_review:arg1
         })
-      }
+    }
+
+    // used so rating is saved when user navigates using buttons
+    handler2(arg1) {
+        this.setState({
+          current_rating: arg1
+        })
+    }
+
+    // if netid has a review for selected photographer, preloads it into the state to pass to ReviewForm
+    setReview = (old_review) => {
+        this.setState({
+            current_review: old_review["review"],
+            current_rating: old_review["rating"],
+            loaded: true
+        })   
+    }
 
     render() {
         let page = null
@@ -53,14 +73,29 @@ class ActiveProfile extends React.Component{
             )
         }
         else if (this.state.page_id === 2) {
-            page = (
-                <ReviewForm 
-                    photographer_netid={this.props.selectedPhotographer.photographer_netid} 
-                    user_netid={this.props.user_netid} 
-                    current_review={this.state.current_review} 
-                    handler1={this.handler}
-                    handler2={this.props.handler2}/>
-            )
+            let old_review = this.props.selectedPhotographer.reviews.filter(d => d.user_netid === this.props.user_netid)[0]
+            if(old_review !== undefined ) {
+                page = (
+                    <ReviewForm 
+                        photographer_netid={this.props.selectedPhotographer.photographer_netid} 
+                        user_netid={this.props.user_netid} 
+                        current_review={old_review["review"]}
+                        current_rating={old_review["rating"]}
+                        handler1={this.handler}
+                        handler2={this.handler2}/>
+                )
+            }
+            else {
+                page = (
+                    <ReviewForm 
+                        photographer_netid={this.props.selectedPhotographer.photographer_netid} 
+                        user_netid={this.props.user_netid} 
+                        current_review={this.state.current_review} 
+                        current_rating={this.state.current_rating}
+                        handler1={this.handler}
+                        handler2={this.handler2}/>
+                )
+            }
         }
         // renders the heading and about information when first loaded 
         return (
@@ -82,6 +117,22 @@ class ActiveProfile extends React.Component{
 }
 
 export default ActiveProfile
+
+
+/*             if (old_review !== undefined && this.state.loaded === false) {
+                console.log(old_review["review"])
+                console.log(old_review["rating"])
+                this.setReview(old_review)
+            }
+            page = (
+                <ReviewForm 
+                    photographer_netid={this.props.selectedPhotographer.photographer_netid} 
+                    user_netid={this.props.user_netid} 
+                    current_review={this.state.current_review} 
+                    current_rating={this.state.current_rating}
+                    handler1={this.handler}
+                    handler2={this.handler2}/>
+            ) */ 
 
 /*                 <Typography variant="h5"> 
                     {this.props.selectedPhotographer.email}
