@@ -74,7 +74,7 @@ class ActiveProfile extends React.Component{
         }
         else if (this.state.page_id === 2) {
             let old_review = this.props.selectedPhotographer.reviews.filter(d => d.user_netid === this.props.user_netid)[0]
-            if(old_review !== undefined ) {
+            if(old_review !== undefined && this.state.loaded === false) {
                 page = (
                     <ReviewForm 
                         photographer_netid={this.props.selectedPhotographer.photographer_netid} 
@@ -84,6 +84,9 @@ class ActiveProfile extends React.Component{
                         handler1={this.handler}
                         handler2={this.handler2}/>
                 )
+                this.setState({
+                    loaded: true
+                })
             }
             else {
                 page = (
