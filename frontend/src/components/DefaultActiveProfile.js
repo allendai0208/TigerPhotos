@@ -5,7 +5,7 @@ class DefaultActiveProfile extends React.Component{
 
     render() {
         return (
-            <div>
+            <div style={{marginTop: 20}}>
                 <Container maxWidth="sm">
                     <p className = "defaultActiveProfile_text">Click on a profile on the left to see more!</p>
                 </Container>

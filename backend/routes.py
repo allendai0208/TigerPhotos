@@ -78,7 +78,8 @@ def browse():
             reviews.append({
                 'user_netid' : row.user_netid,
                 'review' : row.review,
-                'rating' : row.rating
+                'rating' : row.rating,
+                'date' : row.timestamp
             })
 
         photographers.append({
@@ -178,7 +179,7 @@ def createReview():
     # If the user already has a review for this photographer, delete the old review
     review_exists = Reviews.query.filter_by(user_netid=review_info['user_netid']).all()    # Used as a bool
     if len(review_exists) != 0:
-        Reviews.query.filter_by(user_netid=review_info['user_netid'].delete()    # Delete the old review
+        Reviews.query.filter_by(user_netid=review_info['user_netid']).delete()    # Delete the old review
 
     new_review = Reviews(user_netid=review_info['user_netid'], 
                          photographer_netid=review_info['photographer_netid'], 

@@ -8,7 +8,7 @@ class ReviewForm extends React.Component {
 
         this.state = {
             review: "",
-            rating: 1,
+            rating: 0,
             errors: {}
         }
     } 
@@ -19,6 +19,8 @@ class ReviewForm extends React.Component {
                 review: this.props.current_review,
                 rating: this.props.current_rating
             })
+            this.props.handler1(this.props.current_review)
+            this.props.handler2(this.props.current_rating)
         }
     }
 
@@ -61,7 +63,7 @@ class ReviewForm extends React.Component {
              this.setState({
                 review: ""
             })
-            alert("Form submitted")
+            alert("Form submitted. Please refresh the page to see your review. ")
         }
     }
 
