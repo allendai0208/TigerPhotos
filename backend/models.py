@@ -31,6 +31,7 @@ class Reviews(db.Model):
     photographer_netid = db.Column(db.String(80), db.ForeignKey('photographers.photographer_netid'), index=True)
     review = db.Column(db.String(255), index=True)
     rating = db.Column(db.Integer, index=True)
+    date_added = db.Column(db.Date, index=True, default=current_date)
 
     def __repr__(self):
         return 'Reviews {} {}>'.format(self.netid, self.photographer_netid)
