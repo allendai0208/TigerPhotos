@@ -7,11 +7,11 @@ export class UploadModal extends Component{
     render() {
         return(
         <Modal
-      {...this.props}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
+          {...this.props}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
           Would you like to show off your portfolio?

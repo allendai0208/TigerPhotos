@@ -106,7 +106,7 @@ def getPhotographer():
     for picture in portfolio_list:
         portfolio.append({
             'netid': photographer_netid,
-            'picture': picture.picture,
+            'url': picture.picture,
             'key': picture.key
         })
 
@@ -199,7 +199,7 @@ def getPortfolio():
 def createPortfolio():
 
     portfolio_data = request.get_json()
-    netid = portfolio_data[0].netid
+    netid = portfolio_data[0]["netid"]
 
     photographer_portfolio = Portfolio.query.filter_by(netid = netid).all()
 

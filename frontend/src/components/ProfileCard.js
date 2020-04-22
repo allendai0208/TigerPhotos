@@ -38,13 +38,13 @@ class ProfileCard extends React.Component {
 
     render() {
         const {classes, photographer : {first_name, last_name, profile_pic}} = this.props
-        console.log(this.props.photographer)
-        console.log(this.props.photographer.profile_pic)
+        /*console.log(this.props.photographer)
+        console.log(this.props.photographer.profile_pic)*/
         return (
             <div className="card column">
                 <ButtonBase onClick = {() => this.props.handler(this.props.photographer, true)}>
-                <Card className={classes.card} variant="outlined">
-                <CardMedia image={profile_pic} title = "Profile image" className={classes.image} />
+                    <Card className={classes.card} variant="outlined">
+                        <CardMedia image={profile_pic} title = "Profile image" className={classes.image} />
                         <CardContent class={classes.content}>
                             <Typography variant="h5" style = {{color:"orange"}}>
                                 {first_name+" "+last_name}

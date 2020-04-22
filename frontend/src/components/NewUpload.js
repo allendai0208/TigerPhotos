@@ -1,6 +1,10 @@
+// This component was absorbed into profileform.js
+// This is no longer being used
+
 import React from 'react'
 import {fstore, storage, database} from './firebase/config';
- 
+import {Button} from 'semantic-ui-react';
+
 export class NewUpload extends React.Component {
   constructor(props){
     super(props)
@@ -29,7 +33,8 @@ export class NewUpload extends React.Component {
       let images = this.state.images.slice()
       images.push({
         key: key,
-        url: url
+        url: url,
+        photographer_netid: this.props.netid
       })
       this.setState({images})
       console.log(this.state.images)
@@ -52,39 +57,12 @@ export class NewUpload extends React.Component {
       return imag.key != current_image_name
     })
     this.setState({images})
- 
-   /*ref.on('child_removed', (child) => {
-     let images = this.state.images.filter((image) => {
-       return image.key != child.key
-     })
-     this.setState({images})
-   }) */
+
   }
  
-  /*componentDidMount() {
-    /*const ref = database.ref('images/' + this.state.netid).child(this.state.netid)*/
-    /*const ref = storage.ref('profpic').child(`${this.state.image.name}`)
-  
-    ref.on('child_added', (child) => {
-      let images = this.state.images.slice()
-      images.push({
-        key: child.key,
-        url: child.val().url
-      })
-      this.setState({images})
-    })
-    ref.on('child_removed', (child) => {
-      let images = this.state.images.filter((image) => {
-        return image.url != child.val().url
-      })
-      this.setState({images})
-    })
-  } */
-
   // Not working, have to change the models for portfolio - currently only stored as firebase url, but this program relies on file name
-  /* componentDidMount() {
+  componentDidMount() {
 
-    
     fetch("/api/getPortfolio", {
       method: "POST",
       headers: {
@@ -93,13 +71,11 @@ export class NewUpload extends React.Component {
       body:JSON.stringify(this.props.netid)
     }).then(response => response.json())
     .then(result => this.setState({
-      photos: result
+      images: result
     }))
-    .catch(e => console.log(e))  
-
+    .catch(e => console.log(e))
   }
-  */
-
+  
   render() {
     return (
       <div>
@@ -108,6 +84,9 @@ export class NewUpload extends React.Component {
         {this.state.images.map((image) =>
           <div key={image.key} className = "createGallery" style={{backgroundImage:'url('+image.url +')'}}/>
         )}
+        <Button color='blue' size='large' onClick={(images) => this.props.handler(images)}>
+          submit
+        </Button>
       </div>
     );
   }
