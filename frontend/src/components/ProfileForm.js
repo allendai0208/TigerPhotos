@@ -45,6 +45,62 @@ class ProfileForm extends React.Component {
 
     }
 
+    // Makes sure all the required fields give proper warnings
+    handleValidation(){
+        let fields = this.state.fields;
+        let errors = {};
+        let formIsValid = true;
+
+        //First Name
+        if(!fields["first_name"]){
+            formIsValid = false;
+            errors["first_name"] = "Cannot be empty";
+        }
+
+        else if(typeof fields["first_name"] !== "undefined"){
+            if(!fields["first_name"].match(/^[a-zA-Z]+$/)){
+                formIsValid = false;
+                errors["first_name"] = "Only letters";
+            }        
+        }
+
+        // Last Name
+        if(!fields["last_name"]){
+            formIsValid = false;
+            errors["last_name"] = "Cannot be empty";
+        }
+
+        else if(typeof fields["last_name"] !== "undefined"){
+            if(!fields["last_name"].match(/^[a-zA-Z]+$/)){
+                formIsValid = false;
+                errors["last_name"] = "Only letters";
+            }        
+        }
+
+        //Email
+        if(!fields["email"]){
+            formIsValid = false;
+            errors["email"] = "Cannot be empty";
+        }
+
+        else if(typeof fields["email"] !== "undefined"){
+            let lastAtPos = fields["email"].lastIndexOf('@');
+            let lastDotPos = fields["email"].lastIndexOf('.');
+
+            if (!(lastAtPos < lastDotPos && lastAtPos > 0 && fields["email"].indexOf('@@') === -1 && lastDotPos > 2 && (fields["email"].length - lastDotPos) > 2)) {
+                formIsValid = false;
+                errors["email"] = "Email is not valid";
+            }
+        }
+        // Description
+        if(!fields["description"]){
+            formIsValid = false;
+            errors["description"] = "Cannot be empty";
+        }
+        this.setState({errors: errors});
+        return formIsValid;
+    }
+
     handleDrop = dropped=> {
         this.setState({image:dropped[0]})
         console.log(this.state.image)
@@ -107,29 +163,32 @@ class ProfileForm extends React.Component {
     // Will first make a fetch call to update the photographers table
     // Second, will make a fetch call to update the portfolio pertaining to the browsing photographer via call to api/createPortfolio
     handleSubmit() {
-        const photographer_netid = this.state.netid
-        const first_name = this.state.fields['first_name']
-        const last_name = this.state.fields['last_name']
-        const email = this.state.fields['email']
-        const description = this.state.fields['description']
-        const profile_pic = this.state.image
-        const key = ""
-        const photographer = { photographer_netid, first_name, last_name, email, description, profile_pic, key};
-        fetch('/api/createProfile', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }, 
-            body: JSON.stringify(photographer)
-        });
-        fetch('/api/createPortfolio', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }, 
-            body: JSON.stringify({netid:this.state.netid, portfolio:this.state.portfolio})
-        });
-        this.setState({redirect: true})
+
+        if (this.handleValidation()) {
+            const photographer_netid = this.state.netid
+            const first_name = this.state.fields['first_name']
+            const last_name = this.state.fields['last_name']
+            const email = this.state.fields['email']
+            const description = this.state.fields['description']
+            const profile_pic = this.state.image
+            const key = ""
+            const photographer = { photographer_netid, first_name, last_name, email, description, profile_pic, key};
+            fetch('/api/createProfile', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }, 
+                body: JSON.stringify(photographer)
+            });
+            fetch('/api/createPortfolio', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }, 
+                body: JSON.stringify({netid:this.state.netid, portfolio:this.state.portfolio})
+            });
+            this.setState({redirect: true})
+        }
     }
 
     // The actual rendering of the form. Use the state which has stored the current photographer's information to autofill the fields
@@ -235,129 +294,3 @@ class ProfileForm extends React.Component {
 }
 
 export default ProfileForm
-
-
-
-
-
-
-
-
-
-
-/*
-    handleClose(){
-        this.setState({UploadModalShow: false});
-        const photographer_netid = this.props.netid
-        const first_name = this.state.fields['first_name']
-        const last_name = this.state.fields['last_name']
-        const email = this.state.fields['email']
-        const description = this.state.fields['description']
-        const uploadTask = storage.ref(`profpic/${this.state.image.name}`).put(this.state.image);
-        console.log(uploadTask)
-        let profile_pic = null;
-        uploadTask.on('state_changed', 
-            (snapshot) => {
-            }, 
-            (error) => {
-                // error function ....
-                console.log(error);
-            }, 
-            () => {
-            // complete function ....
-            storage.ref('profpic').child(`${this.state.image.name}`).getDownloadURL().then(url => {
-                console.log(url);
-                profile_pic = url
-                console.log(profile_pic)
-                const photographer = { photographer_netid, first_name, last_name, email, description, profile_pic};
-                fetch('/api/createProfile', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }, 
-                    body: JSON.stringify(photographer)
-                });
-                this.setState({redirect: true})
-            });
-        });        
-    }
-    
-    handleShow(){ 
-        this.setState({UploadModalShow: true})
-    }
-
-    */
-
-
-    // Makes sure all the required fields give proper warnings
-    /*handleValidation(){
-        let fields = this.state.fields;
-        let errors = {};
-        let formIsValid = true;
-
-        //First Name
-        if(!fields["first_name"]){
-            formIsValid = false;
-            errors["first_name"] = "Cannot be empty";
-        }
-
-        if(typeof fields["first_name"] !== "undefined"){
-            if(!fields["first_name"].match(/^[a-zA-Z]+$/)){
-                formIsValid = false;
-                errors["first_name"] = "Only letters";
-            }        
-        }
-
-        // Last Name
-        if(!fields["last_name"]){
-            formIsValid = false;
-            errors["last_name"] = "Cannot be empty";
-        }
-
-        if(typeof fields["last_name"] !== "undefined"){
-            if(!fields["last_name"].match(/^[a-zA-Z]+$/)){
-                formIsValid = false;
-                errors["last_name"] = "Only letters";
-            }        
-        }
-
-        //Email
-        if(!fields["email"]){
-            formIsValid = false;
-            errors["email"] = "Cannot be empty";
-        }
-
-        if(typeof fields["email"] !== "undefined"){
-            let lastAtPos = fields["email"].lastIndexOf('@');
-            let lastDotPos = fields["email"].lastIndexOf('.');
-
-            if (!(lastAtPos < lastDotPos && lastAtPos > 0 && fields["email"].indexOf('@@') === -1 && lastDotPos > 2 && (fields["email"].length - lastDotPos) > 2)) {
-                formIsValid = false;
-                errors["email"] = "Email is not valid";
-            }
-        }  
-        // Description
-        if(!fields["description"]){
-            formIsValid = false;
-            errors["description"] = "Cannot be empty";
-
-        }
-        this.setState({errors: errors});
-        return formIsValid;
-    }
-
-
-    // Pops up the alert if form is submitted with errors
-    contactSubmit = e => {
-        e.preventDefault();
-        
-        this.handleValidation();
-        
-        if (!this.handleValidation()) {
-            alert("Form has errors.")
-        } else {
-            this.handleShow();
-            
-        }
-    }
-    */
