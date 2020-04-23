@@ -15,11 +15,15 @@ class Users(db.Model):
 class Photographers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     photographer_netid = db.Column(db.String, index=True, unique=True)
-    first_name = db.Column(db.String(64), index=True)
-    last_name = db.Column(db.String(64), index=True)
-    email = db.Column(db.String(120), index=True)
-    website_url = db.Column(db.String(120), index=True)
-    description = db.Column(db.String(750), index=True)
+    first_name = db.Column(db.String(64))
+    last_name = db.Column(db.String(64))
+    email = db.Column(db.String(120))
+    website_url = db.Column(db.String(120))
+    description = db.Column(db.String(1000))
+    photography_checkbox = db.Column(db.Boolean, index=True)
+    videography_checkbox = db.Column(db.Boolean, index=True)
+    editing_checkbox = db.Column(db.Boolean, index=True)
+    equipment = db.Column(db.String(250))
     profile_pic = db.Column(db.String(255), index=True)
     key = db.Column(db.String(255), index=True)
 
@@ -31,8 +35,8 @@ class Reviews(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_netid = db.Column(db.String(80), db.ForeignKey('users.netid'), index=True)
     photographer_netid = db.Column(db.String(80), db.ForeignKey('photographers.photographer_netid'), index=True)
-    review = db.Column(db.String(1000), index=True)
-    rating = db.Column(db.Integer, index=True)
+    review = db.Column(db.String(750))
+    rating = db.Column(db.Integer)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.now)
 
     def __repr__(self):
@@ -51,7 +55,7 @@ class Equipment(db.Model):
 class Expertise(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     netid = db.Column(db.String(80), db.ForeignKey('photographers.photographer_netid'), index=True)
-    area = db.Column(db.String(80), index=True)
+    area = db.Column(db.Boolean, index=True)
 
     def __repr__(self):
         return 'Expertise {} {}>'.format(self.netid, self.area)

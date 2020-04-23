@@ -120,7 +120,7 @@ def getPhotographer():
             'netid': photographer_netid,
             'url': picture.picture,
             'key': picture.key
-        })
+        })    
 
     if len(photographer_data) != 0:
         photographer = {
@@ -129,6 +129,10 @@ def getPhotographer():
                 'last_name': photographer_data[0].last_name,
                 'email': photographer_data[0].email,
                 'description': photographer_data[0].description,
+                'photography_checkbox':  bool(photographer_data[0].photography_checkbox),
+                'videography_checkbox': bool(photographer_data[0].videography_checkbox),
+                'editing_checkbox': bool(photographer_data[0].editing_checkbox),
+                'equipment': photographer_data[0].equipment,
                 'profile_pic': photographer_data[0].profile_pic,
                 'key': photographer_data[0].key,
                 'portfolio': portfolio
@@ -141,6 +145,10 @@ def getPhotographer():
                 'last_name': "",
                 'email': "",
                 'description': "",
+                'photography_checkbox': False,
+                'videography_checkbox': False,
+                'editing_checkbox': False,
+                'equipment': "",
                 'profile_pic': "",
                 'key': "",
                 'portfolio': []
@@ -166,6 +174,10 @@ def createProfile():
         email=photographer_data['email'],
         website_url=photographer_data['website_url'],
         description=photographer_data['description'],
+        photography_checkbox=photographer_data['photography_checkbox'],
+        videography_checkbox=photographer_data['videography_checkbox'],
+        editing_checkbox=photographer_data['editing_checkbox'],
+        equipment=photographer_data['equipment'],
         profile_pic = photographer_data['profile_pic'],
         key = photographer_data['key']
         )

@@ -3,7 +3,7 @@
 // and passing in their netid which is passed as a prop to this component
 // We then autofill the fields based on the information returned from /getPhotographer
 import React from 'react';
-import { Form, Input, Button } from 'semantic-ui-react';
+import { Form, Input, Button, Checkbox } from 'semantic-ui-react';
 import { Redirect } from 'react-router';
 import {storage, fstore} from './firebase/config';
 import AvatarEditor from 'react-avatar-editor'
@@ -15,11 +15,21 @@ class ProfileForm extends React.Component {
         super(props)  
         this.state = {
             //Contains the information pertaining to the currently browsing photographer
-            fields: {first_name:"", last_name:"", email:"", website_url:"", description:"", profile_pic:"", key:""},
+            fields: {first_name:"", 
+                     last_name:"", 
+                     email:"", 
+                     website_url:"", 
+                     description:"", 
+                     equipment:"", 
+                     profile_pic:"", 
+                     key:""},
             errors: {},
             redirect: false,
             // UploadModalShow: false,
             // Profile picture of the currently browsing photographer - have this field to avoid nested state updates
+            photography_checkbox:false,
+            videography_checkbox:false,
+            editing_checkbox:false,
             profPic: null,
             profPicUrl: '',
             portfolio: [],
@@ -44,6 +54,9 @@ class ProfileForm extends React.Component {
         }).then(response => response.json())
         .then(result => this.setState({
             fields:result, 
+            photography_checkbox:result.photography_checkbox,
+            videography_checkbox:result.videography_checkbox,
+            editing_checkbox:result.editing_checkbox,
             image:result.profile_pic, 
             portfolio:result.portfolio, 
             stateHasLoaded:true, 
@@ -56,6 +69,9 @@ class ProfileForm extends React.Component {
     // Makes sure all the required fields give proper warnings
     handleValidation(){
         let fields = this.state.fields;
+        let photography_checkbox = this.state.photography_checkbox
+        let videography_checkbox = this.state.videography_checkbox
+        let editing_checkbox = this.state.editing_checkbox
         let errors = {};
         let formIsValid = true;
 
@@ -121,6 +137,21 @@ class ProfileForm extends React.Component {
             errors["description"] = "Cannot be empty";
         }
         this.setState({errors: errors});
+
+        // Expertise
+        if(!photography_checkbox && !videography_checkbox && !editing_checkbox){
+            formIsValid = false;
+            errors["expertise"] = "Must check at least one"
+        }
+        this.setState({errors: errors})
+
+        // Equipment
+        if(!fields["equipment"]){
+            formIsValid = false;
+            errors["equipment"] = "Cannot be empty";
+        }
+        this.setState({errors: errors});
+
         return formIsValid;
     }
 
@@ -215,9 +246,15 @@ class ProfileForm extends React.Component {
             const email = this.state.fields['email']
             const website_url = this.state.fields['website_url']
             const description = this.state.fields['description']
+            const photography_checkbox = this.state.photography_checkbox
+            const videography_checkbox = this.state.videography_checkbox
+            const editing_checkbox = this.state.editing_checkbox
+            const equipment = this.state.fields['equipment']
             const profile_pic = this.state.profPicUrl
             const key = this.state.profPic
-            const photographer = { photographer_netid, first_name, last_name, email, website_url, description, profile_pic, key};
+            const photographer = { photographer_netid, first_name, last_name, email, website_url, 
+                                   description, photography_checkbox, videography_checkbox, editing_checkbox, 
+                                   equipment, profile_pic, key};
             fetch('/api/createProfile', {
                 method: 'POST',
                 headers: {
@@ -256,18 +293,16 @@ class ProfileForm extends React.Component {
                 
                 <br/>
                 {/* This code is not working yet, need to upload file to firebase, and do what was done for gallery*/}
-                {/*<div className = "formFields"> */}
-                    <span style={{color: "red"}}>{this.state.errors["profile_picture"]}</span> 
-                    <span className = "formFields">Upload a Profile Picture:</span><span class="required">*</span>
-                    <br/>
-                    <input name = "newImage" type = "file" onChange = {this.storeProfPic}/>
-                    <br/>
-                    <br/>
-                    <img alt = "" src = {this.state.profPicUrl} className = "createGallery"/>
-                {/*</div>*/}      
+                <span style={{color: "red"}}>{this.state.errors["profile_picture"]} <br/> </span> 
+                <span className = "formFields">Upload a Profile Picture:</span><span class="required">*</span>
+                <br/>
+                <input name = "newImage" type = "file" onChange = {this.storeProfPic}/>
+                <br/>
+                <br/>
+                <img alt = "" src = {this.state.profPicUrl} className = "createGallery"/>
                     
                 <Form>
-                <span style={{color: "red"}}>{this.state.errors["first_name"]}</span>
+                <span style={{color: "red"}}>{this.state.errors["first_name"]} <br/> </span>
                 <span className = "formFields">First Name:</span><span class="required">*</span> 
                 <Form.Field>
                     <Input 
@@ -277,7 +312,7 @@ class ProfileForm extends React.Component {
                     />
                 </Form.Field>
                 <br/>
-                <span style={{color: "red"}}>{this.state.errors["last_name"]}</span>
+                <span style={{color: "red"}}>{this.state.errors["last_name"]} <br/> </span>
                 <span className = "formFields">Last Name:</span><span class="required">*</span>
                 <Form.Field>
                     <Input 
@@ -287,7 +322,7 @@ class ProfileForm extends React.Component {
                     />
                 </Form.Field>
                 <br/>
-                <span style={{color: "red"}}>{this.state.errors["email"]}</span>
+                <span style={{color: "red"}}>{this.state.errors["email"]} <br/> </span>
                 <span className = "formFields">Email:</span><span class="required">*</span>
                 <Form.Field>
                     <Input 
@@ -297,7 +332,7 @@ class ProfileForm extends React.Component {
                     />
                 </Form.Field>
                 <br/>
-                <span style={{color: "red"}}>{this.state.errors["website_url"]}</span>
+                <span style={{color: "red"}}>{this.state.errors["website_url"]} <br/> </span>
                 <div className = "formFields">Link Your Website:</div>
                 <Form.Field>
                     <Input 
@@ -307,35 +342,68 @@ class ProfileForm extends React.Component {
                     />
                 </Form.Field>
                 <br/>
-                <span style={{color: "red"}}>{this.state.errors["description"]}</span>
-                <span className = "formFields">Description about yourself:</span><span class="required">*</span>
+                <span style={{color: "red"}}>{this.state.errors["description"]} <br/> </span>
+                <span className = "formFields">Description about yourself (max 1000 characters):</span><span class="required">*</span>
                 <Form.Field>
                     <Form.TextArea 
                         maxLength="1000"
-                        placeholder="Description (max 1000 characters)" 
+                        placeholder="Description" 
                         value={this.state.fields["description"]} 
                         onChange={this.handleChange.bind(this, "description")}
                         rows={5}
                     />
                 </Form.Field> 
                 <br/>
-                <div className = "formFields">Upload photos from your portfolio to show of to potential clients:</div>    
-            </Form>
+
+                <span style={{color: "red"}}>{this.state.errors["expertise"]} <br/> </span>
+                <span className = "formFields">Area(s) of Expertise:</span><span class="required">*</span>
+                <Form.Field>
+                    <Checkbox label='Photography' 
+                            defaultChecked={this.setState.photography_checkbox} 
+                            onChange={() => this.setState({photography_checkbox:!this.state.photography_checkbox})}/>
+                    <br/>
+                    <Checkbox label='Videography' 
+                            defaultChecked={this.setState.videography_checkbox} 
+                            onChange={() => this.setState({videography_checkbox:!this.state.videography_checkbox})}/>
+                    <br/>
+                    <Checkbox label='Editing'
+                            defaultChecked={this.setState.editing_checkbox} 
+                            onChange={() => this.setState({editing_checkbox:!this.state.editing_checkbox})}/>
+                    <br/>
+                </Form.Field>
             
-            <input id="input" type="file" onChange={this.storePhoto}/>
-            <br/>
-            <div className = "createGalleryText">My Gallery</div>
-            <hr className = "createHR"/>
-            {this.state.portfolio.map((image) => 
-                <img alt = '' key = {image.url} name={image.key} className = "createGallery" src = {image.url} onClick = {(image) => this.deletePhoto(image)}/>)}
-            <br/>
-            <br/>
-            <Button color='blue' size='large'onClick={this.handleSubmit} className ="createSubmit">
-                Submit
-            </Button>
-            <br/>
-            <br/>
-        </div>
+                <span style={{color: "red"}}>{this.state.errors["equipment"]} <br/> </span>
+                <span className = "formFields">Please List Your Equipment/Software (max 250 characters):</span><span class="required">*</span>
+                <Form.Field>
+                    <Form.TextArea 
+                        maxLength="250"
+                        placeholder="I own a DSLR..." 
+                        value={this.state.fields["equipment"]} 
+                        onChange={this.handleChange.bind(this, "equipment")}
+                        rows={3}
+                    />
+                </Form.Field>
+
+                <br/>
+                <br/>
+
+                <div className = "formFields">Upload photos from your portfolio to show of to potential clients:</div>    
+                </Form>
+                
+                <input id="input" type="file" onChange={this.storePhoto}/>
+                <br/>
+                <div className = "createGalleryText">My Gallery</div>
+                <hr className = "createHR"/>
+                {this.state.portfolio.map((image) => 
+                    <img alt = '' key = {image.url} name={image.key} className = "createGallery" src = {image.url} onClick = {(image) => this.deletePhoto(image)}/>)}
+                <br/>
+                <br/>
+                <Button color='blue' size='large'onClick={this.handleSubmit} className ="createSubmit">
+                    Submit
+                </Button>
+                <br/>
+                <br/>
+            </div>
         )
     }
 }
