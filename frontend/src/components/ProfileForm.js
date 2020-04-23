@@ -256,18 +256,19 @@ class ProfileForm extends React.Component {
                 
                 <br/>
                 {/* This code is not working yet, need to upload file to firebase, and do what was done for gallery*/}
-                <div className = "formFields">
+                {/*<div className = "formFields"> */}
                     <span style={{color: "red"}}>{this.state.errors["profile_picture"]}</span> 
-                    <div>Upload a Profile Picture:<span class="required">*</span>   </div> 
+                    <span className = "formFields">Upload a Profile Picture:</span><span class="required">*</span>
+                    <br/>
                     <input name = "newImage" type = "file" onChange = {this.storeProfPic}/>
                     <br/>
                     <br/>
                     <img alt = "" src = {this.state.profPicUrl} className = "createGallery"/>
-                </div>               
+                {/*</div>*/}      
                     
                 <Form>
                 <span style={{color: "red"}}>{this.state.errors["first_name"]}</span>
-                <div className = "formFields">First Name:<span class="required">*</span> </div>
+                <span className = "formFields">First Name:</span><span class="required">*</span> 
                 <Form.Field>
                     <Input 
                         placeholder= "First Name"
@@ -277,7 +278,7 @@ class ProfileForm extends React.Component {
                 </Form.Field>
                 <br/>
                 <span style={{color: "red"}}>{this.state.errors["last_name"]}</span>
-                <div className = "formFields">Last Name:<span class="required">*</span></div>
+                <span className = "formFields">Last Name:</span><span class="required">*</span>
                 <Form.Field>
                     <Input 
                         placeholder="Last Name" 
@@ -287,7 +288,7 @@ class ProfileForm extends React.Component {
                 </Form.Field>
                 <br/>
                 <span style={{color: "red"}}>{this.state.errors["email"]}</span>
-                <div className = "formFields">Email:<span class="required">*</span></div>
+                <span className = "formFields">Email:</span><span class="required">*</span>
                 <Form.Field>
                     <Input 
                         placeholder="Email" 
@@ -307,7 +308,7 @@ class ProfileForm extends React.Component {
                 </Form.Field>
                 <br/>
                 <span style={{color: "red"}}>{this.state.errors["description"]}</span>
-                <div className = "formFields">Description about yourself:<span class="required">*</span></div>
+                <span className = "formFields">Description about yourself:</span><span class="required">*</span>
                 <Form.Field>
                     <Form.TextArea 
                         maxLength="1000"
