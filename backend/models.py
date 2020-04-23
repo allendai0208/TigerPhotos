@@ -18,7 +18,8 @@ class Photographers(db.Model):
     first_name = db.Column(db.String(64), index=True)
     last_name = db.Column(db.String(64), index=True)
     email = db.Column(db.String(120), index=True)
-    description = db.Column(db.String(300), index=True)
+    website_url = db.Column(db.String(120), index=True)
+    description = db.Column(db.String(750), index=True)
     profile_pic = db.Column(db.String(255), index=True)
     key = db.Column(db.String(255), index=True)
 
@@ -30,7 +31,7 @@ class Reviews(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_netid = db.Column(db.String(80), db.ForeignKey('users.netid'), index=True)
     photographer_netid = db.Column(db.String(80), db.ForeignKey('photographers.photographer_netid'), index=True)
-    review = db.Column(db.String(255), index=True)
+    review = db.Column(db.String(1000), index=True)
     rating = db.Column(db.Integer, index=True)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.now)
 

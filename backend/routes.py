@@ -164,6 +164,7 @@ def createProfile():
         first_name=photographer_data['first_name'], 
         last_name=photographer_data['last_name'],
         email=photographer_data['email'],
+        website_url=photographer_data['website_url'],
         description=photographer_data['description'],
         profile_pic = photographer_data['profile_pic'],
         key = photographer_data['key']

@@ -15,7 +15,7 @@ class ProfileForm extends React.Component {
         super(props)  
         this.state = {
             //Contains the information pertaining to the currently browsing photographer
-            fields: {first_name:"", last_name:"", email:"", description:"", profile_pic:"", key:""},
+            fields: {first_name:"", last_name:"", email:"", website_url:"", description:"", profile_pic:"", key:""},
             errors: {},
             redirect: false,
             // UploadModalShow: false,
@@ -106,6 +106,15 @@ class ProfileForm extends React.Component {
                 errors["email"] = "Email is not valid";
             }
         }
+
+        //Website Url
+        if(typeof fields["website_url"] !== "undefined"){
+            if(!fields["website_url"].match(/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/)){
+                formIsValid = false;
+                errors["website_url"] = "Enter a valid url";
+            }  
+        }
+
         // Description
         if(!fields["description"]){
             formIsValid = false;
@@ -204,10 +213,11 @@ class ProfileForm extends React.Component {
             const first_name = this.state.fields['first_name']
             const last_name = this.state.fields['last_name']
             const email = this.state.fields['email']
+            const website_url = this.state.fields['website_url']
             const description = this.state.fields['description']
             const profile_pic = this.state.profPicUrl
             const key = this.state.profPic
-            const photographer = { photographer_netid, first_name, last_name, email, description, profile_pic, key};
+            const photographer = { photographer_netid, first_name, last_name, email, website_url, description, profile_pic, key};
             fetch('/api/createProfile', {
                 method: 'POST',
                 headers: {
@@ -238,11 +248,17 @@ class ProfileForm extends React.Component {
         }
 
         return (
-            <div>
+            <div className = "profileFormMargins">
+
+                <div>
+                    <span class="required">*</span> = required field
+                </div>
+                
+                <br/>
                 {/* This code is not working yet, need to upload file to firebase, and do what was done for gallery*/}
                 <div className = "formFields">
                     <span style={{color: "red"}}>{this.state.errors["profile_picture"]}</span> 
-                    <div>Upload a Profile Picture:   </div> 
+                    <div>Upload a Profile Picture:<span class="required">*</span>   </div> 
                     <input name = "newImage" type = "file" onChange = {this.storeProfPic}/>
                     <br/>
                     <br/>
@@ -250,7 +266,8 @@ class ProfileForm extends React.Component {
                 </div>               
                     
                 <Form>
-                <div className = "formFields">First Name:</div>
+                <span style={{color: "red"}}>{this.state.errors["first_name"]}</span>
+                <div className = "formFields">First Name:<span class="required">*</span> </div>
                 <Form.Field>
                     <Input 
                         placeholder= "First Name"
@@ -260,7 +277,7 @@ class ProfileForm extends React.Component {
                 </Form.Field>
                 <br/>
                 <span style={{color: "red"}}>{this.state.errors["last_name"]}</span>
-                <div className = "formFields">Last Name:</div>
+                <div className = "formFields">Last Name:<span class="required">*</span></div>
                 <Form.Field>
                     <Input 
                         placeholder="Last Name" 
@@ -270,7 +287,7 @@ class ProfileForm extends React.Component {
                 </Form.Field>
                 <br/>
                 <span style={{color: "red"}}>{this.state.errors["email"]}</span>
-                <div className = "formFields">Email:</div>
+                <div className = "formFields">Email:<span class="required">*</span></div>
                 <Form.Field>
                     <Input 
                         placeholder="Email" 
@@ -279,17 +296,29 @@ class ProfileForm extends React.Component {
                     />
                 </Form.Field>
                 <br/>
-                <span style={{color: "red"}}>{this.state.errors["description"]}</span>
-                <div className = "formFields">Description about yourself:</div>
+                <span style={{color: "red"}}>{this.state.errors["website_url"]}</span>
+                <div className = "formFields">Link Your Website:</div>
                 <Form.Field>
                     <Input 
-                        placeholder="Description" 
-                        value={this.state.fields["description"]} 
-                        onChange={this.handleChange.bind(this, "description")}
+                        placeholder="Website URL" 
+                        value={this.state.fields["website_url"]}
+                        onChange={this.handleChange.bind(this, "website_url")}
                     />
                 </Form.Field>
                 <br/>
-                <div className = "formFields">Upload photos from your portfolio to show of to potential clients</div>
+                <span style={{color: "red"}}>{this.state.errors["description"]}</span>
+                <div className = "formFields">Description about yourself:<span class="required">*</span></div>
+                <Form.Field>
+                    <Form.TextArea 
+                        maxLength="1000"
+                        placeholder="Description (max 1000 characters)" 
+                        value={this.state.fields["description"]} 
+                        onChange={this.handleChange.bind(this, "description")}
+                        rows={5}
+                    />
+                </Form.Field> 
+                <br/>
+                <div className = "formFields">Upload photos from your portfolio to show of to potential clients:</div>    
             </Form>
             
             <input id="input" type="file" onChange={this.storePhoto}/>
