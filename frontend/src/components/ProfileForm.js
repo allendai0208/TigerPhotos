@@ -62,6 +62,7 @@ class ProfileForm extends React.Component {
             stateHasLoaded:true, 
             profPic:result.key, 
             profPicUrl:result.profile_pic}))
+        .then(console.log(this.state))
         .catch(e => console.log(e))
 
     }
