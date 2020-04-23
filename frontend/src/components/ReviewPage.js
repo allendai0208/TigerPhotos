@@ -20,7 +20,7 @@ export const ReviewPage = ({ reviews }) => {
                             <CardContent>
                                 <Typography  color="secondary">{review.user_netid}</Typography>
                                 <Rating icon="star" defaultRating={review.rating} maxRating={5} disabled />
-                                <Typography >{review.review}</Typography>
+                                <Typography style={{whiteSpace: 'pre-line'}}>{review.review}</Typography>
                                 {console.log(review)}
                                 <Typography style={{textAlign: 'right'}} color="secondary">{review.date}</Typography>
                             </CardContent>

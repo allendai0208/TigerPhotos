@@ -38,10 +38,14 @@ class ReviewForm extends React.Component {
         }
         if (this.props.current_review !== "" ) {
             this.setState({
-                review: this.props.current_review,
-                rating: this.props.current_rating
+                review: this.props.current_review
             })
             this.props.handler1(this.props.current_review)
+        }
+        if (this.props.current_rating !== 0) {
+            this.setState({
+                rating: this.props.current_rating
+            })
             this.props.handler2(this.props.current_rating)
         }
     }
@@ -139,6 +143,7 @@ class ReviewForm extends React.Component {
             show: false,
             message: 'Your review has been deleted.'
         })
+        window.location.reload()
     }
 
     // renders form with text input and rating, along with delete icon button 

@@ -16,7 +16,7 @@ class ActiveProfile extends React.Component{
         this.state = {
             page_id:0,
             current_review: "" ,
-            current_rating: 1,
+            current_rating: 0,
             loaded: false,
             switched: false
         }
@@ -31,7 +31,7 @@ class ActiveProfile extends React.Component{
         if(oldProps.selectedPhotographer !== newProps.selectedPhotographer) {
             console.log("here")
             console.log(this.state.current_review)
-            this.setState({page_id:0, loaded: false, current_review:""})
+            this.setState({page_id:0, loaded: false, current_review:"", current_rating: 0})
         }
     }
 
