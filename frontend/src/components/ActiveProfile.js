@@ -17,7 +17,8 @@ class ActiveProfile extends React.Component{
             page_id:0,
             current_review: "" ,
             current_rating: 1,
-            loaded: false
+            loaded: false,
+            switched: false
         }
         this.handleClick = this.handleClick.bind(this)
         this.handler = this.handler.bind(this)
@@ -25,10 +26,20 @@ class ActiveProfile extends React.Component{
         this.setReview = this.setReview.bind(this)
     }
 
+    componentWillReceiveProps(newProps) {
+        const oldProps = this.props
+        if(oldProps.selectedPhotographer !== newProps.selectedPhotographer) {
+            console.log("here")
+            console.log(this.state.current_review)
+            this.setState({page_id:0, loaded: false, current_review:""})
+        }
+    }
+
     // sets page_id to corresponding number when button is clicked
     handleClick(i) {
         this.setState({
-            page_id: i
+            page_id: i,
+            switched: false
         })
     }
 
@@ -66,11 +77,13 @@ class ActiveProfile extends React.Component{
                     <ActiveGallery urls = {this.props.selectedPhotographer.urls}/>
                 </div>
             )
+            
         }
         else if (this.state.page_id === 1) {
             page = (
                 <ReviewPage reviews={this.props.selectedPhotographer.reviews} />
             )
+            
         }
         else if (this.state.page_id === 2) {
             let old_review = this.props.selectedPhotographer.reviews.filter(d => d.user_netid === this.props.user_netid)[0]
@@ -83,11 +96,11 @@ class ActiveProfile extends React.Component{
                         current_rating={old_review["rating"]}
                         handler1={this.handler}
                         handler2={this.handler2}
-                        message='You are updating your previous review. Your old review will not be saved.'
                         oldReview={true}/>
                 )
                 this.setState({
-                    loaded: true
+                    loaded: true,
+                    
                 })
             }
             else {
@@ -101,6 +114,7 @@ class ActiveProfile extends React.Component{
                         handler2={this.handler2}
                         oldReview={this.state.loaded}/>
                 )
+                
             }
         }
         // renders the heading and about information when first loaded 

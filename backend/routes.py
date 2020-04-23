@@ -237,9 +237,10 @@ def createReview():
     print('rating:',review_info['rating'])
 
     # If the user already has a review for this photographer, delete the old review
-    review_exists = Reviews.query.filter_by(user_netid=review_info['user_netid']).all()    # Used as a bool
+    review_exists = Reviews.query.filter_by(user_netid=review_info['user_netid'],
+                                            photographer_netid=review_info['photographer_netid']).all()    # Used as a bool
     if len(review_exists) != 0:
-        Reviews.query.filter_by(user_netid=review_info['user_netid']).delete()    # Delete the old review
+        Reviews.query.filter_by(user_netid=review_info['user_netid'], photographer_netid=review_info['photographer_netid']).delete()    # Delete the old review
 
     new_review = Reviews(user_netid=review_info['user_netid'], 
                          photographer_netid=review_info['photographer_netid'], 

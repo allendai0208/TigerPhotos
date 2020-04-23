@@ -33,10 +33,10 @@ class ReviewForm extends React.Component {
         }
         if(this.props.oldReview === true) {
             this.setState({
-                message: "You are updating your previous review. Your old review will not be saved."
+                message: "You are updating your old review. Your old review will not be saved."
             })
         }
-        if (this.props.current_review !== "") {
+        if (this.props.current_review !== "" ) {
             this.setState({
                 review: this.props.current_review,
                 rating: this.props.current_rating
@@ -159,7 +159,7 @@ class ReviewForm extends React.Component {
                 <div style={{marginBottom: 5, color: "grey"}}>{this.state.message}</div>
                 <span style={{color: "red"}}>{this.state.errors["review"]}</span>
                 <Form.Field>
-                    <Form.TextArea 
+                    <Form.TextArea disabled={this.state.disabled}
                         className="reviewDescription"
                         placeholder="Write your review" 
                         value={this.state.review} 
@@ -169,7 +169,7 @@ class ReviewForm extends React.Component {
                 <Grid container className="reviewGrid">
                     <Grid item xs={11}>
                         <Form.Field>
-                            <Rating 
+                            <Rating disabled={this.state.disabled}
                                 icon="star"
                                 rating={this.state.rating}
                                 maxRating={5}

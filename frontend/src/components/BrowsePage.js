@@ -78,7 +78,7 @@ class BrowsePage extends React.Component {
           </div>
             <Col>
               {this.state.profileHasBeenClicked ? 
-                <ActiveProfile selectedPhotographer = {this.state.selectedPhotographer} user_netid = {this.props.netid}/> : 
+                <ActiveProfile selectedPhotographer = {this.state.selectedPhotographer} user_netid = {this.props.netid} /> : 
                 <DefaultActiveProfile/>}
             </Col>
         </Row>
