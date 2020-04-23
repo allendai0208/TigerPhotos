@@ -165,8 +165,9 @@ class ReviewForm extends React.Component {
                 <span style={{color: "red"}}>{this.state.errors["review"]}</span>
                 <Form.Field>
                     <Form.TextArea disabled={this.state.disabled}
+                        maxLength="750"
                         className="reviewDescription"
-                        placeholder="Write your review" 
+                        placeholder="Write your review (max 750 characters)" 
                         value={this.state.review} 
                         onChange={event => this.handleChange(event)}
                     />
