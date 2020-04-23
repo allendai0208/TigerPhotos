@@ -39,7 +39,8 @@ class App extends React.Component {
 
   state = {
     netid: null,
-    go_to_login: false
+    go_to_login: false,
+    review_added: false
   }
 
   // This method checks if the user is authenticated or not. 
@@ -123,6 +124,15 @@ class App extends React.Component {
 }
 
 export default App;
+
+/*  handler2 = {this.handler2.bind(this)} 
+  handler2(arg1) {
+    console.log("inside handler2")
+    this.setState({
+      review_added: arg1
+    })
+    console.log(arg1)
+  } */ 
 
 /*
   componentDidMount = () => {

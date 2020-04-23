@@ -76,14 +76,26 @@ def browse():
         for row in expertise_list:
             expertise.append(row.area)
 
+        review_list = Reviews.query.filter_by(photographer_netid = photographer.photographer_netid).all()
+        reviews = []
+
+        for row in review_list:
+            reviews.append({
+                'user_netid' : row.user_netid,
+                'review' : row.review,
+                'rating' : row.rating,
+                'date' : str(row.timestamp).split(' ')[0]
+            })
+
         photographers.append({
-            'photographer_netid': photographer.photographer_netid,
-            'first_name': photographer.first_name,
-            'last_name': photographer.last_name,
-            'email': photographer.email,
-            'description': photographer.description,
-            'profile_pic':photographer.profile_pic,
-            'urls': urls,
+            'photographer_netid' : photographer.photographer_netid,
+            'first_name' : photographer.first_name,
+            'last_name' : photographer.last_name,
+            'email' : photographer.email,
+            'description' : photographer.description,
+            'profile_pic' : photographer.profile_pic,
+            'urls' : urls,
+            'reviews' : reviews,
             'expertise': expertise
         })                                       
     return jsonify({'photographers':photographers})
@@ -221,14 +233,34 @@ def createPortfolio():
 @app.route('/api/createReview', methods=['POST'])
 def createReview():
 
-    review_data = request.get_json()
+    review_info = request.get_json(force=True)
+    print('REVIEW_INFO:',review_info)
+    print('rating:',review_info['rating'])
 
-    new_review = Reviews(netid=review_data['netid'], photographer_netid=review_data['photographer_netid'], description=review_data['description'], rating=review_data['rating'])
+    # If the user already has a review for this photographer, delete the old review
+    review_exists = Reviews.query.filter_by(user_netid=review_info['user_netid']).all()    # Used as a bool
+    if len(review_exists) != 0:
+        Reviews.query.filter_by(user_netid=review_info['user_netid']).delete()    # Delete the old review
+
+    new_review = Reviews(user_netid=review_info['user_netid'], 
+                         photographer_netid=review_info['photographer_netid'], 
+                         review=review_info['review'], 
+                         rating=review_info['rating'])
 
     db.session.add(new_review)
     db.session.commit()
         
     return 'Done', 201
+
+@app.route('/api/deleteReview', methods=['POST'])
+def deleteReview():
+
+    review_info = request.get_json(force=True)
+
+    Reviews.query.filter_by(user_netid=review_info['user_netid']).delete()
+    db.session.commit()
+
+    return 'Done', 201                   
 
 # route that retrieves the reviews of a given photographer (given their netid)
 @app.route('/api/getReviews')

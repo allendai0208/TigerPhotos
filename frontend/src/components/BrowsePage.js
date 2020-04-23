@@ -12,6 +12,7 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import ProfileCard from './ProfileCard'
 import ActiveProfile from './ActiveProfile.js'
+import DefaultActiveProfile from './DefaultActiveProfile.js'
 
 // This is commented out because it wasn't being used, whoever wrote this should check to see if we need it and if not we should delete it - Keith
 /*const styles = {
@@ -32,7 +33,7 @@ class BrowsePage extends React.Component {
   state = {
     photographers: [],
     selectedPhotographer: [],
-    profileHasBeenClicked: false
+    profileHasBeenClicked: false,
   }
 
   //Get all pertinent fields regarding all photographers
@@ -63,11 +64,10 @@ class BrowsePage extends React.Component {
   
   render() {
     let recentPhotographersMarkup = this.state.photographers ? (
-      this.state.photographers.map((photographer) => < ProfileCard photographer={photographer} handler = {this.handler} /> )
+      this.state.photographers.map((photographer) => < ProfileCard key={photographer.netid} photographer={photographer} handler = {this.handler} /> )
     ) : (
       <p>Loading...</p>
     )
-
     return (
       <Container fluid>
         <Row >
@@ -77,7 +77,9 @@ class BrowsePage extends React.Component {
             </Col>
           </div>
             <Col>
-              {this.state.profileHasBeenClicked ? <ActiveProfile selectedPhotographer = {this.state.selectedPhotographer} user_netid = {this.props.netid} /> : null}
+              {this.state.profileHasBeenClicked ? 
+                <ActiveProfile selectedPhotographer = {this.state.selectedPhotographer} user_netid = {this.props.netid}/> : 
+                <DefaultActiveProfile/>}
             </Col>
         </Row>
       </Container>
