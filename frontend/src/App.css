@@ -12,12 +12,27 @@ body{
   min-height: 100vh; min-width: 100vw;
 }
 
+.createGalleryText {
+  margin-top:20px;
+  font-size:35px;
+  color:gray;
+  font-family:"Roboto";
+  font-weight: bold;
+}
+
+.createHR {
+  margin-bottom:5px;
+}
+
 .createGallery {
   width: auto;
   height: 200px;
   margin-right:10px;
-  margin-bottom:5px;
-  margin-top:5px;
+  margin-bottom:10px;
+}
+
+.createSubmit {
+  margin-top:30px;
 }
 
 .formFields {

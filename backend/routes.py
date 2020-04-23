@@ -200,7 +200,6 @@ def getPortfolio():
 
     for picture in portfolio_list:
         portfolio.append({
-            'netid': photographer_netid,
             'picture': picture.picture,
             'key': picture.key
         })

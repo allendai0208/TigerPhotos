@@ -6,7 +6,7 @@ import React from 'react';
 import { Form, Input, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router';
 import {storage, fstore} from './firebase/config';
-import ReactAvatarEditor from 'react-avatar-editor'
+import AvatarEditor from 'react-avatar-editor'
 import Dropzone from 'react-dropzone'
 
 class ProfileForm extends React.Component {
@@ -15,12 +15,13 @@ class ProfileForm extends React.Component {
         super(props)  
         this.state = {
             //Contains the information pertaining to the currently browsing photographer
-            fields: {first_name:"", last_name:"", email:"", description:"", profile_pic:""},
+            fields: {first_name:"", last_name:"", email:"", description:"", profile_pic:"", key:""},
             errors: {},
             redirect: false,
             // UploadModalShow: false,
             // Profile picture of the currently browsing photographer - have this field to avoid nested state updates
-            image: null,
+            profPic: null,
+            profPicUrl: '',
             portfolio: [],
             netid:this.props.netid,
             stateHasLoaded: false
@@ -28,6 +29,7 @@ class ProfileForm extends React.Component {
         this.storePhoto = this.storePhoto.bind(this)
         this.deletePhoto = this.deletePhoto.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.storeProfPic = this.storeProfPic.bind(this)
     }
     
     // Get the pertinent information to the user when the component mounts to autofill the form fields with their information if possible
@@ -40,7 +42,13 @@ class ProfileForm extends React.Component {
             }, 
             body: JSON.stringify({photographer_netid:this.props.netid})
         }).then(response => response.json())
-        .then(result => this.setState({fields:result, image:result.profile_pic, portfolio:result.portfolio, stateHasLoaded:true}))
+        .then(result => this.setState({
+            fields:result, 
+            image:result.profile_pic, 
+            portfolio:result.portfolio, 
+            stateHasLoaded:true, 
+            profPic:result.key, 
+            profPicUrl:result.profile_pic}))
         .catch(e => console.log(e))
 
     }
@@ -50,6 +58,12 @@ class ProfileForm extends React.Component {
         let fields = this.state.fields;
         let errors = {};
         let formIsValid = true;
+
+        //Profile pic is required
+        if (this.state.profPic === "") {
+            formIsValid = false
+            errors["profile_picture"] = "Profile Picture is required"
+        }
 
         //First Name
         if(!fields["first_name"]){
@@ -110,6 +124,8 @@ class ProfileForm extends React.Component {
     handleNewImage(e) {
         this.setState({image:e.target.files[0]})
         console.log(this.state.image)
+        console.log(e.target.files[0])
+
     }
 
     // Called when any of the text fields are edited
@@ -119,6 +135,26 @@ class ProfileForm extends React.Component {
         this.setState({fields});
     }
 
+    storeProfPic(e) {
+        
+        const key = e.target.files[0].name
+        const img = storage.ref(`imagesxoy/${key}`)
+        img.put(e.target.files[0]).then((snap) => {
+            storage.ref(`imagesxoy`).child(key).getDownloadURL().then(url => {
+            const image = {key, url};
+            fstore.collection(this.state.netid).doc(key).set(image)
+            this.setState({profPic:key, profPicUrl:url})
+            })
+        }, 
+        (error) => {    
+          // error function ....
+          console.log(error);
+        },
+        () => {
+        } );
+
+
+    }
     storePhoto(e) {/* storage.ref('images').child(files.item(i).name).getDownloadURL().then(url => {
         console.log(url);
         const isUploading = false;
@@ -137,7 +173,6 @@ class ProfileForm extends React.Component {
           portfolio.push({
             key: key,
             url: url,
-            netid:this.props.netid
           })
           this.setState({portfolio})
           })
@@ -170,8 +205,8 @@ class ProfileForm extends React.Component {
             const last_name = this.state.fields['last_name']
             const email = this.state.fields['email']
             const description = this.state.fields['description']
-            const profile_pic = this.state.image
-            const key = ""
+            const profile_pic = this.state.profPicUrl
+            const key = this.state.profPic
             const photographer = { photographer_netid, first_name, last_name, email, description, profile_pic, key};
             fetch('/api/createProfile', {
                 method: 'POST',
@@ -206,32 +241,15 @@ class ProfileForm extends React.Component {
             <div>
                 {/* This code is not working yet, need to upload file to firebase, and do what was done for gallery*/}
                 <div className = "formFields">
-                    Upload a Profile Picture:   
-                    <input name = "newImage" type = "file" onChange = {(e) => this.handleNewImage(e)}/>
-                </div>
-                
-                {/* This code shows the Dropzone, sets image field in state when image is dropped */} 
-                {/* This code is currently broken, uncommenting it will give infinite loop error*/}
-                {/*<Dropzone
-                    onDrop={this.handleDrop}
-                    noClick
-                    noKeyboard
-                    style={{ width: '250px', height: '250px' }}
-                    >
-                    {({ getRootProps, getInputProps }) => (
-                        <div {...getRootProps()}>
-                        <ReactAvatarEditor width={250} height={250} image={this.state.image} />
-                        <input {...getInputProps()} />
-                        </div>
-                    )}
-                    
-                </Dropzone>
-                <br/>
-                */}
-                
+                    <span style={{color: "red"}}>{this.state.errors["profile_picture"]}</span> 
+                    <div>Upload a Profile Picture:   </div> 
+                    <input name = "newImage" type = "file" onChange = {this.storeProfPic}/>
+                    <br/>
+                    <br/>
+                    <img alt = "" src = {this.state.profPicUrl} className = "createGallery"/>
+                </div>               
                     
                 <Form>
-                <span style={{color: "red"}}>{this.state.errors["first_name"]}</span> 
                 <div className = "formFields">First Name:</div>
                 <Form.Field>
                     <Input 
@@ -272,22 +290,21 @@ class ProfileForm extends React.Component {
                 </Form.Field>
                 <br/>
                 <div className = "formFields">Upload photos from your portfolio to show of to potential clients</div>
-                {/*<Form.Field>
-                    <NewUpload netid={this.props.netid} handler = {this.handleSubmit.bind(this)}/>
-                <UploadModal netid = {this.props.netid} show = {this.state.UploadModalShow} onHide = {this.handleClose.bind(this)}/>
-                </Form.Field>
-                */}
             </Form>
             
             <input id="input" type="file" onChange={this.storePhoto}/>
             <br/>
+            <div className = "createGalleryText">My Gallery</div>
+            <hr className = "createHR"/>
             {this.state.portfolio.map((image) => 
                 <img alt = '' key = {image.url} name={image.key} className = "createGallery" src = {image.url} onClick = {(image) => this.deletePhoto(image)}/>)}
             <br/>
-            <Button color='blue' size='large'onClick={this.handleSubmit}>
+            <br/>
+            <Button color='blue' size='large'onClick={this.handleSubmit} className ="createSubmit">
                 Submit
             </Button>
-
+            <br/>
+            <br/>
         </div>
         )
     }
