@@ -24,6 +24,11 @@ body{
   margin-bottom:5px;
 }
 
+.createGallery:hover {
+  opacity:0.4;
+  transition: 0.5s ease;
+}
+
 .createGallery {
   width: auto;
   height: 200px;

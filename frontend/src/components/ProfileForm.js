@@ -62,7 +62,6 @@ class ProfileForm extends React.Component {
             stateHasLoaded:true, 
             profPic:result.key, 
             profPicUrl:result.profile_pic}))
-        .then(console.log(this.state))
         .catch(e => console.log(e))
 
     }
@@ -396,9 +395,11 @@ class ProfileForm extends React.Component {
                 <div className = "createGalleryText">My Gallery</div>
                 <hr className = "createHR"/>
                 {this.state.portfolio.map((image) => 
-                    <img alt = '' key = {image.url} name={image.key} className = "createGallery" src = {image.url} onClick = {(image) => this.deletePhoto(image)}/>)}
+                        <img alt = '' key = {image.url} name={image.key} className = "createGallery" src = {image.url} onClick = {(image) => this.deletePhoto(image)}/>
+                    )}
                 <br/>
                 <br/>
+                <p className = "formFields">Click on an image to remove it from your portfolio.</p>
                 <Button color='blue' size='large'onClick={this.handleSubmit} className ="createSubmit">
                     Submit
                 </Button>
