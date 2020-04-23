@@ -7,13 +7,22 @@ import {Rating} from 'semantic-ui-react'
 
 // This component renders cards that contain the reviews for the selected photographer 
 
+
 export const ReviewPage = ({ reviews }) => {
-    return(
-        <div> 
-            <Typography variant="h5" gutterBottom style={{paddingTop: 10}}>
-                Reviews
-            </Typography>
-                
+    const show = reviews.length 
+    if(show === 0) {
+        return(
+            <div style={{marginTop: 25}}>
+                <Typography style={{fontSize: 20, color:'gray'}}> No Reviews Yet</Typography>
+            </div>
+        )
+    }
+    else {
+        return(
+            <div> 
+                <Typography variant="h5" gutterBottom style={{paddingTop: 10}}>
+                    Reviews
+                </Typography>
                 {reviews.map(review => {
                     return (
                         <Card variant="outlined" style={{width: "75%", marginBottom: 10}}>
@@ -26,9 +35,8 @@ export const ReviewPage = ({ reviews }) => {
                             </CardContent>
                         </Card>
                     );
-                })}
-                
-            
-        </div>
-    );
+                })}    
+            </div>
+        )
+    }
 };
