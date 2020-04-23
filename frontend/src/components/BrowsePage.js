@@ -64,12 +64,10 @@ class BrowsePage extends React.Component {
   
   render() {
     let recentPhotographersMarkup = this.state.photographers ? (
-      this.state.photographers.map((photographer) => < ProfileCard photographer={photographer} handler = {this.handler} /> )
+      this.state.photographers.map((photographer) => < ProfileCard key={photographer.netid} photographer={photographer} handler = {this.handler} /> )
     ) : (
       <p>Loading...</p>
     )
-    console.log(this.state.photographers)
-    console.log("review added" + this.state.review_added)
     return (
       <Container fluid>
         <Row >

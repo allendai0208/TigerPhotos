@@ -43,7 +43,7 @@ class ProfileCard extends React.Component {
                 <ButtonBase onClick = {() => this.props.handler(this.props.photographer, true)}>
                 <Card className={classes.card} variant="outlined">
                 <CardMedia image={profile_pic} title = "Profile image" className={classes.image} />
-                        <CardContent class={classes.content}>
+                        <CardContent className={classes.content}>
                             <Typography variant="h5" style = {{color:"orange"}}>
                                 {first_name+" "+last_name}
                             </Typography>

@@ -5,7 +5,7 @@ import ActiveGallery from './ActiveGallery'
 import Divider from '@material-ui/core/Divider'
 import Button from '@material-ui/core/Button'
 import ReviewForm from './ReviewForm'
-import {BrowseBar} from './BrowseBar'
+import {ReviewPage} from './ReviewPage'
 
 class ActiveProfile extends React.Component{
 
@@ -69,13 +69,12 @@ class ActiveProfile extends React.Component{
         }
         else if (this.state.page_id === 1) {
             page = (
-                <BrowseBar reviews={this.props.selectedPhotographer.reviews} />
+                <ReviewPage reviews={this.props.selectedPhotographer.reviews} />
             )
         }
         else if (this.state.page_id === 2) {
             let old_review = this.props.selectedPhotographer.reviews.filter(d => d.user_netid === this.props.user_netid)[0]
             if(old_review !== undefined && this.state.loaded === false) {
-                console.log("here")
                 page = (
                     <ReviewForm 
                         photographer_netid={this.props.selectedPhotographer.photographer_netid} 
@@ -84,7 +83,8 @@ class ActiveProfile extends React.Component{
                         current_rating={old_review["rating"]}
                         handler1={this.handler}
                         handler2={this.handler2}
-                        message='You are updating your previous review. Your old review will not be saved.'/>
+                        message='You are updating your previous review. Your old review will not be saved.'
+                        oldReview={true}/>
                 )
                 this.setState({
                     loaded: true
@@ -98,7 +98,8 @@ class ActiveProfile extends React.Component{
                         current_review={this.state.current_review} 
                         current_rating={this.state.current_rating}
                         handler1={this.handler}
-                        handler2={this.handler2}/>
+                        handler2={this.handler2}
+                        oldReview={this.state.loaded}/>
                 )
             }
         }
