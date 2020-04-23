@@ -13,12 +13,11 @@ body{
 }
 
 .createGallery {
-  height:200px;
-  width:200px;
-  overflow:hidden;
-  display:inline-block;
-  background-position: center center;
-  margin:5px;
+  width: auto;
+  height: 200px;
+  margin-right:10px;
+  margin-bottom:5px;
+  margin-top:5px;
 }
 
 .formFields {

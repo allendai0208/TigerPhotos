@@ -199,7 +199,7 @@ def getPortfolio():
 def createPortfolio():
 
     portfolio_data = request.get_json()
-    netid = portfolio_data[0]["netid"]
+    netid = portfolio_data["netid"]
 
     photographer_portfolio = Portfolio.query.filter_by(netid = netid).all()
 
@@ -208,7 +208,7 @@ def createPortfolio():
             db.session.delete(row)
             db.session.commit()
 
-    for row in portfolio_data:
+    for row in portfolio_data["portfolio"]:
 
         new_picture = Portfolio(netid=netid, picture=row['url'], key=row['key'])
 

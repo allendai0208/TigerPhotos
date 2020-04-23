@@ -17,7 +17,7 @@ class Photographers(db.Model):
     photographer_netid = db.Column(db.String, index=True, unique=True)
     first_name = db.Column(db.String(64), index=True)
     last_name = db.Column(db.String(64), index=True)
-    email = db.Column(db.String(120), index=True, unique=True)
+    email = db.Column(db.String(120), index=True)
     description = db.Column(db.String(300), index=True)
     profile_pic = db.Column(db.String(255), index=True)
     key = db.Column(db.String(255), index=True)
@@ -40,7 +40,7 @@ class Reviews(db.Model):
 class Equipment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     netid = db.Column(db.String(80), db.ForeignKey('photographers.photographer_netid'), index=True)
-    equip = db.Column(db.String(80), unique=True, index=True)
+    equip = db.Column(db.String(80), index=True)
     
     def __repr__(self):
         return 'Equipment {} {}>'.format(self.netid, self.equip)
@@ -58,8 +58,8 @@ class Expertise(db.Model):
 class Portfolio(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     netid = db.Column(db.String(80), db.ForeignKey('photographers.photographer_netid'), index=True)
-    picture = db.Column(db.String(255), index=True, unique=True)
-    key = db.Column(db.String(255), index=True, unique=True)
+    picture = db.Column(db.String(255), index=True)
+    key = db.Column(db.String(255), index=True)
 
     def __repr__(self):
         return 'Portfolio {} {}>'.format(self.netid, self.picture)

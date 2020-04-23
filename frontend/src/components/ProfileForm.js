@@ -41,7 +41,6 @@ class ProfileForm extends React.Component {
             body: JSON.stringify({photographer_netid:this.props.netid})
         }).then(response => response.json())
         .then(result => this.setState({fields:result, image:result.profile_pic, portfolio:result.portfolio, stateHasLoaded:true}))
-        .then(console.log("hi", this.state))
         .catch(e => console.log(e))
 
     }
@@ -70,23 +69,21 @@ class ProfileForm extends React.Component {
         this.setState({isUploading})
         //const image = {url: url, added: new Date()}
         //fstore.collection(this.props.netid).add(image).then(res =>{});*/
-        console.log(e.target.files[0])
-        console.log(URL.createObjectURL(e.target.files[0]))
+        //console.log(e.target.files[0])
+        //console.log(URL.createObjectURL(e.target.files[0]))
         const key = e.target.files[0].name
         const img = storage.ref(`imagesxoy/${key}`)
         img.put(e.target.files[0]).then((snap) => {
           storage.ref(`imagesxoy`).child(key).getDownloadURL().then(url => {
           const image = {key, url};
           fstore.collection(this.state.netid).doc(key).set(image)
-          console.log(this.state.portfolio)
           let portfolio = this.state.portfolio.slice()
           portfolio.push({
             key: key,
             url: url,
-            netid: this.props.netid
+            netid:this.props.netid
           })
           this.setState({portfolio})
-          console.log(this.state.portfolio)
           })
         }, 
         (error) => {    
@@ -98,14 +95,12 @@ class ProfileForm extends React.Component {
     }
     
     deletePhoto(event) {
-        let uid = this.state.netid
         let current_image_name = event.target.name
-        console.log(event.target.name)
         storage.ref(`imagesxoy`).child(current_image_name).delete()
-        let images = this.state.images.filter((imag) => {
-            return imag.key != current_image_name
+        let images = this.state.portfolio.filter((imag) => {
+            return imag.key !== current_image_name
         })
-        this.setState({images})
+        this.setState({portfolio:images})
     }
 
     // Called when submit button is pressed. This will get all the information in the fields from state, and the portfolio from state as well
@@ -132,7 +127,7 @@ class ProfileForm extends React.Component {
             headers: {
                 'Content-Type': 'application/json'
             }, 
-            body: JSON.stringify(this.state.portfolio)
+            body: JSON.stringify({netid:this.state.netid, portfolio:this.state.portfolio})
         });
         this.setState({redirect: true})
     }
@@ -228,7 +223,7 @@ class ProfileForm extends React.Component {
             <input id="input" type="file" onChange={this.storePhoto}/>
             <br/>
             {this.state.portfolio.map((image) => 
-                <div key={image.key} className = "createGallery" style={{backgroundImage:'url('+image.url +')'}}/>)}
+                <img alt = '' key = {image.url} name={image.key} className = "createGallery" src = {image.url} onClick = {(image) => this.deletePhoto(image)}/>)}
             <br/>
             <Button color='blue' size='large'onClick={this.handleSubmit}>
                 Submit
