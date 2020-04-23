@@ -192,7 +192,12 @@ def createProfile():
         photographer.first_name = photographer_data['first_name']
         photographer.last_name = photographer_data['last_name']
         photographer.email = photographer_data['email']
+        photographer.website_url = photographer_data['website_url']
         photographer.description = photographer_data['description']
+        photographer.photography_checkbox = photographer_data['photography_checkbox']
+        photographer.videography_checkbox = photographer_data['videography_checkbox']
+        photographer.editing_checkbox = photographer_data['editing_checkbox']
+        photographer.equipment = photographer_data['equipment']
         photographer.profile_pic = photographer_data['profile_pic']
         photographer.key = photographer_data['key']
 
