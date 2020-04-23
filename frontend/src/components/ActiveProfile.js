@@ -18,7 +18,8 @@ class ActiveProfile extends React.Component{
             current_review: "" ,
             current_rating: 0,
             loaded: false,
-            switched: false
+            switched: false,
+            selectedPhotographer: this.props.selectedPhotographer
         }
         this.handleClick = this.handleClick.bind(this)
         this.handler = this.handler.bind(this)
@@ -26,14 +27,26 @@ class ActiveProfile extends React.Component{
         this.setReview = this.setReview.bind(this)
     }
 
-    componentWillReceiveProps(newProps) {
-        const oldProps = this.props
-        if(oldProps.selectedPhotographer !== newProps.selectedPhotographer) {
-            console.log("here")
-            console.log(this.state.current_review)
-            this.setState({page_id:0, loaded: false, current_review:"", current_rating: 0})
+     
+ 
+
+     static getDerivedStateFromProps(nextProps, prevState) {
+        if(nextProps.selectedPhotographer !== prevState.selectedPhotographer ) {
+            console.log("changed")
+            console.log(nextProps.selectedPhotographer)
+            console.log(prevState.selectedPhotographer)
+          return {selectedPhotographer: nextProps.selectedPhotographer, page_id: 0, loaded: false, current_review: "", current_rating: 0};
         }
-    }
+      }
+
+    //componentWillReceiveProps(newProps) {
+    //    const oldProps = this.props
+    //    if(oldProps.selectedPhotographer !== newProps.selectedPhotographer) {
+    //        console.log("here")
+    //        console.log(this.state.current_review)
+    //        this.setState({page_id:0, loaded: false, current_review:"", current_rating: 0})
+    //    }
+    //}
 
     // sets page_id to corresponding number when button is clicked
     handleClick(i) {
