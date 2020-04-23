@@ -5,6 +5,7 @@ import ActiveGallery from './ActiveGallery'
 import Divider from '@material-ui/core/Divider'
 import Button from '@material-ui/core/Button'
 import ReviewForm from './ReviewForm'
+import {ReviewPage} from './ReviewPage'
 
 class ActiveProfile extends React.Component{
 
@@ -13,18 +14,45 @@ class ActiveProfile extends React.Component{
 
         // if 0 displays about, if 1 displays reviews, if 2 displays write review, if 3 displays contact
         this.state = {
-            page_id:0
+            page_id:0,
+            current_review: "" ,
+            current_rating: 1,
+            loaded: false
         }
         this.handleClick = this.handleClick.bind(this)
-
+        this.handler = this.handler.bind(this)
+        this.handler2 = this.handler2.bind(this)
+        this.setReview = this.setReview.bind(this)
     }
 
+    // sets page_id to corresponding number when button is clicked
     handleClick(i) {
         this.setState({
             page_id: i
         })
-        console.log("this is the state" + this.state.page_id)
-        console.log(i)
+    }
+
+    // used so review is saved when user navigates using buttons
+    handler(arg1) {
+        this.setState({
+          current_review:arg1
+        })
+    }
+
+    // used so rating is saved when user navigates using buttons
+    handler2(arg1) {
+        this.setState({
+          current_rating: arg1
+        })
+    }
+
+    // if netid has a review for selected photographer, preloads it into the state to pass to ReviewForm
+    setReview = (old_review) => {
+        this.setState({
+            current_review: old_review["review"],
+            current_rating: old_review["rating"],
+            loaded: true
+        })   
     }
 
     render() {
@@ -41,16 +69,41 @@ class ActiveProfile extends React.Component{
         }
         else if (this.state.page_id === 1) {
             page = (
-                <div>hi</div>
+                <ReviewPage reviews={this.props.selectedPhotographer.reviews} />
             )
         }
         else if (this.state.page_id === 2) {
-            console.log("user netid is " + this.props.user_netid)
-            page = (
-                <ReviewForm photo_netid={this.props.selectedPhotographer.photographer_netid} user_netid = {this.props.user_netid}/>
-            )
+            let old_review = this.props.selectedPhotographer.reviews.filter(d => d.user_netid === this.props.user_netid)[0]
+            if(old_review !== undefined && this.state.loaded === false) {
+                page = (
+                    <ReviewForm 
+                        photographer_netid={this.props.selectedPhotographer.photographer_netid} 
+                        user_netid={this.props.user_netid} 
+                        current_review={old_review["review"]}
+                        current_rating={old_review["rating"]}
+                        handler1={this.handler}
+                        handler2={this.handler2}
+                        message='You are updating your previous review. Your old review will not be saved.'
+                        oldReview={true}/>
+                )
+                this.setState({
+                    loaded: true
+                })
+            }
+            else {
+                page = (
+                    <ReviewForm 
+                        photographer_netid={this.props.selectedPhotographer.photographer_netid} 
+                        user_netid={this.props.user_netid} 
+                        current_review={this.state.current_review} 
+                        current_rating={this.state.current_rating}
+                        handler1={this.handler}
+                        handler2={this.handler2}
+                        oldReview={this.state.loaded}/>
+                )
+            }
         }
-
+        // renders the heading and about information when first loaded 
         return (
             <div>
                 <div className="browse_header">
@@ -63,14 +116,29 @@ class ActiveProfile extends React.Component{
                     <Button color="secondary" onClick={() => this.handleClick(3)}>Contact</Button>
                     <Divider/>
                 </div>
-            {page}
-
+                {page}
             </div>
         )
     }
 }
 
 export default ActiveProfile
+
+
+/*             if (old_review !== undefined && this.state.loaded === false) {
+                console.log(old_review["review"])
+                console.log(old_review["rating"])
+                this.setReview(old_review)
+            }
+            page = (
+                <ReviewForm 
+                    photographer_netid={this.props.selectedPhotographer.photographer_netid} 
+                    user_netid={this.props.user_netid} 
+                    current_review={this.state.current_review} 
+                    current_rating={this.state.current_rating}
+                    handler1={this.handler}
+                    handler2={this.handler2}/>
+            ) */ 
 
 /*                 <Typography variant="h5"> 
                     {this.props.selectedPhotographer.email}

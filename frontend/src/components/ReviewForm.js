@@ -1,140 +1,202 @@
+import React from 'react';
+import { Form, Rating, Button, Modal } from 'semantic-ui-react';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
 
-import React, {useState} from 'react';
-import { Form, Input, Rating, Button } from 'semantic-ui-react';
-import {TextArea} from 'semantic-ui-react';
+// Form for users to leave reviews on selected photographers 
 
 class ReviewForm extends React.Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            description: "",
-            rating: 1
+            review: "",
+            rating: 0,
+            errors: {},
+            message: "",
+            show: false,
+            disabled: false
+        }
+    } 
+
+    // If the user has a review in the database for this photographer, updates message to let them know they are editting and 
+    // prefills review with their old one
+    // If user has started writing a review and navigated away, prefills review with what they originally had
+    componentDidMount() {
+        if(this.props.user_netid === this.props.photographer_netid) {
+            this.setState({
+                disabled: true,
+                message: "Sorry! You cannot leave a review for yourself."
+            })
+        }
+        if(this.props.oldReview === true) {
+            this.setState({
+                message: "You are updating your previous review. Your old review will not be saved."
+            })
+        }
+        if (this.props.current_review !== "") {
+            this.setState({
+                review: this.props.current_review,
+                rating: this.props.current_rating
+            })
+            this.props.handler1(this.props.current_review)
+            this.props.handler2(this.props.current_rating)
         }
     }
 
-    handleSubmit() {
-        const user_netid = this.props.user_netid
-        const photo_netid = this.props.photo_netid
-        const photo_description = this.props.description
-        const photo_review = this.props.review
-        console.log(photo_netid)
-        console.log(user_netid)
-        const review = { user_netid, photo_netid, photo_description, photo_review };
-        fetch('/api/add_review', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }, 
-            body: JSON.stringify(review)
-        });
+    // ensures text area isn't empty upon submission
+    handleValidation() {
+        let formIsValid = true; 
+        let errors={}
+        const review = this.state.review
+
+        if(!review) {
+            formIsValid = false
+            errors["review"] = "Cannot be empty"
+        }
+
+        this.setState({errors:errors})
+        return formIsValid 
     }
 
+    // when submit is clicked, handles validation and deletes old review if there is one and adds new one to database 
+    handleSubmit() {
+        if(this.handleValidation()) {
+            const user_netid = this.props.user_netid
+            const photographer_netid = this.props.photographer_netid
+            const review = this.state.review
+            const rating = this.state.rating
+            fetch("/api/createReview", {
+                method: "POST",
+                headers: {
+                  "content_type":"application/json"
+                },
+                body: JSON.stringify({user_netid : user_netid,
+                                      photographer_netid : photographer_netid,
+                                      review : review,
+                                      rating : rating})
+            }).then (
+                window.location.reload()
+            )
+            .catch(function(error) {
+                console.log(error)
+             });
+             this.setState({
+                review: ""
+            })
+            
+        }
+    }
+
+    // when text area is changed, sends the data to parent, ActiveProfile so it will be saved if user navigates away 
+    handleChange(event) {
+        this.setState({
+            review: event.target.value
+        })
+        this.props.handler1(event.target.value)
+    }
+
+    // does the same for rating
+    handleRate(_, data) {
+        this.setState({
+            rating: data.rating
+        })
+        this.props.handler2(data.rating)
+    }
+
+    // shows modal when delete icon is clicked 
+    showModal() {
+        console.log("changing")
+        this.setState({
+            show: true
+        })
+    }
+
+    // if delete icon is clicked, deletes old review from database and updates message for user 
+    handleDelete() {
+        const user_netid = this.props.user_netid
+        const photographer_netid = this.props.photographer_netid
+        const review = this.state.review
+        const rating = this.state.rating
+        fetch("/api/deleteReview", {
+            method: "POST",
+            headers: {
+              "content_type":"application/json"
+            },
+            body: JSON.stringify({user_netid : user_netid,
+                                  photographer_netid : photographer_netid,
+                                  review : review,
+                                  rating : rating})
+        })
+        .catch(function(error) {
+            console.log(error)
+         });
+         this.setState({
+            review: "",
+            rating: 0,
+            show: false,
+            message: 'Your review has been deleted.'
+        })
+    }
+
+    // renders form with text input and rating, along with delete icon button 
     render() {
         return (
+            <div>
+                <Modal className="deleteModal" size='small' open={this.state.show} onHide={() => this.setState({show: false})}>
+                    <Modal.Header>
+                            Confirm Deletion
+                    </Modal.Header>
+                    <Modal.Content>Are you sure you want to delete your review?</Modal.Content>
+                    <Modal.Actions>
+                        <Button negative onClick={() => this.setState({show: false})}>no</Button>
+                        <Button positive onClick={this.handleDelete.bind(this)}>yes</Button>
+                    </Modal.Actions>
+                </Modal>
             <Form className="reviewForm">
+                <div style={{marginBottom: 5, color: "grey"}}>{this.state.message}</div>
+                <span style={{color: "red"}}>{this.state.errors["review"]}</span>
                 <Form.Field>
-                    <TextArea 
+                    <Form.TextArea 
                         className="reviewDescription"
                         placeholder="Write your review" 
-                        value={this.state.description} 
-                        onChange={event => this.setState({ description: event.target.value })}
+                        value={this.state.review} 
+                        onChange={event => this.handleChange(event)}
                     />
-                </Form.Field>
+                </Form.Field> 
+                <Grid container className="reviewGrid">
+                    <Grid item xs={11}>
+                        <Form.Field>
+                            <Rating 
+                                icon="star"
+                                rating={this.state.rating}
+                                maxRating={5}
+                                onRate={(_, data) => this.handleRate(_, data)}
+                            />
+                        </Form.Field>
+                    </Grid>
+                    <Grid item xs={1}>
+                        <Form.Field>
+                            <Tooltip title="Delete">
+                                <IconButton aria-label="delete review" onClick={this.showModal.bind(this)}>
+                                    <DeleteIcon />
+                                </IconButton>
+                            </Tooltip>
+                        </Form.Field>
+                    </Grid>
+                </Grid>
                 <Form.Field>
-                    <Rating 
-                        icon="star"
-                        rating={this.state.rating}
-                        maxRating={5}
-                        onRate={(_, data) => this.setState({ rating: data.rating })}
-                    />
-                </Form.Field>
-                <Form.Field>
-                    <Button onClick={this.handleSubmit.bind(this)}
-                        onClick={ async () => {
-                            const user_netid = this.props.user_netid
-                            const photo_netid = this.props.photo_netid
-                            const photo_description = this.props.description
-                            const photo_review = this.props.review
-                            console.log(photo_netid)
-                            console.log(user_netid)
-                            const review = { user_netid, photo_netid, photo_description, photo_review };
-                            const response = await fetch('/api/add_review', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                }, 
-                                body: JSON.stringify(review)
-                            });
-                        
-                        }}
-                    >
+                    <Button disabled={this.state.disabled} onClick={this.handleSubmit.bind(this)}>
                         submit
                     </Button>
                 </Form.Field>
             </Form>
-
+            </div>
         )
     }
-
 }
 
 export default ReviewForm
 
-/*export const ReviewForm = ({props, onNewReview}) => {
-    const[netid, setNetid] = useState('');
-    const[photographer_netid, setPhotographer] = useState('');
-    const[description, setDescription] = useState('');
-    const[rating, setRating] = useState(1);
-
-    const photo_netid = this.props.photographer_netid
-    const user_netid = this.props.netid
-
-    return (
-        <Form className="reviewForm">
-            <Form.Field>
-                <TextArea 
-                    className="reviewDescription"
-                    placeholder="Write your review" 
-                    value={this.state.description} 
-                    onChange={event => this.setState({ description: event.target.value })}
-                />
-            </Form.Field>
-            <Form.Field>
-                <Rating 
-                    icon="star"
-                    rating={this.state.rating}
-                    maxRating={5}
-                    onRate={(_, data) => this.setState({ rating: data.rating })}
-                />
-            </Form.Field>
-            <Form.Field>
-                <Button 
-                    onClick={ async () => {
-                        console.log(photo_netid)
-                        console.log(user_netid)
-                        const review = { user_netid, photo_netid, description, rating };
-                        const response = await fetch('/api/add_review', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            }, 
-                            body: JSON.stringify(review)
-                        });
-                    
-                        if (response.ok) {
-                            console.log('response worked');
-                            this.props.onNewReview(review);
-                            setNetid('');
-                            setPhotographer('');
-                            setDescription('');
-                            setRating(1);
-                        }
-                    }}
-                >
-                    submit
-                </Button>
-            </Form.Field>
-        </Form>
-        );
-    }; */ 
