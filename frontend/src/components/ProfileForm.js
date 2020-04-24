@@ -275,7 +275,7 @@ class ProfileForm extends React.Component {
 
     // The actual rendering of the form. Use the state which has stored the current photographer's information to autofill the fields
     render(){
-
+        console.log(this.state.photography_checkbox)
         // Calling render() without loading info into state will cause error, therefore do this if statement to catch
         if(this.state.hasLoaded === false) return null
 
@@ -359,15 +359,15 @@ class ProfileForm extends React.Component {
                 <span className = "formFields">Area(s) of Expertise:</span><span class="required">*</span>
                 <Form.Field>
                     <Checkbox label='Photography' 
-                            defaultChecked={this.setState.photography_checkbox} 
+                            checked={this.state.photography_checkbox} 
                             onChange={() => this.setState({photography_checkbox:!this.state.photography_checkbox})}/>
                     <br/>
                     <Checkbox label='Videography' 
-                            defaultChecked={this.setState.videography_checkbox} 
+                            checked={this.state.videography_checkbox} 
                             onChange={() => this.setState({videography_checkbox:!this.state.videography_checkbox})}/>
                     <br/>
                     <Checkbox label='Editing'
-                            defaultChecked={this.setState.editing_checkbox} 
+                            checked={this.state.editing_checkbox} 
                             onChange={() => this.setState({editing_checkbox:!this.state.editing_checkbox})}/>
                     <br/>
                 </Form.Field>
