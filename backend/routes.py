@@ -2,6 +2,19 @@ from flask import jsonify, request
 from backend import app, db
 from backend.models import Reviews, Users, Photographers, Equipment, Expertise, Portfolio
 from CASClient import CASClient
+from flask_mail import Mail, Message
+
+
+app.config.update(
+	DEBUG=True,
+	#EMAIL SETTINGS
+	MAIL_SERVER='smtp.gmail.com',
+	MAIL_PORT=465,
+	MAIL_USE_SSL=True,
+	MAIL_USERNAME = 'tigerphotosteam@gmail.com',
+	MAIL_PASSWORD = 'hello1234bye'
+	)
+mail = Mail(app)
 
 # This serves static files to the frontend. It is necessary in deployment. 
 # Index.html is found in frontend/build
@@ -279,6 +292,21 @@ def deleteReview():
     db.session.commit()
 
     return 'Done', 201                   
+
+@app.route('/api/sendEmail', methods=['POST'])
+def sendEmail():
+    emailInfo = request.get_json()
+
+    try:
+        msg = Message(emailInfo["email_subject"], sender = "tigerphotosteam@gmail.com", recipients = [emailInfo["email_sendTo"]])
+        msg.body = emailInfo["email_body"]
+        mail.send(msg)
+        print("got here innit")
+    except Exception as e:
+        return (str(e))
+
+    return 'Done', 203
+
 
 # route that retrieves the reviews of a given photographer (given their netid)
 @app.route('/api/getReviews')

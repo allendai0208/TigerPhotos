@@ -10,7 +10,7 @@ import StarIcon from '@material-ui/icons/Star'
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera'
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer'
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd'
-
+import {EmailModal} from './EmailModal'
 
 class ActiveProfile extends React.Component{
 
@@ -28,7 +28,8 @@ class ActiveProfile extends React.Component{
             button_2: 'secondary', 
             button_3: 'secondary', 
             button_4: 'secondary', 
-            selectedPhotographer: this.props.selectedPhotographer
+            selectedPhotographer: this.props.selectedPhotographer,
+            UploadEmailShow: false
         }
         this.handleClick = this.handleClick.bind(this)
         this.handler = this.handler.bind(this)
@@ -36,7 +37,22 @@ class ActiveProfile extends React.Component{
         this.setReview = this.setReview.bind(this)
     }
 
-    static getDerivedStateFromProps(nextProps, prevState) {
+    handleClose(){
+        this.setState({UploadEmailShow: false});
+    }  
+  
+    handleShow() {
+        this.setState({UploadEmailShow: true});
+    }
+
+
+  
+
+ 
+     
+ 
+
+     static getDerivedStateFromProps(nextProps, prevState) {
         if(nextProps.selectedPhotographer !== prevState.selectedPhotographer ) {
             console.log("changed")
             console.log(nextProps.selectedPhotographer)
@@ -126,6 +142,10 @@ class ActiveProfile extends React.Component{
                         {this.props.selectedPhotographer.equipment}
                     </Typography>
                     <br/>
+                    <Button variant= 'contained' color='primary' onClick={this.handleShow.bind(this)} >Contact This Boii</Button>
+                    <EmailModal phEmail = {this.props.selectedPhotographer.email} show = {this.state.UploadEmailShow} onHide = {this.handleClose.bind(this)}
+                />
+                    <br/>
                     <Typography variant="h5" className="browse_description">
                         Gallery:
                     </Typography>
@@ -172,7 +192,7 @@ class ActiveProfile extends React.Component{
                 
             }
         }
-        // renders the heading and about information when first loaded 
+
         return (
             <div>
                 <div className="browse_header">
