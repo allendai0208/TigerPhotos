@@ -49,6 +49,9 @@ class ProfileCard extends React.Component {
                             </Typography>
                             <Typography variant="body1">
                                 {this.props.photographer.email}
+                                {this.props.photographer.photography_exp ? <div>Photography</div> : null}
+                                {this.props.photographer.videography_exp ? <div>Videography</div> : null}
+                                {this.props.photographer.editing_exp ? <div>Editing</div> : null}
                             </Typography>
                         </CardContent>
                     </Card>  
