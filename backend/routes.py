@@ -70,12 +70,6 @@ def browse():
         for row in portfolio_list:
             urls.append(row.picture)
 
-        expertise_list = Expertise.query.filter_by(netid = photographer.photographer_netid).all()
-        expertise = []
-
-        for row in expertise_list:
-            expertise.append(row.area)
-
         review_list = Reviews.query.filter_by(photographer_netid = photographer.photographer_netid).all()
         reviews = []
 
@@ -98,8 +92,10 @@ def browse():
             'profile_pic' : photographer.profile_pic,
             'urls' : urls,
             'reviews' : reviews,
-            'expertise': expertise
-        })                                       
+            'photography_exp': photographer.photography_checkbox,
+            'editing_exp': photographer.editing_checkbox,
+            'videography_exp': photographer.videography_checkbox 
+        })
     return jsonify({'photographers':photographers})
 
 
