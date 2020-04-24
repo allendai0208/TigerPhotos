@@ -6,6 +6,10 @@ import Divider from '@material-ui/core/Divider'
 import Button from '@material-ui/core/Button'
 import ReviewForm from './ReviewForm'
 import {ReviewPage} from './ReviewPage'
+import StarIcon from '@material-ui/icons/Star'
+import PhotoCameraIcon from '@material-ui/icons/PhotoCamera'
+import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer'
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd'
 
 class ActiveProfile extends React.Component{
 
@@ -31,25 +35,22 @@ class ActiveProfile extends React.Component{
         this.setReview = this.setReview.bind(this)
     }
 
-     
- 
-
-     static getDerivedStateFromProps(nextProps, prevState) {
+    static getDerivedStateFromProps(nextProps, prevState) {
         if(nextProps.selectedPhotographer !== prevState.selectedPhotographer ) {
             console.log("changed")
             console.log(nextProps.selectedPhotographer)
             console.log(prevState.selectedPhotographer)
-          return {selectedPhotographer: nextProps.selectedPhotographer, 
+            return {selectedPhotographer: nextProps.selectedPhotographer, 
                     page_id: 0, 
                     loaded: false, 
                     current_review: "", 
                     current_rating: 0,
                     button_1: 'primary',
                     button_2: 'secondary',
-                    button_3: 'secondary',
-                    button_4: 'secondary'};
+                    button_3: 'secondary'
+                };
         }
-      }
+    }
 
     //componentWillReceiveProps(newProps) {
     //    const oldProps = this.props
@@ -72,11 +73,8 @@ class ActiveProfile extends React.Component{
         else if(i === 1) {
             this.setState({button_1: 'secondary', button_2: 'primary', button_3: 'secondary', button_4: 'secondary'})
         }
-        else if(i === 2) {
-            this.setState({button_1: 'secondary', button_2: 'secondary', button_3: 'primary', button_4: 'secondary'})
-        }
         else {
-            this.setState({button_1: 'secondary', button_2: 'secondary', button_3: 'secondary', button_4: 'primary'})
+            this.setState({button_1: 'secondary', button_2: 'secondary', button_3: 'primary', button_4: 'secondary'})
         }
     }
 
@@ -109,15 +107,27 @@ class ActiveProfile extends React.Component{
             page = (
                 <div>
                     <Typography variant="h5" className="browse_description">
-                        Description:
+                        Website:
                     </Typography>
-                    {this.props.selectedPhotographer.description}
+                    <a target='_blank' href={this.props.selectedPhotographer.website_url}>website</a>
+                    <br />
+                    <Typography variant="h5" className="browse_description">
+                        Description:
+                    </Typography >
+                    <Typography style={{whiteSpace: 'pre-line'}} >
+                        {this.props.selectedPhotographer.description}
+                    </Typography>
                     <br/>
                     <Typography variant="h5" className="browse_description">
                         Equipment:
                     </Typography>
-                    {this.props.selectedPhotographer.equipment}
+                    <Typography style={{whiteSpace: 'pre-line'}}>
+                        {this.props.selectedPhotographer.equipment}
+                    </Typography>
                     <br/>
+                    <Typography variant="h5" className="browse_description">
+                        Gallery:
+                    </Typography>
                     <ActiveGallery urls = {this.props.selectedPhotographer.urls}/>
                 </div>
             )
@@ -168,10 +178,9 @@ class ActiveProfile extends React.Component{
                     <Typography variant="h3" className="selectedName" fontWeight="fontWeightMedium">
                         {this.props.selectedPhotographer.first_name} {this.props.selectedPhotographer.last_name}
                     </Typography>
-                    <Button className='removeOutline' disableRipple color={this.state.button_1} onClick={() => this.handleClick(0)}>About</Button>
-                    <Button className='removeOutline' disableRipple color={this.state.button_2} onClick={() => this.handleClick(1)}>Reviews</Button>
-                    <Button className='removeOutline' disableRipple color={this.state.button_3} onClick={() => this.handleClick(2)}>Leave a Review</Button>
-                    <Button className='removeOutline' disableRipple color={this.state.button_4} onClick={() => this.handleClick(3)}>Contact</Button>
+                    <Button startIcon={<AssignmentIndIcon/>} disableRipple className='removeOutline' color={this.state.button_1} onClick={() => this.handleClick(0)}>About</Button>
+                    <Button startIcon={<QuestionAnswerIcon/>} disableRipple className='removeOutline' color={this.state.button_2} onClick={() => this.handleClick(1)}>Reviews</Button>
+                    <Button startIcon={<StarIcon/>} disableRipple className='removeOutline' color={this.state.button_3} onClick={() => this.handleClick(2)}>Leave a Review</Button>
                     <Divider/>
                 </div>
                 {page}
@@ -185,6 +194,7 @@ export default ActiveProfile
 //<FbImageLibrary images={this.props.selectedPhotographer.urls}/>
 //import FbImageLibrary from 'react-fb-image-grid'
 
+//<ActiveGallery urls = {this.props.selectedPhotographer.urls}/>
 
 /*             if (old_review !== undefined && this.state.loaded === false) {
                 console.log(old_review["review"])

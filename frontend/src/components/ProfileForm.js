@@ -268,12 +268,12 @@ class ProfileForm extends React.Component {
             <div className = "profileFormMargins">
 
                 <div>
-                    <span class="required">*</span> = required field
+                    <span className="required">*</span> = required field
                 </div>
                 <br/>
 
                 <span style={{color: "red"}}>{this.state.errors["profile_picture"]} <br/> </span> 
-                <span className = "formFields">Upload a Profile Picture:</span><span class="required">*</span>
+                <span className = "formFields">Upload a Profile Picture:</span><span className="required">*</span>
                 <br/>
                 <input name = "newImage" type = "file" onChange = {this.storeProfPic}/>
                 <br/>
@@ -282,7 +282,7 @@ class ProfileForm extends React.Component {
                     
                 <Form>
                 <span style={{color: "red"}}>{this.state.errors["first_name"]} <br/> </span>
-                <span className = "formFields">First Name:</span><span class="required">*</span> 
+                <span className = "formFields">First Name:</span><span className="required">*</span> 
                 <Form.Field>
                     <Input 
                         name = "first_name"
@@ -293,7 +293,7 @@ class ProfileForm extends React.Component {
                 </Form.Field>
                 <br/>
                 <span style={{color: "red"}}>{this.state.errors["last_name"]} <br/> </span>
-                <span className = "formFields">Last Name:</span><span class="required">*</span>
+                <span className = "formFields">Last Name:</span><span className="required">*</span>
                 <Form.Field>
                     <Input 
                         name = "last_name"
@@ -304,7 +304,7 @@ class ProfileForm extends React.Component {
                 </Form.Field>
                 <br/>
                 <span style={{color: "red"}}>{this.state.errors["email"]} <br/> </span>
-                <span className = "formFields">Email:</span><span class="required">*</span>
+                <span className = "formFields">Email:</span><span className="required">*</span>
                 <Form.Field>
                     <Input 
                         name = "email"
@@ -326,7 +326,7 @@ class ProfileForm extends React.Component {
                 </Form.Field>
                 <br/>
                 <span style={{color: "red"}}>{this.state.errors["description"]} <br/> </span>
-                <span className = "formFields">Description about yourself (max 1000 characters):</span><span class="required">*</span>
+                <span className = "formFields">Description about yourself (max 1000 characters):</span><span className="required">*</span>
                 <Form.Field>
                     <Form.TextArea 
                         name = "description"
@@ -340,7 +340,7 @@ class ProfileForm extends React.Component {
                 <br/>
 
                 <span style={{color: "red"}}>{this.state.errors["expertise"]} <br/> </span>
-                <span className = "formFields">Area(s) of Expertise:</span><span class="required">*</span>
+                <span className = "formFields">Area(s) of Expertise:</span><span className="required">*</span>
                 <Form.Field>
                     <Checkbox label='Photography' 
                             checked={this.state.photography_checkbox} 
@@ -357,7 +357,7 @@ class ProfileForm extends React.Component {
                 </Form.Field>
             
                 <span style={{color: "red"}}>{this.state.errors["equipment"]} <br/> </span>
-                <span className = "formFields">Please List Your Equipment/Software (max 250 characters):</span><span class="required">*</span>
+                <span className = "formFields">Please List Your Equipment/Software (max 250 characters):</span><span className="required">*</span>
                 <Form.Field>
                     <Form.TextArea 
                         name = "equipment"

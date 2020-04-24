@@ -20,7 +20,7 @@ function ActiveGallery(props) {
   return (
     <div>
       {images.map((src, index) => (
-        <img
+        <img className='createGallery'
           src={ src }
           onClick={ () => openImageViewer(index) }
           width="300"
