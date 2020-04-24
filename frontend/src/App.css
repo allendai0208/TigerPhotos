@@ -240,6 +240,10 @@ body{
   padding-left: 10px;
 }
 
+.removeOutline {
+  outline: none !important;
+}
+
 .browse_description {
   padding-top: 15px
 }

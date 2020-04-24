@@ -168,10 +168,10 @@ class ActiveProfile extends React.Component{
                     <Typography variant="h3" className="selectedName" fontWeight="fontWeightMedium">
                         {this.props.selectedPhotographer.first_name} {this.props.selectedPhotographer.last_name}
                     </Typography>
-                    <Button color={this.state.button_1} onClick={() => this.handleClick(0)}>About</Button>
-                    <Button color={this.state.button_2} onClick={() => this.handleClick(1)}>Reviews</Button>
-                    <Button color={this.state.button_3} onClick={() => this.handleClick(2)}>Leave a Review</Button>
-                    <Button color={this.state.button_4} onClick={() => this.handleClick(3)}>Contact</Button>
+                    <Button className='removeOutline' color={this.state.button_1} onClick={() => this.handleClick(0)}>About</Button>
+                    <Button className='removeOutline' color={this.state.button_2} onClick={() => this.handleClick(1)}>Reviews</Button>
+                    <Button className='removeOutline' color={this.state.button_3} onClick={() => this.handleClick(2)}>Leave a Review</Button>
+                    <Button className='removeOutline' color={this.state.button_4} onClick={() => this.handleClick(3)}>Contact</Button>
                     <Divider/>
                 </div>
                 {page}
