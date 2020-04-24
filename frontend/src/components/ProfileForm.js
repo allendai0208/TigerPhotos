@@ -6,8 +6,6 @@ import React from 'react';
 import { Form, Input, Button, Checkbox } from 'semantic-ui-react';
 import { Redirect } from 'react-router';
 import {storage, fstore} from './firebase/config';
-import AvatarEditor from 'react-avatar-editor'
-import Dropzone from 'react-dropzone'
 
 class ProfileForm extends React.Component {
 
@@ -149,20 +147,6 @@ class ProfileForm extends React.Component {
 
         return formIsValid;
     }
-/*
-    handleDrop = dropped=> {
-        this.setState({image:dropped[0]})
-        console.log(this.state.image)
-    }
-*/
-/*
-    // Called on button click to upload photo
-    handleNewImage(e) {
-        this.setState({image:e.target.files[0]})
-        console.log(this.state.image)
-        console.log(e.target.files[0])
-    }
-    */
 
     // Called when any of the text fields are edited
     handleChange(e){  
