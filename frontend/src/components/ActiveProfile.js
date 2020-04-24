@@ -1,12 +1,11 @@
 // This component renders the information pertaining to the most recently clicked ProfileCard.
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
-//import ActiveGallery from './ActiveGallery'
+import ActiveGallery from './ActiveGallery'
 import Divider from '@material-ui/core/Divider'
 import Button from '@material-ui/core/Button'
 import ReviewForm from './ReviewForm'
 import {ReviewPage} from './ReviewPage'
-import FbImageLibrary from 'react-fb-image-grid'
 
 class ActiveProfile extends React.Component{
 
@@ -32,15 +31,12 @@ class ActiveProfile extends React.Component{
         this.setReview = this.setReview.bind(this)
     }
 
-     
- 
-
-     static getDerivedStateFromProps(nextProps, prevState) {
+    static getDerivedStateFromProps(nextProps, prevState) {
         if(nextProps.selectedPhotographer !== prevState.selectedPhotographer ) {
             console.log("changed")
             console.log(nextProps.selectedPhotographer)
             console.log(prevState.selectedPhotographer)
-          return {selectedPhotographer: nextProps.selectedPhotographer, 
+            return {selectedPhotographer: nextProps.selectedPhotographer, 
                     page_id: 0, 
                     loaded: false, 
                     current_review: "", 
@@ -50,7 +46,7 @@ class ActiveProfile extends React.Component{
                     button_3: 'secondary',
                     button_4: 'secondary'};
         }
-      }
+    }
 
     //componentWillReceiveProps(newProps) {
     //    const oldProps = this.props
@@ -110,6 +106,10 @@ class ActiveProfile extends React.Component{
             page = (
                 <div>
                     <Typography variant="h5" className="browse_description">
+                        Website:
+                    </Typography>
+                    <a href={this.props.selectedPhotographer.website_url}>website</a>
+                    <Typography variant="h5" className="browse_description">
                         Description:
                     </Typography>
                     {this.props.selectedPhotographer.description}
@@ -119,9 +119,11 @@ class ActiveProfile extends React.Component{
                     </Typography>
                     {this.props.selectedPhotographer.equipment}
                     <br/>
-                    <div>
-                        <FbImageLibrary images={this.props.selectedPhotographer.urls}/>
-                    </div>
+                    <br/>
+                    <Typography variant="h5" className="browse_description">
+                        Gallery:
+                    </Typography>
+                    <ActiveGallery urls = {this.props.selectedPhotographer.urls}/>
                 </div>
             )
             
