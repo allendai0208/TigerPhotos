@@ -19,6 +19,10 @@ class ActiveProfile extends React.Component{
             current_rating: 0,
             loaded: false,
             switched: false,
+            button_1: 'primary', 
+            button_2: 'secondary', 
+            button_3: 'secondary', 
+            button_4: 'secondary', 
             selectedPhotographer: this.props.selectedPhotographer
         }
         this.handleClick = this.handleClick.bind(this)
@@ -35,7 +39,15 @@ class ActiveProfile extends React.Component{
             console.log("changed")
             console.log(nextProps.selectedPhotographer)
             console.log(prevState.selectedPhotographer)
-          return {selectedPhotographer: nextProps.selectedPhotographer, page_id: 0, loaded: false, current_review: "", current_rating: 0};
+          return {selectedPhotographer: nextProps.selectedPhotographer, 
+                    page_id: 0, 
+                    loaded: false, 
+                    current_review: "", 
+                    current_rating: 0,
+                    button_1: 'primary',
+                    button_2: 'secondary',
+                    button_3: 'secondary',
+                    button_4: 'secondary'};
         }
       }
 
@@ -54,6 +66,18 @@ class ActiveProfile extends React.Component{
             page_id: i,
             switched: false
         })
+        if(i === 0) {
+            this.setState({button_1: 'primary', button_2: 'secondary', button_3: 'secondary', button_4: 'secondary'})
+        }
+        else if(i === 1) {
+            this.setState({button_1: 'secondary', button_2: 'primary', button_3: 'secondary', button_4: 'secondary'})
+        }
+        else if(i === 2) {
+            this.setState({button_1: 'secondary', button_2: 'secondary', button_3: 'primary', button_4: 'secondary'})
+        }
+        else {
+            this.setState({button_1: 'secondary', button_2: 'secondary', button_3: 'secondary', button_4: 'primary'})
+        }
     }
 
     // used so review is saved when user navigates using buttons
@@ -144,10 +168,10 @@ class ActiveProfile extends React.Component{
                     <Typography variant="h3" className="selectedName" fontWeight="fontWeightMedium">
                         {this.props.selectedPhotographer.first_name} {this.props.selectedPhotographer.last_name}
                     </Typography>
-                    <Button color="secondary" onClick={() => this.handleClick(0)}>About</Button>
-                    <Button color="secondary" onClick={() => this.handleClick(1)}>Reviews</Button>
-                    <Button color="secondary" onClick={() => this.handleClick(2)}>Leave a Review</Button>
-                    <Button color="secondary" onClick={() => this.handleClick(3)}>Contact</Button>
+                    <Button color={this.state.button_1} onClick={() => this.handleClick(0)}>About</Button>
+                    <Button color={this.state.button_2} onClick={() => this.handleClick(1)}>Reviews</Button>
+                    <Button color={this.state.button_3} onClick={() => this.handleClick(2)}>Leave a Review</Button>
+                    <Button color={this.state.button_4} onClick={() => this.handleClick(3)}>Contact</Button>
                     <Divider/>
                 </div>
                 {page}
