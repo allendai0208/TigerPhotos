@@ -6,6 +6,9 @@ import Divider from '@material-ui/core/Divider'
 import Button from '@material-ui/core/Button'
 import ReviewForm from './ReviewForm'
 import {ReviewPage} from './ReviewPage'
+import StarIcon from '@material-ui/icons/Star'
+import PhotoCameraIcon from '@material-ui/icons/PhotoCamera'
+import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 
 class ActiveProfile extends React.Component{
 
@@ -43,8 +46,8 @@ class ActiveProfile extends React.Component{
                     current_rating: 0,
                     button_1: 'primary',
                     button_2: 'secondary',
-                    button_3: 'secondary',
-                    button_4: 'secondary'};
+                    button_3: 'secondary'
+                };
         }
     }
 
@@ -69,11 +72,8 @@ class ActiveProfile extends React.Component{
         else if(i === 1) {
             this.setState({button_1: 'secondary', button_2: 'primary', button_3: 'secondary', button_4: 'secondary'})
         }
-        else if(i === 2) {
-            this.setState({button_1: 'secondary', button_2: 'secondary', button_3: 'primary', button_4: 'secondary'})
-        }
         else {
-            this.setState({button_1: 'secondary', button_2: 'secondary', button_3: 'secondary', button_4: 'primary'})
+            this.setState({button_1: 'secondary', button_2: 'secondary', button_3: 'primary', button_4: 'secondary'})
         }
     }
 
@@ -108,17 +108,21 @@ class ActiveProfile extends React.Component{
                     <Typography variant="h5" className="browse_description">
                         Website:
                     </Typography>
-                    <a href={this.props.selectedPhotographer.website_url}>website</a>
+                    <a target='_blank' href={this.props.selectedPhotographer.website_url}>website</a>
+                    <br />
                     <Typography variant="h5" className="browse_description">
                         Description:
+                    </Typography >
+                    <Typography style={{whiteSpace: 'pre-line'}} >
+                        {this.props.selectedPhotographer.description}
                     </Typography>
-                    {this.props.selectedPhotographer.description}
                     <br/>
                     <Typography variant="h5" className="browse_description">
                         Equipment:
                     </Typography>
-                    {this.props.selectedPhotographer.equipment}
-                    <br/>
+                    <Typography style={{whiteSpace: 'pre-line'}}>
+                        {this.props.selectedPhotographer.equipment}
+                    </Typography>
                     <br/>
                     <Typography variant="h5" className="browse_description">
                         Gallery:
@@ -173,10 +177,9 @@ class ActiveProfile extends React.Component{
                     <Typography variant="h3" className="selectedName" fontWeight="fontWeightMedium">
                         {this.props.selectedPhotographer.first_name} {this.props.selectedPhotographer.last_name}
                     </Typography>
-                    <Button className='removeOutline' color={this.state.button_1} onClick={() => this.handleClick(0)}>About</Button>
-                    <Button className='removeOutline' color={this.state.button_2} onClick={() => this.handleClick(1)}>Reviews</Button>
-                    <Button className='removeOutline' color={this.state.button_3} onClick={() => this.handleClick(2)}>Leave a Review</Button>
-                    <Button className='removeOutline' color={this.state.button_4} onClick={() => this.handleClick(3)}>Contact</Button>
+                    <Button startIcon={<PhotoCameraIcon/>} className='removeOutline' color={this.state.button_1} onClick={() => this.handleClick(0)}>About</Button>
+                    <Button startIcon={<QuestionAnswerIcon/>} className='removeOutline' color={this.state.button_2} onClick={() => this.handleClick(1)}>Reviews</Button>
+                    <Button startIcon={<StarIcon/>}className='removeOutline' color={this.state.button_3} onClick={() => this.handleClick(2)}>Leave a Review</Button>
                     <Divider/>
                 </div>
                 {page}
