@@ -93,6 +93,8 @@ def browse():
             'last_name' : photographer.last_name,
             'email' : photographer.email,
             'description' : photographer.description,
+            'website_url' : photographer.website_url,
+            'equipment' : photographer.equipment,
             'profile_pic' : photographer.profile_pic,
             'urls' : urls,
             'reviews' : reviews,

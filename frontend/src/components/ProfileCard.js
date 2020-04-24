@@ -22,7 +22,7 @@ const styles = {
         marginLeft: "10px",
         marginRight: "10px",
         height: '75%',
-        width: "190px",
+        width: "185px",
         borderRadius:"50%",
     },
     content: {
