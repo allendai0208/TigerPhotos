@@ -15,6 +15,7 @@ import ActiveProfile from './ActiveProfile.js'
 import DefaultActiveProfile from './DefaultActiveProfile.js'
 import Button from '@material-ui/core/Button'
 
+
 // This is commented out because it wasn't being used, whoever wrote this should check to see if we need it and if not we should delete it - Keith
 /*const styles = {
   main: { 

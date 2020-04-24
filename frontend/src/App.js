@@ -30,8 +30,11 @@ const theme = createMuiTheme({
       main: '#9e9e9e'
     }
   },
-  Typography: {
-    "fontFamily": "\"Roboto\", \"Helvetica\", \"Arial\", sans-serif"
+  typography: {
+    fontFamily: [
+      'Lato',
+      'sans-serif'
+    ].join(','),
   }
 })
 

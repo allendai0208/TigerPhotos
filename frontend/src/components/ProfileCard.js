@@ -8,7 +8,10 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
-
+import PhotoCameraIcon from '@material-ui/icons/PhotoCamera'; 
+import VideocamIcon from '@material-ui/icons/Videocam'; 
+import PhotoFilterIcon from '@material-ui/icons/PhotoFilter';
+import Tooltip from '@material-ui/core/Tooltip'
 
 const styles = {
     card: {
@@ -49,9 +52,10 @@ class ProfileCard extends React.Component {
                             </Typography>
                             <Typography variant="body1">
                                 {this.props.photographer.email}
-                                {this.props.photographer.photography_exp ? <div>Photography</div> : null}
-                                {this.props.photographer.videography_exp ? <div>Videography</div> : null}
-                                {this.props.photographer.editing_exp ? <div>Editing</div> : null}
+                                <br />
+                                {this.props.photographer.photography_exp ? <span><Tooltip title="Photography"><PhotoCameraIcon className="browseIcon"/></Tooltip></span> : null}
+                                {this.props.photographer.videography_exp ? <span><Tooltip title="Videography"><VideocamIcon className="browseIcon" /></Tooltip></span> : null}
+                                {this.props.photographer.editing_exp ? <span><Tooltip title="Editting"><PhotoFilterIcon className="browseIcon" /></Tooltip></span> : null}
                             </Typography>
                         </CardContent>
                     </Card>  
