@@ -1,11 +1,12 @@
 // This component renders the information pertaining to the most recently clicked ProfileCard.
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
-import ActiveGallery from './ActiveGallery'
+//import ActiveGallery from './ActiveGallery'
 import Divider from '@material-ui/core/Divider'
 import Button from '@material-ui/core/Button'
 import ReviewForm from './ReviewForm'
 import {ReviewPage} from './ReviewPage'
+import FbImageLibrary from 'react-fb-image-grid'
 
 class ActiveProfile extends React.Component{
 
@@ -118,7 +119,9 @@ class ActiveProfile extends React.Component{
                     </Typography>
                     {this.props.selectedPhotographer.equipment}
                     <br/>
-                    <ActiveGallery urls = {this.props.selectedPhotographer.urls}/>
+                    <div>
+                        <FbImageLibrary images={this.props.selectedPhotographer.urls}/>
+                    </div>
                 </div>
             )
             
@@ -182,6 +185,7 @@ class ActiveProfile extends React.Component{
 
 export default ActiveProfile
 
+//<ActiveGallery urls = {this.props.selectedPhotographer.urls}/>
 
 /*             if (old_review !== undefined && this.state.loaded === false) {
                 console.log(old_review["review"])
