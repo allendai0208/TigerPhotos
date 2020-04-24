@@ -6,6 +6,7 @@ import Divider from '@material-ui/core/Divider'
 import Button from '@material-ui/core/Button'
 import ReviewForm from './ReviewForm'
 import {ReviewPage} from './ReviewPage'
+import {EmailModal} from './EmailModal'
 
 class ActiveProfile extends React.Component{
 
@@ -23,14 +24,23 @@ class ActiveProfile extends React.Component{
             button_2: 'secondary', 
             button_3: 'secondary', 
             button_4: 'secondary', 
-            selectedPhotographer: this.props.selectedPhotographer
+            selectedPhotographer: this.props.selectedPhotographer,
+            UploadEmailShow: false
         }
         this.handleClick = this.handleClick.bind(this)
         this.handler = this.handler.bind(this)
         this.handler2 = this.handler2.bind(this)
         this.setReview = this.setReview.bind(this)
     }
-
+  
+    handleClose(){
+        this.setState({UploadEmailShow: false});
+    }  
+  
+    handleShow() {
+        this.setState({UploadEmailShow: true});
+    }
+ 
      
  
 
@@ -118,6 +128,9 @@ class ActiveProfile extends React.Component{
                     </Typography>
                     {this.props.selectedPhotographer.equipment}
                     <br/>
+                    <Button variant= 'contained' color='primary' onClick={this.handleShow.bind(this)} >Contact This Boii</Button>
+               <EmailModal phEmail = {this.props.selectedPhotographer.email} show = {this.state.UploadEmailShow} onHide = {this.handleClose.bind(this)}
+              />
                     <ActiveGallery urls = {this.props.selectedPhotographer.urls}/>
                 </div>
             )
@@ -161,7 +174,7 @@ class ActiveProfile extends React.Component{
                 
             }
         }
-        // renders the heading and about information when first loaded 
+
         return (
             <div>
                 <div className="browse_header">
