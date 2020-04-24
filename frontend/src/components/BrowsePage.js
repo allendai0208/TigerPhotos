@@ -13,6 +13,7 @@ import Container from 'react-bootstrap/Container';
 import ProfileCard from './ProfileCard'
 import ActiveProfile from './ActiveProfile.js'
 import DefaultActiveProfile from './DefaultActiveProfile.js'
+import Button from '@material-ui/core/Button'
 
 // This is commented out because it wasn't being used, whoever wrote this should check to see if we need it and if not we should delete it - Keith
 /*const styles = {
@@ -28,12 +29,15 @@ class BrowsePage extends React.Component {
   constructor(props) {
     super(props)
     this.handler = this.handler.bind(this)
+    this.handleFiltering = this.handleFiltering.bind(this)
+    this.showAll = this.showAll.bind(this)
   }
 
   state = {
     photographers: [],
     selectedPhotographer: [],
     profileHasBeenClicked: false,
+    filteredPhotographers: []
   }
 
   //Get all pertinent fields regarding all photographers
@@ -45,8 +49,10 @@ class BrowsePage extends React.Component {
     fetch('/api/browse')
     .then(response => response.json())
     .then(result => this.setState({
-      photographers: result.photographers
-    })).then(console.log(this.state.photographers))
+      photographers: result.photographers,
+      filteredPhotographers: result.photographers
+    }))
+    .then(console.log(this.state.photographers))
     .catch(e => console.log(e))
   }
 
@@ -61,10 +67,23 @@ class BrowsePage extends React.Component {
     })
   }
 
-  
+  showAll() {
+    this.setState({filteredPhotographers:this.state.photographers})
+  }
+
+  handleFiltering(e) {
+    let filtered = []
+    for (const person of this.state.photographers) {
+      if (person[e])
+        filtered.push(person)
+    }
+    this.setState({filteredPhotographers:filtered})
+    console.log(this.state.filteredPhotographers)
+  }
+
   render() {
     let recentPhotographersMarkup = this.state.photographers ? (
-      this.state.photographers.map((photographer) => < ProfileCard key={photographer.netid} photographer={photographer} handler = {this.handler} /> )
+      this.state.filteredPhotographers.map((photographer) => < ProfileCard key={photographer.netid} photographer={photographer} handler = {this.handler} /> )
     ) : (
       <p>Loading...</p>
     )
@@ -73,6 +92,11 @@ class BrowsePage extends React.Component {
         <Row >
           <div>
             <Col xs = {12} className="column1">
+                <Button onClick = {this.showAll}>View All</Button>
+                <Button onClick = {() => this.handleFiltering("photography_exp")}>Photographers</Button>
+                <Button onClick = {() => this.handleFiltering("videography_exp")}>Videographers</Button>
+                <Button onClick = {() => this.handleFiltering("editing_exp")}>Editors</Button>
+
                 {recentPhotographersMarkup}
             </Col>
           </div>
