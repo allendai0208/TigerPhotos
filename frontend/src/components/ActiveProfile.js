@@ -85,8 +85,15 @@ class ActiveProfile extends React.Component{
             page = (
                 <div>
                     <Typography variant="h5" className="browse_description">
-                        {this.props.selectedPhotographer.description}
+                        Description:
                     </Typography>
+                    {this.props.selectedPhotographer.description}
+                    <br/>
+                    <Typography variant="h5" className="browse_description">
+                        Equipment:
+                    </Typography>
+                    {this.props.selectedPhotographer.equipment}
+                    <br/>
                     <ActiveGallery urls = {this.props.selectedPhotographer.urls}/>
                 </div>
             )

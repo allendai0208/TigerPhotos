@@ -22,13 +22,13 @@ const styles = {
         marginLeft: "10px",
         marginRight: "10px",
         height: '75%',
-        width: "175px",
+        width: "190px",
         borderRadius:"50%",
     },
     content: {
         width: "100%",
         textAlign:'left',
-        marginTop: "20px",
+        marginTop: "15px",
         margin: 10,
     }
 }
