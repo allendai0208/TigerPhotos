@@ -132,6 +132,7 @@ def getPhotographer():
                 'photography_checkbox':  bool(photographer_data[0].photography_checkbox),
                 'videography_checkbox': bool(photographer_data[0].videography_checkbox),
                 'editing_checkbox': bool(photographer_data[0].editing_checkbox),
+                'website_url': photographer_data[0].website_url,
                 'equipment': photographer_data[0].equipment,
                 'profile_pic': photographer_data[0].profile_pic,
                 'key': photographer_data[0].key,
@@ -150,6 +151,7 @@ def getPhotographer():
                 'editing_checkbox': False,
                 'equipment': "",
                 'profile_pic': "",
+                'website_url': "",
                 'key': "",
                 'portfolio': []
         }
