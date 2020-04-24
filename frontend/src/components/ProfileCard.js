@@ -9,13 +9,14 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
 
+
 const styles = {
     card: {
         display: 'flex',
         height: "150px",
         borderRadius:"0%",
         width: "100%",
-        justifyContent: 'center',
+        justifyContent: 'center'
     },
     image: {
         marginTop: "15px",
@@ -33,15 +34,14 @@ const styles = {
     }
 }
 
-
 class ProfileCard extends React.Component {
 
     render() {
         const {classes, photographer : {first_name, last_name, profile_pic}} = this.props
         return (
             <div className="card column">
-                <ButtonBase onClick = {() => this.props.handler(this.props.photographer, true)}>
-                <Card className={classes.card} variant="outlined">
+                <ButtonBase className='removeOutline' onClick = {() => this.props.handler(this.props.photographer, true)}>
+                <Card className={classes.card} >
                 <CardMedia image={profile_pic} title = "Profile image" className={classes.image} />
                         <CardContent className={classes.content}>
                             <Typography variant="h5" style = {{color:"orange"}}>
@@ -61,3 +61,5 @@ class ProfileCard extends React.Component {
 
 export default withStyles(styles)(ProfileCard);
  
+//variant="outlined"
+// disableRipple

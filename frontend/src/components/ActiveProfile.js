@@ -168,10 +168,10 @@ class ActiveProfile extends React.Component{
                     <Typography variant="h3" className="selectedName" fontWeight="fontWeightMedium">
                         {this.props.selectedPhotographer.first_name} {this.props.selectedPhotographer.last_name}
                     </Typography>
-                    <Button className='removeOutline' color={this.state.button_1} onClick={() => this.handleClick(0)}>About</Button>
-                    <Button className='removeOutline' color={this.state.button_2} onClick={() => this.handleClick(1)}>Reviews</Button>
-                    <Button className='removeOutline' color={this.state.button_3} onClick={() => this.handleClick(2)}>Leave a Review</Button>
-                    <Button className='removeOutline' color={this.state.button_4} onClick={() => this.handleClick(3)}>Contact</Button>
+                    <Button className='removeOutline' disableRipple color={this.state.button_1} onClick={() => this.handleClick(0)}>About</Button>
+                    <Button className='removeOutline' disableRipple color={this.state.button_2} onClick={() => this.handleClick(1)}>Reviews</Button>
+                    <Button className='removeOutline' disableRipple color={this.state.button_3} onClick={() => this.handleClick(2)}>Leave a Review</Button>
+                    <Button className='removeOutline' disableRipple color={this.state.button_4} onClick={() => this.handleClick(3)}>Contact</Button>
                     <Divider/>
                 </div>
                 {page}
@@ -181,6 +181,9 @@ class ActiveProfile extends React.Component{
 }
 
 export default ActiveProfile
+
+//<FbImageLibrary images={this.props.selectedPhotographer.urls}/>
+//import FbImageLibrary from 'react-fb-image-grid'
 
 
 /*             if (old_review !== undefined && this.state.loaded === false) {
