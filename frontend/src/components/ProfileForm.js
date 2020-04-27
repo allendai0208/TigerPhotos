@@ -28,13 +28,17 @@ class ProfileForm extends React.Component {
             profPicUrl: '',
             portfolio: [],
             netid:this.props.netid,
-            stateHasLoaded: false
+            stateHasLoaded: false,
+            gallery_counter: 0,
+            prof_pic_loaded: false,
+            gallery_loaded:false
         }
         this.handleChange = this.handleChange.bind(this)
         this.storePhoto = this.storePhoto.bind(this)
         this.deletePhoto = this.deletePhoto.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.storeProfPic = this.storeProfPic.bind(this)
+        this.onLoad = this.onLoad.bind(this)
     }
     
     // Get the pertinent information to the user when the component mounts to autofill the form fields with their information if possible
@@ -60,9 +64,18 @@ class ProfileForm extends React.Component {
             portfolio:result.portfolio, 
             stateHasLoaded:true, 
             profPic:result.key, 
-            profPicUrl:result.profile_pic}))
+            profPicUrl:result.profile_pic,
+            prof_pic_loaded: true}))
         .then(console.log(this.state))
         .catch(e => console.log(e))
+    }
+
+    onLoad() {
+        console.log("before update counter: ", this.state.gallery_counter)
+        this.setState({gallery_counter:this.state.gallery_counter+1})
+        if (this.state.gallery_counter >= this.state.portfolio.length) 
+            this.setState({gallery_loaded:true})
+        console.log("after update counter: ", this.state.gallery_counter)
     }
 
     // Makes sure all the required fields give proper warnings
@@ -257,9 +270,9 @@ class ProfileForm extends React.Component {
     // The actual rendering of the form. Use the state which has stored the current photographer's information to autofill the fields
     render(){
         // Calling render() without loading info into state will cause error, therefore do this if statement to catch
-        if(this.state.hasLoaded === false) return null
+        //if(this.state.hasLoaded === false) return null
 
-        else if(this.state.redirect) {
+        /*else */if(this.state.redirect) {
             console.log("redirect")
             return <Redirect to='/browse'/>;
         }
@@ -278,6 +291,7 @@ class ProfileForm extends React.Component {
                 <input name = "newImage" type = "file" onChange = {this.storeProfPic}/>
                 <br/>
                 <br/>
+                <div className = "formFields" style={{display: this.state.prof_pic_loaded ? "none" : "block"}}>Loading profile picture...</div>
                 <img alt = "" src = {this.state.profPicUrl} className = "createGallery"/>
                     
                 <Form>
@@ -379,8 +393,17 @@ class ProfileForm extends React.Component {
                 <br/>
                 <div className = "createGalleryText">My Gallery</div>
                 <hr className = "createHR"/>
-                {this.state.portfolio.map((image) => 
-                    <img alt = '' key = {image.url} name={image.key} className = "createGallery" src = {image.url} onClick = {(image) => this.deletePhoto(image)}/>)}
+                {/*<div style={{display: this.state.gallery_loaded ? "none" : "block"}}>Loading gallery...</div>
+                <div style={{display: this.state.gallery_loaded ? "block" : "none"}}>*/}
+                    {this.state.portfolio.map((image) => 
+                        <img alt = '' 
+                        key = {image.url} 
+                        name={image.key} 
+                        className = "createGallery" 
+                        src = {image.url} 
+                        onClick = {(image) => this.deletePhoto(image)}
+                        onLoad = {this.onLoad}/>)}
+                {/*</div>*/}
                 <br/>
                 <br/>
                 <Button color='blue' size='large'onClick={this.handleSubmit} className ="createSubmit">
