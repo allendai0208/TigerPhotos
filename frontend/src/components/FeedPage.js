@@ -9,7 +9,7 @@ class FeedPage extends React.Component {
     }
 
     fetchPosts = () => {
-        fetch('/api/posts')
+        fetch('/api/getPosts')
         .then(response => response.json())
         .then(result => this.setState({
           posts: result.posts
@@ -30,9 +30,10 @@ class FeedPage extends React.Component {
                     return (
                         <Card variant="outlined" style={{width: "75%", marginBottom: 10}}>
                             <CardContent>
-                                <Typography  color="secondary">{post.user_netid}</Typography>
-                                <Typography style={{whiteSpace: 'pre-line'}}>{post.content}</Typography>
-                                <Typography style={{textAlign: 'right'}} color="secondary">{post.date}</Typography>
+                                <Typography  color="secondary">{post.netid}</Typography>
+                                <Typography style={{whiteSpace: 'pre-line'}}>{post.subject_line}</Typography>
+                                <Typography style={{whiteSpace: 'pre-line'}}>{post.description}</Typography>
+                                <Typography style={{textAlign: 'right'}} color="secondary">{post.timestamp}</Typography>
                             </CardContent>
                         </Card>
                     );
