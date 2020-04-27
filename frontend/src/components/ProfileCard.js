@@ -11,6 +11,7 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera'; 
 import VideocamIcon from '@material-ui/icons/Videocam'; 
 import PhotoFilterIcon from '@material-ui/icons/PhotoFilter';
+import StarIcon from '@material-ui/icons/Star';
 import Tooltip from '@material-ui/core/Tooltip'
 
 const styles = {
@@ -50,9 +51,14 @@ class ProfileCard extends React.Component {
                             <Typography variant="h5" style = {{color:"orange"}}>
                                 {first_name+" "+last_name}
                             </Typography>
+
                             <Typography variant="body1">
+                                {this.props.photographer.average_rating !== -1 ? <span>{this.props.photographer.average_rating.toFixed(2)}<Tooltip title="Average Rating"><StarIcon className="starIcon"/></Tooltip></span> : "No ratings yet"} 
+                                <br/>
+                                {/*
                                 {this.props.photographer.email}
-                                <br />
+                                <br/>
+                                */}
                                 {this.props.photographer.photography_exp ? <span><Tooltip title="Photography"><PhotoCameraIcon className="browseIcon"/></Tooltip></span> : null}
                                 {this.props.photographer.videography_exp ? <span><Tooltip title="Videography"><VideocamIcon className="browseIcon" /></Tooltip></span> : null}
                                 {this.props.photographer.editing_exp ? <span><Tooltip title="Editting"><PhotoFilterIcon className="browseIcon" /></Tooltip></span> : null}

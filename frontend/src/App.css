@@ -257,6 +257,11 @@ body{
   color: gray
 }
 
+.starIcon {
+  margin-bottom: 3px;
+  color: orange
+}
+
 
 .search {
   padding-bottom: 5px;
