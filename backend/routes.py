@@ -338,7 +338,8 @@ def getPosts():
             'description': post.description,
             'subject_line': post.subject_line,
             'timestamp': post.timestamp,
-            'specialty': post.specialty
+            'specialty': post.specialty,
+            'email': post.email
         })
 
     return jsonify({'posts':posts})
@@ -352,7 +353,8 @@ def createPost():
         netid = post_info['netid'],
         description = post_info['description'],
         subject_line = post_info['subject_line'],
-        specialty = post_info['specialty']
+        specialty = post_info['specialty'],
+        email = post_info['email']
     )
 
     db.session.add(post)

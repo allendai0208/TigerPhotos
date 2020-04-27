@@ -49,6 +49,7 @@ class Feed(db.Model):
     subject_line = db.Column(db.String(100))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.now)
     specialty = db.Column(db.String(100))
+    email = db.Column(db.String(80))
 
     def __repr__(self):
         return 'Feed {} {}>'.format(self.netid, self.subject_line)
