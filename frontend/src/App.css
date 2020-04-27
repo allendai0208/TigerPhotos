@@ -339,6 +339,10 @@ body{
   max-height: 200px;
 }
 
+.postModal {
+  max-height: 475px;
+}
+
 .visible.transition {
   margin-top: auto !important;
   display: inline-block !important;

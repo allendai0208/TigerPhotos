@@ -337,7 +337,7 @@ def getPosts():
             'netid': post.netid,
             'description': post.description,
             'subject_line': post.subject_line,
-            'timestamp': post.timestamp,
+            'timestamp': str(post.timestamp).split(' ')[0],
             'specialty': post.specialty,
             'email': post.email
         })
