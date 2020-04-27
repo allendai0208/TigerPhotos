@@ -7,8 +7,9 @@ import Button from '@material-ui/core/Button'
 import ReviewForm from './ReviewForm'
 import {ReviewPage} from './ReviewPage'
 import StarIcon from '@material-ui/icons/Star'
-import PhotoCameraIcon from '@material-ui/icons/PhotoCamera'
+import Tooltip from '@material-ui/core/Tooltip'
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer'
+import CreateIcon from '@material-ui/icons/Create'
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd'
 import {EmailModal} from './EmailModal'
 
@@ -44,13 +45,6 @@ class ActiveProfile extends React.Component{
     handleShow() {
         this.setState({UploadEmailShow: true});
     }
-
-
-  
-
- 
-     
- 
 
      static getDerivedStateFromProps(nextProps, prevState) {
         if(nextProps.selectedPhotographer !== prevState.selectedPhotographer ) {
@@ -124,11 +118,6 @@ class ActiveProfile extends React.Component{
             page = (
                 <div>
                     <Typography variant="h5" className="browse_description">
-                        Website:
-                    </Typography>
-                    <a target='_blank' href={this.props.selectedPhotographer.website_url}>website</a>
-                    <br />
-                    <Typography variant="h5" className="browse_description">
                         Description:
                     </Typography >
                     <Typography style={{whiteSpace: 'pre-line'}} >
@@ -193,15 +182,25 @@ class ActiveProfile extends React.Component{
             }
         }
 
+        let border = ' '
+        if (this.props.selectedPhotographer.website_url) {
+            border = " | "
+        }
         return (
             <div>
                 <div className="browse_header">
                     <Typography variant="h3" className="selectedName" fontWeight="fontWeightMedium">
                         {this.props.selectedPhotographer.first_name} {this.props.selectedPhotographer.last_name}
                     </Typography>
+                    <Typography variant="h6" className="ratingAndUrl">
+                    {this.props.selectedPhotographer.average_rating !== -1 ? <span>{this.props.selectedPhotographer.average_rating.toFixed(2)}</span> : "N/A"} 
+                    <Tooltip title="Average Rating"><StarIcon className="starIcon2"/></Tooltip>
+                    {border}
+                    <a target='_blank' href={this.props.selectedPhotographer.website_url}>My Website</a>
+                    </Typography>
                     <Button startIcon={<AssignmentIndIcon/>} disableRipple className='removeOutline' color={this.state.button_1} onClick={() => this.handleClick(0)}>About</Button>
                     <Button startIcon={<QuestionAnswerIcon/>} disableRipple className='removeOutline' color={this.state.button_2} onClick={() => this.handleClick(1)}>Reviews</Button>
-                    <Button startIcon={<StarIcon/>} disableRipple className='removeOutline' color={this.state.button_3} onClick={() => this.handleClick(2)}>Leave a Review</Button>
+                    <Button startIcon={<CreateIcon/>} disableRipple className='removeOutline' color={this.state.button_3} onClick={() => this.handleClick(2)}>Leave a Review</Button>
                     <Divider/>
                 </div>
                 {page}
