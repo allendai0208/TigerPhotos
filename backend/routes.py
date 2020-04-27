@@ -1,6 +1,6 @@
 from flask import jsonify, request
 from backend import app, db
-from backend.models import Reviews, Users, Photographers, Equipment, Expertise, Portfolio
+from backend.models import Reviews, Users, Photographers, Feed, Portfolio
 from CASClient import CASClient
 from flask_mail import Mail, Message
 
@@ -325,3 +325,20 @@ def getReviews():
         })                                       
     return jsonify({'reviews':reviews})
 
+# route that retrieves all the posts submitted
+@app.route('/api/getPosts')
+def getPosts():
+
+    post_list = Feed.query.all()
+    posts = []
+
+    for post in post_list:
+        posts.append({
+            'netid': post.netid,
+            'description': post.description,
+            'subject_line': post.subject_line,
+            'timestamp': post.timestamp,
+            'specialty': post.specialty
+        })
+
+    return jsonify({'posts':posts})

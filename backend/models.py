@@ -42,23 +42,16 @@ class Reviews(db.Model):
     def __repr__(self):
         return 'Reviews {} {}>'.format(self.netid, self.photographer_netid)
 
-# This defines the columns and data types of the Equipment table
-class Equipment(db.Model):
+class Feed(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    netid = db.Column(db.String(80), db.ForeignKey('photographers.photographer_netid'), index=True)
-    equip = db.Column(db.String(80), index=True)
-    
-    def __repr__(self):
-        return 'Equipment {} {}>'.format(self.netid, self.equip)
-
-# This defines the columns and data types of the Expertise table
-class Expertise(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    netid = db.Column(db.String(80), db.ForeignKey('photographers.photographer_netid'), index=True)
-    area = db.Column(db.Boolean, index=True)
+    netid = db.Column(db.String(80), db.ForeignKey('users.netid'), index=True)
+    description = db.Column(db.String(750))
+    subject_line = db.Column(db.String(100))
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.now)
+    specialty = db.Column(db.String(100))
 
     def __repr__(self):
-        return 'Expertise {} {}>'.format(self.netid, self.area)
+        return 'Feed {} {}>'.format(self.netid, self.subject_line)
 
 # This defines the columns and data types of the Portfolio table
 class Portfolio(db.Model):
