@@ -185,6 +185,7 @@ class ReviewForm extends React.Component {
                         </Form.Field>
                     </Grid>
                     <Grid item xs={1}>
+                        <div style={{textAlign: 'right'}}>
                         <Form.Field>
                             <Tooltip title="Delete">
                                 <IconButton aria-label="delete review" onClick={this.showModal.bind(this)}>
@@ -192,6 +193,7 @@ class ReviewForm extends React.Component {
                                 </IconButton>
                             </Tooltip>
                         </Form.Field>
+                        </div>
                     </Grid>
                 </Grid>
                 <Form.Field>
