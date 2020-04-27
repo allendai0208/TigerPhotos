@@ -361,3 +361,26 @@ def createPost():
     db.session.commit()
 
     return 'Done', 201
+
+@app.route('/api/deletePost', methods=['POST'])
+def deletePost():
+
+    post_info = request.get_json()
+
+    netid = post_info['netid']
+    description = post_info['description']
+    subject_line = post_info['subject_line']
+    specialty = post_info['specialty']
+    email = post_info['email']
+
+    Feed.query.filter_by(
+        netid = netid, 
+        description = description,
+        subject_line = subject_line,
+        specialty = specialty,
+        email = email).delete()
+
+    db.session.commit()
+
+    return 'Done', 201
+
