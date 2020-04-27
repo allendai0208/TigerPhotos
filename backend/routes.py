@@ -342,3 +342,20 @@ def getPosts():
         })
 
     return jsonify({'posts':posts})
+
+@app.route('/api/createPost', methods=['POST'])
+def createPost():
+
+    post_info = request.get_json()
+
+    post = Feed(
+        netid = post_info['netid'],
+        description = post_info['description'],
+        subject_line = post_info['subject_line'],
+        specialty = post_info['specialty']
+    )
+
+    db.session.add(post)
+    db.session.commit()
+
+    return 'Done', 201
