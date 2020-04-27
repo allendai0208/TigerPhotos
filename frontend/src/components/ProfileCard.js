@@ -4,6 +4,7 @@ import withStyles from '@material-ui/core/styles/withStyles'
 
 // MUI stuff
 import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
@@ -20,21 +21,31 @@ const styles = {
         height: "150px",
         borderRadius:"0%",
         width: "100%",
-        justifyContent: 'center'
+        //justifyContent: 'center'
     },
     image: {
         marginTop: "15px",
         marginLeft: "10px",
         marginRight: "10px",
         height: '75%',
-        width: "185px",
+        width: "178px",
         borderRadius:"50%",
     },
     content: {
         width: "100%",
-        textAlign:'left',
-        marginTop: "15px",
-        margin: 10,
+        padding: 7,
+        "&:last-child": {
+        paddingBottom: 7
+        }
+        //textAlign:'left',
+        //marginTop: "15px",
+        //margin: 10,
+    },
+    right: {
+        textAlign: 'right',
+    },
+    left: {
+        textAlign: 'left'
     }
 }
 
@@ -46,25 +57,24 @@ class ProfileCard extends React.Component {
             <div className="card column">
                 <ButtonBase className='removeOutline' onClick = {() => this.props.handler(this.props.photographer, true)}>
                 <Card className={classes.card} >
-                <CardMedia image={profile_pic} title = "Profile image" className={classes.image} />
-                        <CardContent className={classes.content}>
-                            <Typography variant="h5" style = {{color:"orange"}}>
-                                {first_name+" "+last_name}
-                            </Typography>
-
-                            <Typography variant="body1">
-                                {this.props.photographer.average_rating !== -1 ? <span>{this.props.photographer.average_rating.toFixed(2)}<Tooltip title="Average Rating"><StarIcon className="starIcon"/></Tooltip></span> : "No ratings yet"} 
-                                <br/>
-                                {/*
-                                {this.props.photographer.email}
-                                <br/>
-                                */}
-                                {this.props.photographer.photography_exp ? <span><Tooltip title="Photography"><PhotoCameraIcon className="browseIcon"/></Tooltip></span> : null}
-                                {this.props.photographer.videography_exp ? <span><Tooltip title="Videography"><VideocamIcon className="browseIcon" /></Tooltip></span> : null}
-                                {this.props.photographer.editing_exp ? <span><Tooltip title="Editting"><PhotoFilterIcon className="browseIcon" /></Tooltip></span> : null}
-                            </Typography>
-                        </CardContent>
-                    </Card>  
+                    <CardMedia image={profile_pic} title = "Profile image" className={classes.image} />
+                    <CardContent className={classes.content}>
+                        <Typography variant="body1" m={1} className={classes.right} >
+                            {this.props.photographer.average_rating !== -1 ? <span>{this.props.photographer.average_rating.toFixed(2)}</span> : "N/A"}
+                            <Tooltip title="Average Rating"><StarIcon className="starIcon"/></Tooltip>
+                        </Typography>
+                        <Typography variant="h5" className={classes.left} style = {{color:"orange"}}>
+                            {first_name+" "+last_name}
+                        </Typography>
+                        <Typography variant="body1" className={classes.left}>
+                            {this.props.photographer.email}
+                            <br/>
+                            {this.props.photographer.photography_exp ? <span><Tooltip title="Photography"><PhotoCameraIcon className="browseIcon"/></Tooltip></span> : null}
+                            {this.props.photographer.videography_exp ? <span><Tooltip title="Videography"><VideocamIcon className="browseIcon" /></Tooltip></span> : null}
+                            {this.props.photographer.editing_exp ? <span><Tooltip title="Editting"><PhotoFilterIcon className="browseIcon" /></Tooltip></span> : null}
+                        </Typography>
+                    </CardContent>
+                </Card>  
                 </ButtonBase>
             </div>
             
@@ -76,3 +86,10 @@ export default withStyles(styles)(ProfileCard);
  
 //variant="outlined"
 // disableRipple
+
+/*
+{this.props.photographer.average_rating !== -1 ? <span>{this.props.photographer.average_rating.toFixed(2)}</span> : "N/A"}
+                            <Tooltip title="Average Rating"><StarIcon className="starIcon"/></Tooltip>                
+
+                
+*/
