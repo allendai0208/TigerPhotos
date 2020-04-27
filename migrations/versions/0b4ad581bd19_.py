@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 30f79ecd80a4
+Revision ID: 0b4ad581bd19
 Revises: 
-Create Date: 2020-04-24 00:52:11.194049
+Create Date: 2020-04-27 15:17:40.035926
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '30f79ecd80a4'
+revision = '0b4ad581bd19'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -48,24 +48,19 @@ def upgrade():
     )
     op.create_index(op.f('ix_users_netid'), 'users', ['netid'], unique=True)
     op.create_index(op.f('ix_users_timestamp'), 'users', ['timestamp'], unique=False)
-    op.create_table('equipment',
+    op.create_table('feed',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('netid', sa.String(length=80), nullable=True),
-    sa.Column('equip', sa.String(length=80), nullable=True),
-    sa.ForeignKeyConstraint(['netid'], ['photographers.photographer_netid'], ),
+    sa.Column('description', sa.String(length=750), nullable=True),
+    sa.Column('subject_line', sa.String(length=100), nullable=True),
+    sa.Column('timestamp', sa.DateTime(), nullable=True),
+    sa.Column('specialty', sa.String(length=100), nullable=True),
+    sa.Column('email', sa.String(length=80), nullable=True),
+    sa.ForeignKeyConstraint(['netid'], ['users.netid'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_index(op.f('ix_equipment_equip'), 'equipment', ['equip'], unique=False)
-    op.create_index(op.f('ix_equipment_netid'), 'equipment', ['netid'], unique=False)
-    op.create_table('expertise',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('netid', sa.String(length=80), nullable=True),
-    sa.Column('area', sa.Boolean(), nullable=True),
-    sa.ForeignKeyConstraint(['netid'], ['photographers.photographer_netid'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
-    op.create_index(op.f('ix_expertise_area'), 'expertise', ['area'], unique=False)
-    op.create_index(op.f('ix_expertise_netid'), 'expertise', ['netid'], unique=False)
+    op.create_index(op.f('ix_feed_netid'), 'feed', ['netid'], unique=False)
+    op.create_index(op.f('ix_feed_timestamp'), 'feed', ['timestamp'], unique=False)
     op.create_table('portfolio',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('netid', sa.String(length=80), nullable=True),
@@ -104,12 +99,9 @@ def downgrade():
     op.drop_index(op.f('ix_portfolio_netid'), table_name='portfolio')
     op.drop_index(op.f('ix_portfolio_key'), table_name='portfolio')
     op.drop_table('portfolio')
-    op.drop_index(op.f('ix_expertise_netid'), table_name='expertise')
-    op.drop_index(op.f('ix_expertise_area'), table_name='expertise')
-    op.drop_table('expertise')
-    op.drop_index(op.f('ix_equipment_netid'), table_name='equipment')
-    op.drop_index(op.f('ix_equipment_equip'), table_name='equipment')
-    op.drop_table('equipment')
+    op.drop_index(op.f('ix_feed_timestamp'), table_name='feed')
+    op.drop_index(op.f('ix_feed_netid'), table_name='feed')
+    op.drop_table('feed')
     op.drop_index(op.f('ix_users_timestamp'), table_name='users')
     op.drop_index(op.f('ix_users_netid'), table_name='users')
     op.drop_table('users')

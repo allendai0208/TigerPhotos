@@ -1,6 +1,6 @@
 from flask import jsonify, request
 from backend import app, db
-from backend.models import Reviews, Users, Photographers, Equipment, Expertise, Portfolio
+from backend.models import Reviews, Users, Photographers, Feed, Portfolio
 from CASClient import CASClient
 from flask_mail import Mail, Message
 
@@ -332,4 +332,63 @@ def getReviews():
             'rating': review.rating
         })                                       
     return jsonify({'reviews':reviews})
+
+# route that retrieves all the posts submitted
+@app.route('/api/getPosts')
+def getPosts():
+
+    post_list = Feed.query.all()
+    posts = []
+
+    for post in post_list:
+        posts.append({
+            'netid': post.netid,
+            'description': post.description,
+            'subject_line': post.subject_line,
+            'timestamp': str(post.timestamp).split(' ')[0],
+            'specialty': post.specialty,
+            'email': post.email
+        })
+
+    return jsonify({'posts':posts})
+
+@app.route('/api/createPost', methods=['POST'])
+def createPost():
+
+    post_info = request.get_json()
+
+    post = Feed(
+        netid = post_info['netid'],
+        description = post_info['description'],
+        subject_line = post_info['subject_line'],
+        specialty = post_info['specialty'],
+        email = post_info['email']
+    )
+
+    db.session.add(post)
+    db.session.commit()
+
+    return 'Done', 201
+
+@app.route('/api/deletePost', methods=['POST'])
+def deletePost():
+
+    post_info = request.get_json()
+
+    netid = post_info['netid']
+    description = post_info['description']
+    subject_line = post_info['subject_line']
+    specialty = post_info['specialty']
+    email = post_info['email']
+
+    Feed.query.filter_by(
+        netid = netid, 
+        description = description,
+        subject_line = subject_line,
+        specialty = specialty,
+        email = email).delete()
+
+    db.session.commit()
+
+    return 'Done', 201
 

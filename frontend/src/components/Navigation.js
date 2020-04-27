@@ -18,6 +18,7 @@ class Navigation extends React.Component {
                 <Nav className="ml-auto">
                     <Nav.Link href="/create">My Profile</Nav.Link>
                     <Nav.Link href="/browse">Browse</Nav.Link>
+                    <Nav.Link href="/feed">Feed</Nav.Link>
                     <Nav.Link href="/about">About Us</Nav.Link>
                     <Nav.Link href="/logout">Logout</Nav.Link>
                 </Nav>

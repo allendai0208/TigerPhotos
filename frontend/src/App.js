@@ -16,6 +16,7 @@ import Divider from '@material-ui/core/Divider'
 import LogoutPage from './components/LogoutPage'
 import LoginPage from './components/LoginPage'
 import NavigationBeforeLogin from './components/NavigationBeforeLogin'
+import FeedPage from './components/FeedPage'
 
 // This defines the main theme of the webpages
 const theme = createMuiTheme({
@@ -112,6 +113,7 @@ class App extends React.Component {
               <Route path="/" component={HomePage} exact/>
               <Route path="/create" render = {(props) => <CreatePage netid = {this.state.netid} {...props}/>} exact/>
               <Route path="/browse" render = {(props) => <BrowsePage netid = {this.state.netid} {...props}/>} exact/>
+              <Route path="/feed" render = {(props) => <FeedPage netid = {this.state.netid} {...props}/>} exact/>
               <Route path="/about" component={AboutUs} exact/>
               <Route path="/logout" component={LogoutPage} exact/>
               <Route exact path="/users/:first_name" component={Profile} />
