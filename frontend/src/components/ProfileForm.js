@@ -6,6 +6,7 @@ import React from 'react';
 import { Form, Input, Button, Checkbox } from 'semantic-ui-react';
 import { Redirect } from 'react-router';
 import {storage, fstore} from './firebase/config';
+import loadingIcon from './pictures/loadingimageicon.gif'
 
 class ProfileForm extends React.Component {
 
@@ -29,16 +30,15 @@ class ProfileForm extends React.Component {
             portfolio: [],
             netid:this.props.netid,
             stateHasLoaded: false,
-            gallery_counter: 0,
             prof_pic_loaded: false,
-            gallery_loaded:false
+            new_image_loading: false
         }
         this.handleChange = this.handleChange.bind(this)
         this.storePhoto = this.storePhoto.bind(this)
         this.deletePhoto = this.deletePhoto.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.storeProfPic = this.storeProfPic.bind(this)
-        this.onLoad = this.onLoad.bind(this)
+        //this.onLoad = this.onLoad.bind(this)
     }
     
     // Get the pertinent information to the user when the component mounts to autofill the form fields with their information if possible
@@ -70,13 +70,14 @@ class ProfileForm extends React.Component {
         .catch(e => console.log(e))
     }
 
-    onLoad() {
+    /*onLoad() {
         console.log("before update counter: ", this.state.gallery_counter)
         this.setState({gallery_counter:this.state.gallery_counter+1})
+        console.log("after update counter: ", this.state.gallery_counter)
         if (this.state.gallery_counter >= this.state.portfolio.length) 
             this.setState({gallery_loaded:true})
-        console.log("after update counter: ", this.state.gallery_counter)
     }
+    */
 
     // Makes sure all the required fields give proper warnings
     handleValidation(){
@@ -172,21 +173,23 @@ class ProfileForm extends React.Component {
 
     storeProfPic(e) {
         
+        if (e.target.files[0] === undefined)
+            return
+        this.setState({prof_pic_loaded:false})
         const key = e.target.files[0].name
         const img = storage.ref(`imagesxoy/${key}`)
         img.put(e.target.files[0]).then((snap) => {
             storage.ref(`imagesxoy`).child(key).getDownloadURL().then(url => {
-            const image = {key, url};
+            const image = {key, url}
             fstore.collection(this.state.netid).doc(key).set(image)
-            this.setState({profPic:key, profPicUrl:url})
+            this.setState({profPic:key, profPicUrl:url, prof_pic_loaded:true})
             })
         }, 
         (error) => {    
           // error function ....
           console.log(error);
         },
-        () => {
-        } );
+        );
     }
 
     storePhoto(e) {/* storage.ref('images').child(files.item(i).name).getDownloadURL().then(url => {
@@ -197,19 +200,31 @@ class ProfileForm extends React.Component {
         //fstore.collection(this.props.netid).add(image).then(res =>{});*/
         //console.log(e.target.files[0])
         //console.log(URL.createObjectURL(e.target.files[0]))
+        if (e.target.files[0] === undefined)
+            return
+        this.setState({new_image_loading:true})
         const key = e.target.files[0].name
         const img = storage.ref(`imagesxoy/${key}`)
         img.put(e.target.files[0]).then((snap) => {
-          storage.ref(`imagesxoy`).child(key).getDownloadURL().then(url => {
-          const image = {key, url};
-          fstore.collection(this.state.netid).doc(key).set(image)
-          let portfolio = this.state.portfolio.slice()
-          portfolio.push({
-            key: key,
-            url: url,
-          })
-          this.setState({portfolio})
-          })
+            storage.ref(`imagesxoy`).child(key).getDownloadURL().then(url => {
+                const image = {key, url};
+                fstore.collection(this.state.netid).doc(key).set(image)
+
+                fetch('/api/addImage', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }, 
+                    body: JSON.stringify({netid:this.props.netid, key:key, url:url})
+                })
+
+                let portfolio = this.state.portfolio.slice()
+                portfolio.push({
+                    key: key,
+                    url: url,
+                })
+                this.setState({portfolio:portfolio, new_image_loading:false})
+            })
         }, 
         (error) => {    
           // error function ....
@@ -217,6 +232,8 @@ class ProfileForm extends React.Component {
         },
         () => {
         } );
+
+        
     }
     
     deletePhoto(event) {
@@ -226,6 +243,14 @@ class ProfileForm extends React.Component {
             return imag.key !== current_image_name
         })
         this.setState({portfolio:images})
+
+        fetch('/api/deleteImage', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }, 
+            body: JSON.stringify({netid:this.props.netid, key:current_image_name})
+        })
     }
 
     // Called when submit button is pressed. This will get all the information in the fields from state, and the portfolio from state as well
@@ -256,13 +281,6 @@ class ProfileForm extends React.Component {
                 }, 
                 body: JSON.stringify(photographer)
             });
-            fetch('/api/createPortfolio', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }, 
-                body: JSON.stringify({netid:this.state.netid, portfolio:this.state.portfolio})
-            });
             this.setState({redirect: true})
         }
     }
@@ -285,8 +303,10 @@ class ProfileForm extends React.Component {
                 <input name = "newImage" type = "file" onChange = {this.storeProfPic}/>
                 <br/>
                 <br/>
-                <div className = "formFields" style={{display: this.state.prof_pic_loaded ? "none" : "block"}}>Loading profile picture...</div>
-                <img alt = "" src = {this.state.profPicUrl} className = "createGallery"/>
+                <div className = "formFields" style={{display: this.state.prof_pic_loaded ? "none" : "block"}}>
+                    <img src = {loadingIcon} style = {{height:"200px", width:"auto"}}/>
+                </div>
+                <img alt = "" style={{display: this.state.prof_pic_loaded ? "block" : "none"}} src = {this.state.profPicUrl} className = "createGallery"/>
                     
                 <Form>
                 <span style={{color: "red"}}>{this.state.errors["first_name"]} <br/> </span>
@@ -387,19 +407,19 @@ class ProfileForm extends React.Component {
                 <br/>
                 <div className = "createGalleryText">My Gallery</div>
                 <hr className = "createHR"/>
-                {/*<div style={{display: this.state.gallery_loaded ? "none" : "block"}}>Loading gallery...</div>
-                <div style={{display: this.state.gallery_loaded ? "block" : "none"}}>*/}
+                <span>
                     {this.state.portfolio.map((image) => 
-                        <img alt = '' 
-                        key = {image.url} 
-                        name={image.key} 
-                        className = "createGallery" 
-                        src = {image.url} 
-                        onClick = {(image) => this.deletePhoto(image)}
-                        onLoad = {this.onLoad}/>)}
-                {/*</div>*/}
+                    <img alt = '' 
+                    key = {image.url} 
+                    name={image.key} 
+                    className = "createGallery" 
+                    src = {image.url} 
+                    onClick = {(image) => this.deletePhoto(image)}/>)}
+                    <img alt = '' src = {loadingIcon} style={{display: this.state.new_image_loading ? "inline" : "none"}} className = "createGallery"/>
+                </span>
                 <br/>
                 <br/>
+                <p className = "formFields"> Click on a picture to delete it from your portfolio</p>
                 <Button color='blue' size='large'onClick={this.handleSubmit} className ="createSubmit">
                     Submit
                 </Button>

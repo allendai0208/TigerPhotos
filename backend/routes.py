@@ -86,9 +86,6 @@ def browse():
         review_list = Reviews.query.filter_by(photographer_netid = photographer.photographer_netid).all()
         reviews = []
 
-        average_rating = -1
-        temp_avg_rating = 0
-
         for row in review_list:
             reviews.append({
                 'user_netid' : row.user_netid,
@@ -96,10 +93,6 @@ def browse():
                 'rating' : row.rating,
                 'date' : str(row.timestamp).split(' ')[0]
             })
-            temp_avg_rating += row.rating
-
-        if len(review_list) != 0:
-            average_rating = temp_avg_rating / len(review_list)
 
         photographers.append({
             'photographer_netid' : photographer.photographer_netid,
@@ -112,7 +105,7 @@ def browse():
             'profile_pic' : photographer.profile_pic,
             'urls' : urls,
             'reviews' : reviews,
-            'average_rating' : average_rating,
+            'average_rating' : photographer.avg_rating,
             'photography_exp': photographer.photography_checkbox,
             'editing_exp': photographer.editing_checkbox,
             'videography_exp': photographer.videography_checkbox 
@@ -155,7 +148,8 @@ def getPhotographer():
                 'equipment': photographer_data[0].equipment,
                 'profile_pic': photographer_data[0].profile_pic,
                 'key': photographer_data[0].key,
-                'portfolio': portfolio
+                'portfolio': portfolio,
+                'avg_rating': photographer_data[0].avg_rating
         }
     
     else:
@@ -200,9 +194,9 @@ def createProfile():
         editing_checkbox=photographer_data['editing_checkbox'],
         equipment=photographer_data['equipment'],
         profile_pic = photographer_data['profile_pic'],
-        key = photographer_data['key']
+        key = photographer_data['key'],
+        avg_rating = -1
         )
-
         db.session.add(new_photographer)
         db.session.commit()
 
@@ -272,8 +266,6 @@ def createPortfolio():
 def createReview():
 
     review_info = request.get_json(force=True)
-    print('REVIEW_INFO:',review_info)
-    print('rating:',review_info['rating'])
 
     # If the user already has a review for this photographer, delete the old review
     review_exists = Reviews.query.filter_by(user_netid=review_info['user_netid'],
@@ -286,6 +278,24 @@ def createReview():
                          review=review_info['review'], 
                          rating=review_info['rating'])
 
+    current_reviews = Reviews.query.filter_by(photographer_netid = review_info['photographer_netid']).all()
+    
+    total_rating = review_info['rating']
+
+    if total_rating == -1:
+        total_rating = 0
+
+    num_rating = 1
+
+    for review in current_reviews:
+        total_rating += review.rating
+        num_rating += 1
+
+    avg_rating = total_rating / num_rating
+
+    photographer = Photographers.query.filter_by(photographer_netid = review_info['photographer_netid']).first()
+    photographer.avg_rating = avg_rating
+
     db.session.add(new_review)
     db.session.commit()
         
@@ -296,7 +306,29 @@ def deleteReview():
 
     review_info = request.get_json(force=True)
 
-    Reviews.query.filter_by(user_netid=review_info['user_netid']).delete()
+    current_reviews = Reviews.query.filter_by(photographer_netid = review_info['photographer_netid']).all()
+
+    total_rating = 0
+    num_rating = 0
+
+    for review in current_reviews:
+        total_rating += review.rating
+        num_rating += 1
+
+    total_rating = total_rating - review_info['rating']
+    num_rating = num_rating - 1
+
+    if num_rating == 0:
+        avg_rating = -1
+    else:
+        avg_rating = total_rating / num_rating
+
+    photographer = Photographers.query.filter_by(photographer_netid = review_info['photographer_netid']).first()
+    photographer.avg_rating = avg_rating
+
+    Reviews.query.filter_by(user_netid=review_info['user_netid'],
+                            photographer_netid=review_info['photographer_netid']).delete()
+
     db.session.commit()
 
     return 'Done', 201                   
@@ -309,7 +341,6 @@ def sendEmail():
         msg = Message(emailInfo["email_subject"], sender = "tigerphotosteam@gmail.com", recipients = [emailInfo["email_sendTo"]])
         msg.body = emailInfo["email_body"]
         mail.send(msg)
-        print("got here innit")
     except Exception as e:
         return (str(e))
 
@@ -333,60 +364,34 @@ def getReviews():
         })                                       
     return jsonify({'reviews':reviews})
 
-# route that retrieves all the posts submitted
-@app.route('/api/getPosts')
-def getPosts():
+# route that deletes image of a given photographer (given their netid and filename)
+@app.route('/api/addImage', methods=['POST'])
+def addImage():
 
-    post_list = Feed.query.all()
-    posts = []
+    image_info = request.get_json(force=True)
 
-    for post in post_list:
-        posts.append({
-            'netid': post.netid,
-            'description': post.description,
-            'subject_line': post.subject_line,
-            'timestamp': str(post.timestamp).split(' ')[0],
-            'specialty': post.specialty,
-            'email': post.email
-        })
-
-    return jsonify({'posts':posts})
-
-@app.route('/api/createPost', methods=['POST'])
-def createPost():
-
-    post_info = request.get_json()
-
-    post = Feed(
-        netid = post_info['netid'],
-        description = post_info['description'],
-        subject_line = post_info['subject_line'],
-        specialty = post_info['specialty'],
-        email = post_info['email']
-    )
-
-    db.session.add(post)
+    new_image = Portfolio(netid = image_info['netid'],
+                          picture = image_info['url'],
+                          key = image_info['key'])
+    
+    db.session.add(new_image)
     db.session.commit()
 
     return 'Done', 201
 
+<<<<<<< HEAD
 @app.route('/api/deletePost', methods=['POST'])
 def deletePost():
 
     post_info = request.get_json(force=True)
+=======
+@app.route('/api/deleteImage', methods=['POST'])
+def deleteImage():
+>>>>>>> loading
 
-    netid = post_info['netid']
-    description = post_info['description']
-    subject_line = post_info['subject_line']
-    specialty = post_info['specialty']
-    email = post_info['email']
+    image_info = request.get_json(force=True)
 
-    Feed.query.filter_by(
-        netid = netid, 
-        description = description,
-        subject_line = subject_line,
-        specialty = specialty,
-        email = email).delete()
+    Portfolio.query.filter_by(netid = image_info['netid'], key = image_info['key']).delete()
 
     db.session.commit()
 
