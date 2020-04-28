@@ -6,6 +6,7 @@ import React from 'react';
 import { Form, Input, Button, Checkbox } from 'semantic-ui-react';
 import { Redirect } from 'react-router';
 import {storage, fstore} from './firebase/config';
+import { Alert } from 'react-bootstrap';
 
 class ProfileForm extends React.Component {
 
@@ -265,6 +266,9 @@ class ProfileForm extends React.Component {
             });
             this.setState({redirect: true})
         }
+        else {
+            alert("The form has errors. Please correct the errors and submit again.")
+        }
     }
 
     // The actual rendering of the form. Use the state which has stored the current photographer's information to autofill the fields
@@ -299,7 +303,6 @@ class ProfileForm extends React.Component {
                         onChange={this.handleChange}
                     />
                 </Form.Field>
-                <br/>
                 <span style={{color: "red"}}>{this.state.errors["last_name"]} <br/> </span>
                 <span className = "formFields">Last Name:</span><span className="required">*</span>
                 <Form.Field>
@@ -310,7 +313,6 @@ class ProfileForm extends React.Component {
                         onChange={this.handleChange}
                     />
                 </Form.Field>
-                <br/>
                 <span style={{color: "red"}}>{this.state.errors["email"]} <br/> </span>
                 <span className = "formFields">Email:</span><span className="required">*</span>
                 <Form.Field>
@@ -321,7 +323,6 @@ class ProfileForm extends React.Component {
                         onChange={this.handleChange}
                     />
                 </Form.Field>
-                <br/>
                 <span style={{color: "red"}}>{this.state.errors["website_url"]} <br/> </span>
                 <div className = "formFields">Link Your Website:</div>
                 <Form.Field>
@@ -332,7 +333,6 @@ class ProfileForm extends React.Component {
                         onChange={this.handleChange}
                     />
                 </Form.Field>
-                <br/>
                 <span style={{color: "red"}}>{this.state.errors["description"]} <br/> </span>
                 <span className = "formFields">Description about yourself (max 1000 characters):</span><span className="required">*</span>
                 <Form.Field>
@@ -345,8 +345,6 @@ class ProfileForm extends React.Component {
                         rows={5}
                     />
                 </Form.Field> 
-                <br/>
-
                 <span style={{color: "red"}}>{this.state.errors["expertise"]} <br/> </span>
                 <span className = "formFields">Area(s) of Expertise:</span><span className="required">*</span>
                 <Form.Field>
@@ -361,7 +359,6 @@ class ProfileForm extends React.Component {
                     <Checkbox label='Editing'
                             checked={this.state.editing_checkbox} 
                             onChange={() => this.setState({editing_checkbox:!this.state.editing_checkbox})}/>
-                    <br/>
                 </Form.Field>
             
                 <span style={{color: "red"}}>{this.state.errors["equipment"]} <br/> </span>
