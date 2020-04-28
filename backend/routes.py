@@ -86,9 +86,6 @@ def browse():
         review_list = Reviews.query.filter_by(photographer_netid = photographer.photographer_netid).all()
         reviews = []
 
-        average_rating = -1
-        temp_avg_rating = 0
-
         for row in review_list:
             reviews.append({
                 'user_netid' : row.user_netid,
@@ -96,10 +93,6 @@ def browse():
                 'rating' : row.rating,
                 'date' : str(row.timestamp).split(' ')[0]
             })
-            temp_avg_rating += row.rating
-
-        if len(review_list) != 0:
-            average_rating = temp_avg_rating / len(review_list)
 
         photographers.append({
             'photographer_netid' : photographer.photographer_netid,
@@ -112,7 +105,7 @@ def browse():
             'profile_pic' : photographer.profile_pic,
             'urls' : urls,
             'reviews' : reviews,
-            'average_rating' : average_rating,
+            'average_rating' : photographer.avg_rating,
             'photography_exp': photographer.photography_checkbox,
             'editing_exp': photographer.editing_checkbox,
             'videography_exp': photographer.videography_checkbox 
@@ -202,9 +195,8 @@ def createProfile():
         equipment=photographer_data['equipment'],
         profile_pic = photographer_data['profile_pic'],
         key = photographer_data['key'],
-        avg_rating = 0
+        avg_rating = -1
         )
-
         db.session.add(new_photographer)
         db.session.commit()
 
@@ -289,6 +281,10 @@ def createReview():
     current_reviews = Reviews.query.filter_by(photographer_netid = review_info['photographer_netid']).all()
     
     total_rating = review_info['rating']
+
+    if total_rating == -1:
+        total_rating = 0
+
     num_rating = 1
 
     for review in current_reviews:
@@ -345,7 +341,6 @@ def sendEmail():
         msg = Message(emailInfo["email_subject"], sender = "tigerphotosteam@gmail.com", recipients = [emailInfo["email_sendTo"]])
         msg.body = emailInfo["email_body"]
         mail.send(msg)
-        print("got here innit")
     except Exception as e:
         return (str(e))
 
