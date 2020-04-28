@@ -13,34 +13,27 @@ import Container from 'react-bootstrap/Container';
 import ProfileCard from './ProfileCard'
 import ActiveProfile from './ActiveProfile.js'
 import DefaultActiveProfile from './DefaultActiveProfile.js'
+import FormControl from '@material-ui/core/FormControl'
+import Select from '@material-ui/core/Select'
+import MenuItem from '@material-ui/core/MenuItem'
+import InputLabel from '@material-ui/core/InputLabel'
 import Button from '@material-ui/core/Button'
-import Select from '@material-ui/core/Select';
-
-
-
-// This is commented out because it wasn't being used, whoever wrote this should check to see if we need it and if not we should delete it - Keith
-/*const styles = {
-  main: { 
-    display: 'inline-block',
-    height: "inherit"
-  }
-}
-*/
 
 class BrowsePage extends React.Component {
 
   constructor(props) {
     super(props)
+    this.state = {
+      photographers: [],
+      selectedPhotographer: [],
+      profileHasBeenClicked: false,
+      filteredPhotographers: [],
+      filter: "",
+      sort: ""
+    }
     this.handler = this.handler.bind(this)
-    this.handleFiltering = this.handleFiltering.bind(this)
-    this.showAll = this.showAll.bind(this)
-  }
-
-  state = {
-    photographers: [],
-    selectedPhotographer: [],
-    profileHasBeenClicked: false,
-    filteredPhotographers: []
+    this.handleFilterChange = this.handleFilterChange.bind(this)
+    this.handleSortChange = this.handleSortChange.bind(this)
   }
 
   //Get all pertinent fields regarding all photographers
@@ -70,18 +63,32 @@ class BrowsePage extends React.Component {
     })
   }
 
-  showAll() {
-    this.setState({filteredPhotographers:this.state.photographers})
+  handleSearch(event) {
+
+
+
+
+
   }
 
-  handleFiltering(e) {
-    let filtered = []
-    for (const person of this.state.photographers) {
-      if (person[e])
-        filtered.push(person)
+  handleSortChange(event) {
+    this.setState({sort:event.target.value})
+  }
+
+  handleFilterChange(event) {
+    this.setState({filter:event.target.value})
+    /*if (event.target.value === "All") {
+      this.setState({filteredPhotographers:this.state.photographers})
     }
-    this.setState({filteredPhotographers:filtered})
-    console.log(this.state.filteredPhotographers)
+    else {
+      let filtered = []
+      for (const person of this.state.photographers) {
+        if (person[event.target.value])
+          filtered.push(person)
+      }
+      this.setState({filteredPhotographers:filtered})
+    }
+    */
   }
 
   render() {
@@ -95,22 +102,32 @@ class BrowsePage extends React.Component {
         <Row >
           <div>
             <Col xs = {12} className="column1">
+              <FormControl style = {{minWidth: "75px"}}>
+                <InputLabel id="filter-label">Filter By</InputLabel>
                 <Select
                   labelId="filter-label"
-                  id="filter"
-                  value={}
-                  onChange={() => handleFiltering(event.target.value)}
+                  onChange = {this.handleFilterChange}
                   >
-                    <MenuItem value={}> Photographers </MenuItem>
-                    <MenuItem value={}> Videographers </MenuItem> 
-                    <MenuItem value={}> Editors </MenuItem>
+                    <MenuItem value={"All"}> All </MenuItem>
+                    <MenuItem value={"photography_exp"}> Photographers </MenuItem>
+                    <MenuItem value={"videography_exp"}> Videographers </MenuItem> 
+                    <MenuItem value={"editing_exp"}> Editors </MenuItem>
                 </Select>
-                <Button onClick = {this.showAll}>View All</Button>
-                <Button onClick = {() => this.handleFiltering("photography_exp")}>Photographers</Button>
-                <Button onClick = {() => this.handleFiltering("videography_exp")}>Videographers</Button>
-                <Button onClick = {() => this.handleFiltering("editing_exp")}>Editors</Button>
+              </FormControl>
 
-                {recentPhotographersMarkup}
+              <FormControl style = {{minWidth: "75px"}}>
+                <InputLabel id="sort-label">Sort By</InputLabel>
+                <Select
+                  labelId="sort-label"
+                  onChange = {this.handleSortChange}
+                  >
+                    <MenuItem value={"alphabetical"}> Alphabetical </MenuItem>
+                    <MenuItem value={"rating"}> Average Rating </MenuItem> 
+                </Select>
+              </FormControl>
+
+              <Button color="primary" variant="contained" onClick = {this.handleSearch} style = {{marginTop:"10px"}}>Search</Button>
+              {recentPhotographersMarkup}
             </Col>
           </div>
             <Col>
