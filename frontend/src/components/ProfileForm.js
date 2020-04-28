@@ -279,12 +279,6 @@ class ProfileForm extends React.Component {
 
         return (
             <div className = "profileFormMargins">
-
-                <div>
-                    <span className="required">*</span> = required field
-                </div>
-                <br/>
-
                 <span style={{color: "red"}}>{this.state.errors["profile_picture"]} <br/> </span> 
                 <span className = "formFields">Upload a Profile Picture:</span><span className="required">*</span>
                 <br/>

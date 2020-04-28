@@ -1,7 +1,7 @@
 // This component renders the information pertaining to the most recently clicked ProfileCard.
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
-import ActiveGallery from './ActiveGallery'
+// import ActiveGallery from './ActiveGallery'
 import Divider from '@material-ui/core/Divider'
 import Button from '@material-ui/core/Button'
 import ReviewForm from './ReviewForm'
@@ -11,6 +11,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer'
 import CreateIcon from '@material-ui/icons/Create'
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd'
+import FbImageLibrary from 'react-fb-image-grid'
 import {EmailModal} from './EmailModal'
 
 class ActiveProfile extends React.Component{
@@ -138,7 +139,11 @@ class ActiveProfile extends React.Component{
                     <Typography variant="h5" className="browse_description">
                         Gallery:
                     </Typography>
-                    <ActiveGallery urls = {this.props.selectedPhotographer.urls}/>
+                    {/* <ActiveGallery urls = {this.props.selectedPhotographer.urls}/> */}
+                    {console.log(this.props.selectedPhotographer.urls)}
+                    <div className='galleryDimensions'>
+                        <FbImageLibrary images={this.props.selectedPhotographer.urls}/>
+                    </div>
                 </div>
             )
             

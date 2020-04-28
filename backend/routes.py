@@ -373,7 +373,7 @@ def createPost():
 @app.route('/api/deletePost', methods=['POST'])
 def deletePost():
 
-    post_info = request.get_json()
+    post_info = request.get_json(force=True)
 
     netid = post_info['netid']
     description = post_info['description']
