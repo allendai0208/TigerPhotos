@@ -54,7 +54,7 @@ class ProfileCard extends React.Component {
     render() {
         const {classes, photographer : {first_name, last_name, profile_pic}} = this.props
         return (
-            <div className="card column">
+            <div className="cardColumn">
                 <ButtonBase className='removeOutline' onClick = {() => this.props.handler(this.props.photographer, true)}>
                 <Card className={classes.card} >
                     <CardMedia image={profile_pic} title = "Profile image" className={classes.image} />

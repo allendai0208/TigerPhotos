@@ -23,6 +23,7 @@ mail = Mail(app)
 @app.route('/create')
 @app.route('/about')
 @app.route('/logout')
+@app.route('/feed')
 def root():
     return app.send_static_file('index.html')
 

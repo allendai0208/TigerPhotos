@@ -230,7 +230,7 @@ body{
   overflow-y: scroll;
 }
 
-.cardcolumn {
+.cardColumn {
   width: 100%;
   outline: none !important;
 }
@@ -270,12 +270,12 @@ body{
 
 .starIcon {
   margin-bottom: 3px;
-  color: orange
+  color: gold
 }
 
 .starIcon2 {
   margin-bottom: 6px;
-  color: orange
+  color: gold
 }
 
 .search {

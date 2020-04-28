@@ -142,11 +142,11 @@ class BrowsePage extends React.Component {
               {recentPhotographersMarkup}
             </Col>
           </div>
-            <Col>
-              {this.state.profileHasBeenClicked ? 
-                <ActiveProfile selectedPhotographer = {this.state.selectedPhotographer} user_netid = {this.props.netid} /> : 
-                <DefaultActiveProfile/>}
-            </Col>
+          <Col>
+            {this.state.profileHasBeenClicked ? 
+              <ActiveProfile selectedPhotographer = {this.state.selectedPhotographer} user_netid = {this.props.netid} /> : 
+              <DefaultActiveProfile/>}
+          </Col>
         </Row>
       </Container>
     )
@@ -155,3 +155,48 @@ class BrowsePage extends React.Component {
 } 
 
 export default BrowsePage;
+
+
+/*
+return (
+      <Container fluid>
+        <Row >
+          <div>
+            <Col xs = {12} className="column1">
+              <FormControl style = {{minWidth: "75px"}}>
+                <InputLabel id="filter-label">Filter By</InputLabel>
+                <Select
+                  labelId="filter-label"
+                  onChange = {this.handleFilterChange}
+                  >
+                    <MenuItem value={"All"}> All </MenuItem>
+                    <MenuItem value={"photography_exp"}> Photographers </MenuItem>
+                    <MenuItem value={"videography_exp"}> Videographers </MenuItem> 
+                    <MenuItem value={"editing_exp"}> Editors </MenuItem>
+                </Select>
+              </FormControl>
+
+              <FormControl style = {{minWidth: "75px"}}>
+                <InputLabel id="sort-label">Sort By</InputLabel>
+                <Select
+                  labelId="sort-label"
+                  onChange = {this.handleSortChange}
+                  >
+                    <MenuItem value={"alphabetical"}> Alphabetical </MenuItem>
+                    <MenuItem value={"rating"}> Average Rating </MenuItem> 
+                </Select>
+              </FormControl>
+
+              <Button color="primary" variant="contained" onClick = {this.handleSearch} style = {{marginTop:"10px"}}>Search</Button>
+              {recentPhotographersMarkup}
+            </Col>
+          </div>
+          <Col>
+            {this.state.profileHasBeenClicked ? 
+              <ActiveProfile selectedPhotographer = {this.state.selectedPhotographer} user_netid = {this.props.netid} /> : 
+              <DefaultActiveProfile/>}
+          </Col>
+        </Row>
+      </Container>
+    )
+*/
