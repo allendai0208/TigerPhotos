@@ -235,6 +235,10 @@ body{
   outline: none !important;
 }
 
+.galleryDimensions {
+  max-width: 500px;
+}
+
 .browse_header {
   background-color: oldlace;
   font-family: 'Lato', sans-serif

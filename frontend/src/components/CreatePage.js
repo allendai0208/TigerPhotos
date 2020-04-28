@@ -8,10 +8,10 @@ function CreatePage(props) {
   
   return (
     <div className="ProfilePage">
-      <Container style={{marginTop: 40}}>
+      <div style={{marginLeft:150, marginRight:150, marginTop: 40}}>
         <p className="CreateProfileText">My Profile</p>
         <ProfileForm netid = {props.netid} />
-      </Container>
+      </div>
     </div>
   );
 }
