@@ -394,3 +394,4 @@ def deleteImage():
     db.session.commit()
 
     return 'Done', 201
+
