@@ -187,9 +187,11 @@ class ActiveProfile extends React.Component{
             }
         }
 
-        let border = ' '
+        let border = ''
+        let website = ''
         if (this.props.selectedPhotographer.website_url) {
             border = " | "
+            website = "My Website"
         }
         return (
             <div>
@@ -201,7 +203,8 @@ class ActiveProfile extends React.Component{
                     {this.props.selectedPhotographer.average_rating !== -1 ? <span>{this.props.selectedPhotographer.average_rating.toFixed(2)}</span> : "N/A"} 
                     <Tooltip title="Average Rating"><StarIcon className="starIcon2"/></Tooltip>
                     {border}
-                    <a target='_blank' href={this.props.selectedPhotographer.website_url}>My Website</a>
+                    <a target='_blank' href={this.props.selectedPhotographer.website_url}>{website}</a>
+                    {console.log(this.props.selectedPhotographer.website_url)}
                     </Typography>
                     <Button startIcon={<AssignmentIndIcon/>} disableRipple className='removeOutline' color={this.state.button_1} onClick={() => this.handleClick(0)}>About</Button>
                     <Button startIcon={<QuestionAnswerIcon/>} disableRipple className='removeOutline' color={this.state.button_2} onClick={() => this.handleClick(1)}>Reviews</Button>

@@ -133,8 +133,8 @@ class ProfileForm extends React.Component {
         }
 
         //Website Url
-        if(typeof this.state.website_url !== "undefined"){
-            if(!this.state.website_url.match(/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/)){
+        if(this.state.website_url !== ""){
+            if(!this.state.website_url.match(/^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/)){
                 formIsValid = false;
                 errors["website_url"] = "Enter a valid url";
             }  
@@ -283,6 +283,9 @@ class ProfileForm extends React.Component {
             });
             this.setState({redirect: true})
         }
+        else {
+            alert("The form has errors. Please correct the errors and submit again.")
+        }
     }
 
     // The actual rendering of the form. Use the state which has stored the current photographer's information to autofill the fields
@@ -319,7 +322,6 @@ class ProfileForm extends React.Component {
                         onChange={this.handleChange}
                     />
                 </Form.Field>
-                <br/>
                 <span style={{color: "red"}}>{this.state.errors["last_name"]} <br/> </span>
                 <span className = "formFields">Last Name:</span><span className="required">*</span>
                 <Form.Field>
@@ -330,7 +332,6 @@ class ProfileForm extends React.Component {
                         onChange={this.handleChange}
                     />
                 </Form.Field>
-                <br/>
                 <span style={{color: "red"}}>{this.state.errors["email"]} <br/> </span>
                 <span className = "formFields">Email:</span><span className="required">*</span>
                 <Form.Field>
@@ -341,7 +342,6 @@ class ProfileForm extends React.Component {
                         onChange={this.handleChange}
                     />
                 </Form.Field>
-                <br/>
                 <span style={{color: "red"}}>{this.state.errors["website_url"]} <br/> </span>
                 <div className = "formFields">Link Your Website:</div>
                 <Form.Field>
@@ -352,7 +352,6 @@ class ProfileForm extends React.Component {
                         onChange={this.handleChange}
                     />
                 </Form.Field>
-                <br/>
                 <span style={{color: "red"}}>{this.state.errors["description"]} <br/> </span>
                 <span className = "formFields">Description about yourself (max 1000 characters):</span><span className="required">*</span>
                 <Form.Field>
@@ -365,8 +364,6 @@ class ProfileForm extends React.Component {
                         rows={5}
                     />
                 </Form.Field> 
-                <br/>
-
                 <span style={{color: "red"}}>{this.state.errors["expertise"]} <br/> </span>
                 <span className = "formFields">Area(s) of Expertise:</span><span className="required">*</span>
                 <Form.Field>
@@ -381,7 +378,6 @@ class ProfileForm extends React.Component {
                     <Checkbox label='Editing'
                             checked={this.state.editing_checkbox} 
                             onChange={() => this.setState({editing_checkbox:!this.state.editing_checkbox})}/>
-                    <br/>
                 </Form.Field>
             
                 <span style={{color: "red"}}>{this.state.errors["equipment"]} <br/> </span>
