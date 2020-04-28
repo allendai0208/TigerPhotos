@@ -14,6 +14,8 @@ import ProfileCard from './ProfileCard'
 import ActiveProfile from './ActiveProfile.js'
 import DefaultActiveProfile from './DefaultActiveProfile.js'
 import Button from '@material-ui/core/Button'
+import Select from '@material-ui/core/Select';
+
 
 
 // This is commented out because it wasn't being used, whoever wrote this should check to see if we need it and if not we should delete it - Keith
@@ -93,6 +95,16 @@ class BrowsePage extends React.Component {
         <Row >
           <div>
             <Col xs = {12} className="column1">
+                <Select
+                  labelId="filter-label"
+                  id="filter"
+                  value={}
+                  onChange={() => handleFiltering(event.target.value)}
+                  >
+                    <MenuItem value={}> Photographers </MenuItem>
+                    <MenuItem value={}> Videographers </MenuItem> 
+                    <MenuItem value={}> Editors </MenuItem>
+                </Select>
                 <Button onClick = {this.showAll}>View All</Button>
                 <Button onClick = {() => this.handleFiltering("photography_exp")}>Photographers</Button>
                 <Button onClick = {() => this.handleFiltering("videography_exp")}>Videographers</Button>
