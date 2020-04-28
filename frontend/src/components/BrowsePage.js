@@ -28,10 +28,11 @@ class BrowsePage extends React.Component {
       selectedPhotographer: [],
       profileHasBeenClicked: false,
       filteredPhotographers: [],
-      filter: "",
-      sort: ""
+      filter: "All",
+      sort: "alphebetical"
     }
     this.handler = this.handler.bind(this)
+    this.handleSearch = this.handleSearch.bind(this)
     this.handleFilterChange = this.handleFilterChange.bind(this)
     this.handleSortChange = this.handleSortChange.bind(this)
   }
@@ -63,12 +64,35 @@ class BrowsePage extends React.Component {
     })
   }
 
-  handleSearch(event) {
+  handleSearch() {
+    let filtered = []
+    if (this.state.filter === "All") {
+      filtered = this.state.photographers
+    }
 
+    else {
+      for (const person of this.state.photographers) {
+        if (person[this.state.filter])
+          filtered.push(person)
+      }
+    }
+    
+    if (this.state.sort === "alphabetical") {
+      filtered = filtered.sort(function (a, b) {
+        if (a.first_name < b.first_name) return -1;
+        else if (a.first_name > b.first_name) return 1;
+        return 0;
+      })
+    }
 
-
-
-
+    else if (this.state.sort === "rating") {
+      filtered = filtered.sort(function (a, b) {
+        if (a.average_rating > b.average_rating) return -1;
+        else if (a.average_rating < b.average_rating) return 1;
+        return 0;
+      })
+    }
+    this.setState({filteredPhotographers: filtered})
   }
 
   handleSortChange(event) {
@@ -77,18 +101,6 @@ class BrowsePage extends React.Component {
 
   handleFilterChange(event) {
     this.setState({filter:event.target.value})
-    /*if (event.target.value === "All") {
-      this.setState({filteredPhotographers:this.state.photographers})
-    }
-    else {
-      let filtered = []
-      for (const person of this.state.photographers) {
-        if (person[event.target.value])
-          filtered.push(person)
-      }
-      this.setState({filteredPhotographers:filtered})
-    }
-    */
   }
 
   render() {
