@@ -112,8 +112,8 @@ class BrowsePage extends React.Component {
     return (
       <Container fluid>
         <Row noGutters>
-          <div className="column1">
-            <Col xs = {12}>
+          <div>
+            <Col xs = {12} className="column1">
               <FormControl style = {{minWidth: "75px"}}>
                 <InputLabel id="filter-label">Filter By</InputLabel>
                 <Select
