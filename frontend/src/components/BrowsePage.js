@@ -110,6 +110,7 @@ class BrowsePage extends React.Component {
       <p>Loading...</p>
     )
     return (
+      <div className='hideScrollbar'>
       <Container fluid>
         <Row noGutters>
           <div>
@@ -149,6 +150,7 @@ class BrowsePage extends React.Component {
           </Col>
         </Row>
       </Container>
+      </div>
     )
   }
 } 
