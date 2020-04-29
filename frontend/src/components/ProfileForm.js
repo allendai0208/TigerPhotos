@@ -7,6 +7,7 @@ import { Form, Input, Button, Checkbox } from 'semantic-ui-react';
 import { Redirect } from 'react-router';
 import {storage, fstore} from './firebase/config';
 import loadingIcon from './pictures/loadingimageicon.gif'
+import loadingIcon2 from './pictures/loadingicon2.gif'
 
 class ProfileForm extends React.Component {
 
@@ -31,7 +32,8 @@ class ProfileForm extends React.Component {
             netid:this.props.netid,
             stateHasLoaded: false,
             prof_pic_loaded: false,
-            new_image_loading: false
+            new_image_loading: false,
+            counter:0
         }
         this.handleChange = this.handleChange.bind(this)
         this.storePhoto = this.storePhoto.bind(this)
@@ -202,38 +204,43 @@ class ProfileForm extends React.Component {
         //console.log(URL.createObjectURL(e.target.files[0]))
         if (e.target.files[0] === undefined)
             return
-        this.setState({new_image_loading:true})
-        const key = e.target.files[0].name
-        const img = storage.ref(`imagesxoy/${key}`)
-        img.put(e.target.files[0]).then((snap) => {
-            storage.ref(`imagesxoy`).child(key).getDownloadURL().then(url => {
-                const image = {key, url};
-                fstore.collection(this.state.netid).doc(key).set(image)
 
-                fetch('/api/addImage', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }, 
-                    body: JSON.stringify({netid:this.props.netid, key:key, url:url})
+        let i
+        let length = e.target.files.length
+        for (i = 0; i < length; i++) {
+            
+            this.setState({new_image_loading:true})
+            const key = e.target.files[i].name
+            const img = storage.ref(`imagesxoy/${key}`)
+            img.put(e.target.files[i]).then((snap) => {
+                storage.ref(`imagesxoy`).child(key).getDownloadURL().then(url => {
+                    const image = {key, url};
+                    fstore.collection(this.state.netid).doc(key).set(image)
+
+                    fetch('/api/addImage', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }, 
+                        body: JSON.stringify({netid:this.props.netid, key:key, url:url})
+                    })
+
+                    let portfolio = this.state.portfolio.slice()
+                    portfolio.push({
+                        key: key,
+                        url: url,
+                    })
+                    this.setState({portfolio:portfolio, new_image_loading:false})
                 })
+            }, 
+            (error) => {    
+                // error function ....
+                console.log(error);
+            },
+            )
+            
+        }
 
-                let portfolio = this.state.portfolio.slice()
-                portfolio.push({
-                    key: key,
-                    url: url,
-                })
-                this.setState({portfolio:portfolio, new_image_loading:false})
-            })
-        }, 
-        (error) => {    
-          // error function ....
-          console.log(error);
-        },
-        () => {
-        } );
-
-        
     }
     
     deletePhoto(event) {
@@ -305,11 +312,10 @@ class ProfileForm extends React.Component {
                 <br/>
                 <input name = "newImage" type = "file" onChange = {this.storeProfPic}/>
                 <br/>
-                <br/>
                 <div className = "formFields" style={{display: this.state.prof_pic_loaded ? "none" : "block"}}>
                     <img src = {loadingIcon} style = {{height:"200px", width:"auto"}}/>
                 </div>
-                <img alt = "" style={{display: this.state.prof_pic_loaded ? "block" : "none"}} src = {this.state.profPicUrl} className = "createGallery"/>
+                <img alt = "" style={{display: this.state.prof_pic_loaded ? "block" : "none"}} src = {this.state.profPicUrl} className = "createProfilePic"/>
                     
                 <Form>
                 <span style={{color: "red"}}>{this.state.errors["first_name"]} <br/> </span>
@@ -399,20 +405,20 @@ class ProfileForm extends React.Component {
                 <div className = "formFields">Upload photos from your portfolio to show of to potential clients:</div>    
                 </Form>
                 
-                <input id="input" type="file" onChange={this.storePhoto}/>
+                <input id="input" multiple type="file" onChange={this.storePhoto}/>
                 <br/>
-                <div className = "createGalleryText">My Gallery</div>
+                <div className = "createGalleryText">
+                    My Gallery  
+                    <img alt = '' src = {loadingIcon2} style = {{height:50, width:"auto", marginTop:0, position:"absolute", marginLeft:35, display:this.state.new_image_loading ? "inline-block" : "none"}}/>
+                </div>
                 <hr className = "createHR"/>
-                <span>
-                    {this.state.portfolio.map((image) => 
-                    <img alt = '' 
-                    key = {image.url} 
-                    name={image.key} 
-                    className = "createGallery" 
-                    src = {image.url} 
-                    onClick = {(image) => this.deletePhoto(image)}/>)}
-                    <img alt = '' src = {loadingIcon} style={{display: this.state.new_image_loading ? "inline" : "none"}} className = "createGallery"/>
-                </span>
+                {this.state.portfolio.map((image) => 
+                <img alt = '' 
+                key = {image.url} 
+                name={image.key} 
+                className = "createGallery" 
+                src = {image.url} 
+                onClick = {(image) => this.deletePhoto(image)}/>)}
                 <br/>
                 <br/>
                 <p className = "formFields"> Click on a picture to delete it from your portfolio</p>
