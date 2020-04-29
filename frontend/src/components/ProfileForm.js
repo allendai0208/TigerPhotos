@@ -287,8 +287,8 @@ class ProfileForm extends React.Component {
                     'Content-Type': 'application/json'
                 }, 
                 body: JSON.stringify(photographer)
-            });
-            this.setState({redirect: true})
+            })
+            .then(this.setState({redirect: true}))
         }
         else {
             alert("The form has errors. Please correct the errors and submit again.")

@@ -142,7 +142,7 @@ class BrowsePage extends React.Component {
               {recentPhotographersMarkup}
             </Col>
           </div>
-          <Col>
+          <Col className="column1">
             {this.state.profileHasBeenClicked ? 
               <ActiveProfile selectedPhotographer = {this.state.selectedPhotographer} user_netid = {this.props.netid} /> : 
               <DefaultActiveProfile/>}
