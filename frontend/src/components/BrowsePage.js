@@ -104,7 +104,6 @@ class BrowsePage extends React.Component {
   }
 
   render() {
-    const {classes} = this.props
     let recentPhotographersMarkup = this.state.photographers ? (
       this.state.filteredPhotographers.map((photographer) => < ProfileCard key={photographer.netid} photographer={photographer} handler = {this.handler} /> )
     ) : (
@@ -113,8 +112,8 @@ class BrowsePage extends React.Component {
     return (
       <Container fluid>
         <Row noGutters>
-          <div>
-            <Col xs = {12} className="column1">
+          <div className="column1">
+            <Col xs = {12}>
               <FormControl style = {{minWidth: "75px"}}>
                 <InputLabel id="filter-label">Filter By</InputLabel>
                 <Select

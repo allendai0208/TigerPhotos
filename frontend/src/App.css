@@ -231,6 +231,7 @@ body{
 
 .column1 {
   background-color: floralwhite;
+  height: 100%;
   padding: 0px;
   align-items: "flex-start";
   overflow-y: scroll;
