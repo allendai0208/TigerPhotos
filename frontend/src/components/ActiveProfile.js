@@ -15,7 +15,6 @@ import FbImageLibrary from 'react-fb-image-grid'
 import {EmailModal} from './EmailModal'
 
 class ActiveProfile extends React.Component{
-
     constructor(props) {
         super(props)
 
