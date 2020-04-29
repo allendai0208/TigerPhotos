@@ -11,8 +11,10 @@ import Tooltip from '@material-ui/core/Tooltip'
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer'
 import CreateIcon from '@material-ui/icons/Create'
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd'
+import CollectionsIcon from '@material-ui/icons/Collections'
 import FbImageLibrary from 'react-fb-image-grid'
 import {EmailModal} from './EmailModal'
+import ImageGallery from "./ImageGallery"; 
 
 class ActiveProfile extends React.Component{
     constructor(props) {
@@ -30,7 +32,9 @@ class ActiveProfile extends React.Component{
             button_3: 'secondary', 
             button_4: 'secondary', 
             selectedPhotographer: this.props.selectedPhotographer,
-            UploadEmailShow: false
+            UploadEmailShow: false,
+            photos: [],
+            photos_loaded: false
         }
         this.handleClick = this.handleClick.bind(this)
         this.handler = this.handler.bind(this)
@@ -58,7 +62,10 @@ class ActiveProfile extends React.Component{
                     current_rating: 0,
                     button_1: 'primary',
                     button_2: 'secondary',
-                    button_3: 'secondary'
+                    button_3: 'secondary',
+                    button_4: 'secondary',
+                    photos_loaded: false,
+                    photos: []
                 };
         }
     }
@@ -84,8 +91,11 @@ class ActiveProfile extends React.Component{
         else if(i === 1) {
             this.setState({button_1: 'secondary', button_2: 'primary', button_3: 'secondary', button_4: 'secondary'})
         }
-        else {
+        else if(i === 2) {
             this.setState({button_1: 'secondary', button_2: 'secondary', button_3: 'primary', button_4: 'secondary'})
+        }
+        else {
+            this.setState({button_1: 'secondary', button_2: 'secondary', button_3: 'secondary', button_4: 'primary'})
         }
     }
 
@@ -111,6 +121,24 @@ class ActiveProfile extends React.Component{
             loaded: true
         })   
     }
+
+    galleryPhotos() {
+        if(this.props.selectedPhotographer.urls && !this.state.photos_loaded) {
+            let photos = this.state.photos.slice()
+            let imgHeights = {}
+            let imgWidths = {}
+            let imgWidth = 0
+            let imgHeight = 0
+            let imgProp = null
+            this.props.selectedPhotographer.urls.map(function(urlImage) {
+                let img = new Image();
+                img.src = urlImage;
+                img.onload = () => {photos.push({src: urlImage, width: img.width, height: img.height})}
+           })
+           this.setState({photos:photos, photos_loaded: true})
+
+        }
+     }
 
     render() {
         let page = null
@@ -186,9 +214,14 @@ class ActiveProfile extends React.Component{
                             handler2={this.handler2}
                             oldReview={this.state.loaded}/>
                     </div>
-                )
-                
+                ) 
             }
+        }
+        else {
+            this.galleryPhotos()
+            page = (
+                <ImageGallery photos={this.state.photos} />
+            )
         }
 
         let border = ''
@@ -213,6 +246,7 @@ class ActiveProfile extends React.Component{
                     <Button startIcon={<AssignmentIndIcon/>} disableRipple className='removeOutline' color={this.state.button_1} onClick={() => this.handleClick(0)}>About</Button>
                     <Button startIcon={<QuestionAnswerIcon/>} disableRipple className='removeOutline' color={this.state.button_2} onClick={() => this.handleClick(1)}>Reviews</Button>
                     <Button startIcon={<CreateIcon/>} disableRipple className='removeOutline' color={this.state.button_3} onClick={() => this.handleClick(2)}>Leave a Review</Button>
+                    <Button startIcon={<CollectionsIcon />} disableRipple className='removeOutline' color={this.state.button_4} onClick={() => this.handleClick(3)}>Gallery</Button>
                     <Divider/>
                 </div>
                 {page}
@@ -222,6 +256,17 @@ class ActiveProfile extends React.Component{
 }
 
 export default ActiveProfile
+
+/*            console.log("here")
+
+           return this.props.selectedPhotographer.urls.map(function(urlImage){
+               console.log(imgHeights.urlImage)
+               console.log(urlImage)
+               console.log(imgHeights)
+               console.log(imgWidths)
+               console.log(imgWidths.urlImage)
+               return {src: urlImage, width: imgWidths.urlImage, height: imgHeights.urlImage } 
+           }) */ 
 
 //<FbImageLibrary images={this.props.selectedPhotographer.urls}/>
 //import FbImageLibrary from 'react-fb-image-grid'
