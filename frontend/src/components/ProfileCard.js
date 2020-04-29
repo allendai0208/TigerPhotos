@@ -19,7 +19,8 @@ const styles = {
         display: 'flex',
         height: "150px",
         borderRadius:"0%",
-        width: "100%",
+        width: '375px'
+        //width: "100%",
         //justifyContent: 'center'
     },
     image: {
@@ -27,7 +28,7 @@ const styles = {
         marginLeft: "10px",
         marginRight: "10px",
         height: '75%',
-        width: "178px",
+        width: "172px",
         borderRadius:"50%",
     },
     content: {
@@ -55,7 +56,7 @@ class ProfileCard extends React.Component {
         return (
             <div className="cardColumn">
                 <ButtonBase className='removeOutline' onClick = {() => this.props.handler(this.props.photographer, true)}>
-                <Card className={classes.card} >
+                <Card variant="outlined" className={classes.card} >
                     <CardMedia image={profile_pic} title = "Profile image" className={classes.image} />
                     <CardContent className={classes.content}>
                         <Typography variant="body1" m={1} className={classes.right} >
