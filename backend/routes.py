@@ -113,6 +113,17 @@ def browse():
         })
     return jsonify({'photographers':photographers})
 
+@app.route('/api/deleteProfile', methods=['POST'])
+def deleteProfile():
+    info = request.get_json(force=True)
+    netid = info['netid']
+
+    Photographers.query.filter_by(photographer_netid = netid).delete()
+    Portfolio.query.filter_by(netid = netid).delete()
+
+    db.session.commit()
+
+    return 'Done', 201
 
 # route that sends a JSON of a specific photographer to frontend (given a first name)
 @app.route('/api/getPhotographer', methods=['POST'])

@@ -3,7 +3,7 @@
 // and passing in their netid which is passed as a prop to this component
 // We then autofill the fields based on the information returned from /getPhotographer
 import React from 'react';
-import { Form, Input, Button, Checkbox } from 'semantic-ui-react';
+import { Form, Input, Button, Checkbox, Modal} from 'semantic-ui-react';
 import { Redirect } from 'react-router';
 import {storage, fstore} from './firebase/config';
 import loadingIcon from './pictures/loadingimageicon.gif'
@@ -39,7 +39,9 @@ class ProfileForm extends React.Component {
         this.storePhoto = this.storePhoto.bind(this)
         this.deletePhoto = this.deletePhoto.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleDelete = this.handleDelete.bind(this)
         this.storeProfPic = this.storeProfPic.bind(this)
+        this.showModal = this.showModal.bind(this)
         //this.onLoad = this.onLoad.bind(this)
     }
     
@@ -295,6 +297,38 @@ class ProfileForm extends React.Component {
         }
     }
 
+    handleDelete() {
+        fetch('/api/deleteProfile', {
+            method: 'POST',
+            headers: {
+              'Content_type':'application/json'
+            },
+            body: JSON.stringify({netid : this.props.netid})
+        })
+        .then(
+            this.state.portfolio.map((image) =>
+                storage.ref(`imagesxoy`).child(image.key).delete())
+        )
+        .then(
+            this.setState({
+                show: false,
+                message: 'Your profile has been deleted.'
+            }),
+            window.location.reload()
+        )
+        .catch(function(error) {
+            console.log(error)
+         })
+    }
+
+    // shows modal when delete icon is clicked 
+    showModal() {
+        console.log("changing")
+        this.setState({
+            show: true
+        })
+    }
+
     // The actual rendering of the form. Use the state which has stored the current photographer's information to autofill the fields
     render(){
         // Calling render() without loading info into state will cause error, therefore do this if statement to catch
@@ -306,7 +340,24 @@ class ProfileForm extends React.Component {
         }
 
         return (
+            <div>
+            <Modal className="deleteModal" size='small' open={this.state.show} onHide={() => this.setState({show: false})}>
+                <Modal.Header>
+                    Confirm Deletion
+                </Modal.Header>
+                <Modal.Content>
+                        <span style={{color:'red', fontWeight:'bold'}}>Warning: </span> 
+                        Are you sure you want to delete your profile? This action will delete all contents from your profile.
+                </Modal.Content>
+                <Modal.Actions>
+                    <Button negative onClick={() => this.setState({show: false})}>No</Button>
+                    <Button positive onClick={this.handleDelete}>Yes</Button>
+                </Modal.Actions>
+            </Modal>
+            
             <div className = "profileFormMargins">
+                <span className = "formFields">Note: profiles are only meant for photographers/videomakers/editors. General users do not need to make a profile.</span>
+                <br/>
                 <span style={{color: "red"}}>{this.state.errors["profile_picture"]} <br/> </span> 
                 <span className = "formFields">Upload a Profile Picture:</span><span className="required">*</span>
                 <br/>
@@ -421,12 +472,18 @@ class ProfileForm extends React.Component {
                 onClick = {(image) => this.deletePhoto(image)}/>)}
                 <br/>
                 <br/>
-                <p className = "formFields"> Click on a picture to delete it from your portfolio</p>
+                <p className = "formFields"> Note: click on a picture to delete it from your portfolio</p>
+                <br/>
+                <br/>
                 <Button color='blue' size='large'onClick={this.handleSubmit} className ="createSubmit">
                     Submit
                 </Button>
+                <Button color='red' size='large'onClick={this.showModal} className ="createSubmit">
+                    Delete My Profile
+                </Button>
                 <br/>
                 <br/>
+            </div>
             </div>
         )
     }

@@ -157,8 +157,8 @@ class ReviewForm extends React.Component {
                     </Modal.Header>
                     <Modal.Content>Are you sure you want to delete your review?</Modal.Content>
                     <Modal.Actions>
-                        <Button negative onClick={() => this.setState({show: false})}>no</Button>
-                        <Button positive onClick={this.handleDelete.bind(this)}>yes</Button>
+                        <Button negative onClick={() => this.setState({show: false})}>No</Button>
+                        <Button positive onClick={this.handleDelete.bind(this)}>Yes</Button>
                     </Modal.Actions>
                 </Modal>
             <Form className="reviewForm">
