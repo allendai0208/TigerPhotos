@@ -104,6 +104,7 @@ class BrowsePage extends React.Component {
   }
 
   render() {
+    const {classes} = this.props
     let recentPhotographersMarkup = this.state.photographers ? (
       this.state.filteredPhotographers.map((photographer) => < ProfileCard key={photographer.netid} photographer={photographer} handler = {this.handler} /> )
     ) : (
@@ -151,15 +152,12 @@ class BrowsePage extends React.Component {
       </Container>
     )
   }
-
 } 
 
 export default BrowsePage;
 
-
 /*
-return (
-      <Container fluid>
+<Container fluid>
         <Row >
           <div>
             <Col xs = {12} className="column1">
@@ -199,4 +197,4 @@ return (
         </Row>
       </Container>
     )
-*/
+    */
