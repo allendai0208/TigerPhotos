@@ -17,7 +17,7 @@ class NavigationBeforeLogin extends React.Component {
                 />{' '}
                 </Navbar.Brand>
                 <Nav className="ml-auto">
-                    <Nav.Link href="/about">About Us</Nav.Link>
+                    <Nav.Link href="/about">About</Nav.Link>
                     <Nav.Link href="/">Home</Nav.Link>
                 </Nav>
           </Navbar>
