@@ -346,6 +346,10 @@ body{
   display: inline;
 }
 
+.activeProfileBody {
+  padding-left: 10px;
+}
+
 .reviewForm {
   padding-top: 15px;
   width: 75%

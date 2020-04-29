@@ -112,7 +112,7 @@ class BrowsePage extends React.Component {
     )
     return (
       <Container fluid>
-        <Row >
+        <Row noGutters>
           <div>
             <Col xs = {12} className="column1">
               <FormControl style = {{minWidth: "75px"}}>

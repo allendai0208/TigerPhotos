@@ -117,7 +117,7 @@ class ActiveProfile extends React.Component{
         let page = null
         if (this.state.page_id === 0) {
             page = (
-                <div>
+                <div className="activeProfileBody">
                     <Typography variant="h5" className="browse_description">
                         Description:
                     </Typography >
@@ -133,8 +133,7 @@ class ActiveProfile extends React.Component{
                     </Typography>
                     <br/>
                     <Button variant= 'contained' color='primary' onClick={this.handleShow.bind(this)} >Contact This Boii</Button>
-                    <EmailModal phEmail = {this.props.selectedPhotographer.email} show = {this.state.UploadEmailShow} onHide = {this.handleClose.bind(this)}
-                />
+                    <EmailModal phEmail = {this.props.selectedPhotographer.email} show = {this.state.UploadEmailShow} onHide = {this.handleClose.bind(this)}/>
                     <br/>
                     <Typography variant="h5" className="browse_description">
                         Gallery:
@@ -150,7 +149,9 @@ class ActiveProfile extends React.Component{
         }
         else if (this.state.page_id === 1) {
             page = (
-                <ReviewPage reviews={this.props.selectedPhotographer.reviews} />
+                <div className="activeProfileBody">
+                    <ReviewPage reviews={this.props.selectedPhotographer.reviews} />
+                </div>
             )
             
         }
@@ -158,6 +159,7 @@ class ActiveProfile extends React.Component{
             let old_review = this.props.selectedPhotographer.reviews.filter(d => d.user_netid === this.props.user_netid)[0]
             if(old_review !== undefined && this.state.loaded === false) {
                 page = (
+                    <div className="activeProfileBody">
                     <ReviewForm 
                         photographer_netid={this.props.selectedPhotographer.photographer_netid} 
                         user_netid={this.props.user_netid} 
@@ -166,6 +168,7 @@ class ActiveProfile extends React.Component{
                         handler1={this.handler}
                         handler2={this.handler2}
                         oldReview={true}/>
+                    </div>
                 )
                 this.setState({
                     loaded: true,
@@ -174,14 +177,16 @@ class ActiveProfile extends React.Component{
             }
             else {
                 page = (
-                    <ReviewForm 
-                        photographer_netid={this.props.selectedPhotographer.photographer_netid} 
-                        user_netid={this.props.user_netid} 
-                        current_review={this.state.current_review} 
-                        current_rating={this.state.current_rating}
-                        handler1={this.handler}
-                        handler2={this.handler2}
-                        oldReview={this.state.loaded}/>
+                    <div className="activeProfileBody">
+                        <ReviewForm 
+                            photographer_netid={this.props.selectedPhotographer.photographer_netid} 
+                            user_netid={this.props.user_netid} 
+                            current_review={this.state.current_review} 
+                            current_rating={this.state.current_rating}
+                            handler1={this.handler}
+                            handler2={this.handler2}
+                            oldReview={this.state.loaded}/>
+                    </div>
                 )
                 
             }
