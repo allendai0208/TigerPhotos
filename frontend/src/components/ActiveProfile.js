@@ -12,7 +12,6 @@ import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer'
 import CreateIcon from '@material-ui/icons/Create'
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd'
 import CollectionsIcon from '@material-ui/icons/Collections'
-import FbImageLibrary from 'react-fb-image-grid'
 import {EmailModal} from './EmailModal'
 import ImageGallery from "./ImageGallery"; 
 
@@ -166,10 +165,7 @@ class ActiveProfile extends React.Component{
                         Gallery:
                     </Typography>
                     {/* <ActiveGallery urls = {this.props.selectedPhotographer.urls}/> */}
-                    {console.log(this.props.selectedPhotographer.urls)}
-                    <div className='galleryDimensions'>
-                        <FbImageLibrary images={this.props.selectedPhotographer.urls}/>
-                    </div>
+                    
                 </div>
             )
             
