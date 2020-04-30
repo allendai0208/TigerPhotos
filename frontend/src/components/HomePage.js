@@ -15,33 +15,31 @@ class HomePage extends React.Component {
 
     render() {
         return (
-            <div className="homepage"> 
+            <div> 
                 <div className="heading">
-                    <p className="welcome">Welcome to </p>
-                    <p className="tigerphotos">TigerPhotos</p>
+                    <p className="welcome1">Welcome to </p>
+                    <p className="tigerphotos1">TigerPhotos</p>
                 </div>
-                <div>
-                    <Grid container spacing={10} justify="center">
-                        <Grid item xs={12} sm = {3}>
-                            <div className="test">
-                                <img className="test2" src={ArtLogo} alt="Avatar"></img>
-                                <Button color="secondary" size="large" variant="outlined" disableElevation onClick={() => this.routeChange("/create")}>My Profile</Button>
-                            </div>
-                        </Grid>
-                        <Grid item xs={12} sm = {3}>
-                            <div className="test">
-                                <img className="test3" src={MonitorLogo} alt="Avatar"></img>
-                                <Button color="secondary" size="large" variant="outlined" disableElevation onClick={() => this.routeChange("/browse")}>Browse Photographers</Button>
-                            </div>
-                        </Grid>
-                        <Grid item xs={12} sm = {3}>
-                            <div className="test">
-                                <img className="test2" src={IdeaLogo} alt="Avatar"></img>
-                                <Button color="secondary" size="large" variant="outlined" disableElevation onClick={() => this.routeChange("/feed")}>View Feed</Button>
-                            </div>
-                        </Grid>
+                <Grid container spacing={10} justify="center">
+                    <Grid item xs={12} sm = {3}>
+                        <div className="test">
+                            <img className="test2" src={ArtLogo} alt="Avatar"></img>
+                            <Button color="secondary" size="large" variant="outlined" disableElevation onClick={() => this.routeChange("/create")}>My Profile</Button>
+                        </div>
                     </Grid>
-                </div>
+                    <Grid item xs={12} sm = {3}>
+                        <div className="test">
+                            <img className="test3" src={MonitorLogo} alt="Avatar"></img>
+                            <Button color="secondary" size="large" variant="outlined" disableElevation onClick={() => this.routeChange("/browse")}>Browse Photographers</Button>
+                        </div>
+                    </Grid>
+                    <Grid item xs={12} sm = {3}>
+                        <div className="test">
+                            <img className="test2" src={IdeaLogo} alt="Avatar"></img>
+                            <Button color="secondary" size="large" variant="outlined" disableElevation onClick={() => this.routeChange("/feed")}>View Feed</Button>
+                        </div>
+                    </Grid>
+                </Grid>
             </div>
         )
     }

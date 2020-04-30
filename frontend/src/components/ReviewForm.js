@@ -198,7 +198,7 @@ class ReviewForm extends React.Component {
                 </Grid>
                 <Form.Field>
                     <Button disabled={this.state.disabled} onClick={this.handleSubmit.bind(this)}>
-                        submit
+                        Save
                     </Button>
                 </Form.Field>
             </Form>

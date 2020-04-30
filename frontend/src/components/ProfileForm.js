@@ -8,6 +8,20 @@ import { Redirect } from 'react-router';
 import {storage, fstore} from './firebase/config';
 import loadingIcon from './pictures/loadingimageicon.gif'
 import loadingIcon2 from './pictures/loadingicon2.gif'
+import InfoIcon from '@material-ui/icons/Info'
+import Tooltip from '@material-ui/core/Tooltip'
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
+import { createMuiTheme } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+    overrides: {
+        MuiTooltip: {
+            tooltip: {
+            fontSize: "1em"
+            }
+        }
+    }
+});
 
 class ProfileForm extends React.Component {
 
@@ -181,7 +195,8 @@ class ProfileForm extends React.Component {
         if (e.target.files[0] === undefined)
             return
         this.setState({prof_pic_loaded:false})
-        const key = e.target.files[0].name
+        //const key = e.target.files[0].name
+        const key = (Math.floor(Math.random() * 1000000000000)).toString(); // hashes the key so that duplicate names don't collide
         const img = storage.ref(`imagesxoy/${key}`)
         img.put(e.target.files[0]).then((snap) => {
             storage.ref(`imagesxoy`).child(key).getDownloadURL().then(url => {
@@ -213,7 +228,8 @@ class ProfileForm extends React.Component {
         for (i = 0; i < length; i++) {
             
             this.setState({new_image_loading:true})
-            const key = e.target.files[i].name
+            //const key = e.target.files[i].name
+            const key = (Math.floor(Math.random() * 1000000000000)).toString(); // hashes the key so that duplicate names don't collide
             const img = storage.ref(`imagesxoy/${key}`)
             img.put(e.target.files[i]).then((snap) => {
                 storage.ref(`imagesxoy`).child(key).getDownloadURL().then(url => {
@@ -247,16 +263,12 @@ class ProfileForm extends React.Component {
     }
     
     deletePhoto(event) {
-        
         let current_image_name = event.target.name
         storage.ref(`imagesxoy`).child(current_image_name).delete()
-        console.log(current_image_name)
-        console.log(typeof current_image_name)
         let images = this.state.portfolio.filter((imag) => {
             return imag.key !== current_image_name
         })
         this.setState({portfolio:images})
-
         fetch('/api/deleteImage', {
             method: 'POST',
             headers: {
@@ -264,14 +276,12 @@ class ProfileForm extends React.Component {
             }, 
             body: JSON.stringify({netid:this.props.netid, key:current_image_name})
         })
-            
     }
 
     // Called when submit button is pressed. This will get all the information in the fields from state, and the portfolio from state as well
     // Will first make a fetch call to update the photographers table
     // Second, will make a fetch call to update the portfolio pertaining to the browsing photographer via call to api/createPortfolio
     handleSubmit() {
-
         if (this.handleValidation()) {
             const photographer_netid = this.state.netid
             const first_name = this.state.first_name
@@ -312,19 +322,21 @@ class ProfileForm extends React.Component {
         })
         .then(
             this.state.portfolio.map((image) =>
-                storage.ref(`imagesxoy`).child(image.key.toString()).delete())
+                storage.ref(`imagesxoy`).child(image.key).delete())
+        )
+        .then(
+            storage.ref(`imagesxoy`).child(this.state.profPic).delete()
         )
         .then(
             this.setState({
                 show: false,
                 message: 'Your profile has been deleted.'
             }),
-            //window.location.reload()
+            window.location.reload()
         )
         .catch(function(error) {
             console.log(error)
         })
-        
     }
 
     // shows modal when delete icon is clicked 
@@ -408,7 +420,9 @@ class ProfileForm extends React.Component {
                     />
                 </Form.Field>
                 <span style={{color: "red"}}>{this.state.errors["website_url"]} <br/> </span>
-                <div className = "formFields">Link Your Website:</div>
+                <div className = "formFields">
+                    Link Your Website: <MuiThemeProvider theme={theme}><Tooltip placement='right' title="Could be your professional website, social media page, or YouTube channel."><InfoIcon/></Tooltip></MuiThemeProvider>
+                </div>
                 <Form.Field>
                     <Input 
                         name = "website_url"
@@ -461,7 +475,7 @@ class ProfileForm extends React.Component {
                 <br/>
                 <br/>
 
-                <div className = "formFields">Upload photos from your portfolio to show of to potential clients:</div>    
+                <div className = "formFields">Upload photos from your portfolio to show of to potential clients (changes are saved automatically):</div>    
                 </Form>
                 
                 <input id="input" multiple type="file" onChange={this.storePhoto}/>
@@ -484,7 +498,7 @@ class ProfileForm extends React.Component {
                 <br/>
                 <br/>
                 <Button color='blue' size='large'onClick={this.handleSubmit} className ="createSubmit">
-                    Submit
+                    Save
                 </Button>
                 <Button color='red' size='large'onClick={this.showModal} className ="createSubmit">
                     Delete My Profile
