@@ -15,6 +15,7 @@ import CollectionsIcon from '@material-ui/icons/Collections'
 import MailIcon from '@material-ui/icons/Mail'
 import {EmailModal} from './EmailModal'
 import ImageGallery from "./ImageGallery"; 
+import Gallery from "react-photo-gallery";
 
 class ActiveProfile extends React.Component{
     constructor(props) {
@@ -26,7 +27,6 @@ class ActiveProfile extends React.Component{
             current_review: "" ,
             current_rating: 0,
             loaded: false,
-            switched: false,
             button_1: 'primary', 
             button_2: 'secondary', 
             button_3: 'secondary', 
@@ -34,12 +34,18 @@ class ActiveProfile extends React.Component{
             selectedPhotographer: this.props.selectedPhotographer,
             UploadEmailShow: false,
             photos: [],
-            photos_loaded: false
+            photos_loaded: false,
+            switched: false
         }
         this.handleClick = this.handleClick.bind(this)
         this.handler = this.handler.bind(this)
         this.handler2 = this.handler2.bind(this)
         this.setReview = this.setReview.bind(this)
+    }
+
+    componentDidMount() {
+        console.log("yee haw")
+        this.galleryPhotos()
     }
 
     handleClose(){
@@ -65,25 +71,30 @@ class ActiveProfile extends React.Component{
                     button_3: 'secondary',
                     button_4: 'secondary',
                     photos_loaded: false,
-                    photos: []
+                    photos: [],
+                    switched: true
                 };
+        }
+    }
+
+    componentDidUpdate() {
+        if(this.state.switched) {
+            this.galleryPhotos()
         }
     }
 
     //componentWillReceiveProps(newProps) {
     //    const oldProps = this.props
     //    if(oldProps.selectedPhotographer !== newProps.selectedPhotographer) {
-    //        console.log("here")
-    //        console.log(this.state.current_review)
-    //        this.setState({page_id:0, loaded: false, current_review:"", current_rating: 0})
+    //        console.log("pls")
+    //        this.galleryPhotos()
     //    }
     //}
 
     // sets page_id to corresponding number when button is clicked
     handleClick(i) {
         this.setState({
-            page_id: i,
-            switched: false
+            page_id: i
         })
         if(i === 0) {
             this.setState({button_1: 'primary', button_2: 'secondary', button_3: 'secondary', button_4: 'secondary'})
@@ -124,19 +135,14 @@ class ActiveProfile extends React.Component{
 
     galleryPhotos() {
         if(this.props.selectedPhotographer.urls && !this.state.photos_loaded) {
-            let photos = this.state.photos.slice()
-            let imgHeights = {}
-            let imgWidths = {}
-            let imgWidth = 0
-            let imgHeight = 0
-            let imgProp = null
+            let photos = this.state.photos
             this.props.selectedPhotographer.urls.map(function(urlImage) {
+                console.log(urlImage)
                 let img = new Image();
                 img.src = urlImage;
-                img.onload = () => {photos.push({src: urlImage, width: img.width, height: img.height})}
+                img.onload = () => { photos.push({src: urlImage, width: img.width, height: img.height})}
            })
-           this.setState({photos:photos, photos_loaded: true})
-
+           this.setState({photos:photos, photos_loaded: true, switched: false})
         }
      }
 
@@ -210,11 +216,9 @@ class ActiveProfile extends React.Component{
                 ) 
             }
         }
-        else {
-            this.galleryPhotos()
-            page = (
-                <ImageGallery photos={this.state.photos} /> 
-            )
+        else if (this.state.page_id === 3){
+            console.log(this.state.photos)
+            page = <ImageGallery photos={this.state.photos} />
         }
 
         let border = ''
@@ -234,7 +238,6 @@ class ActiveProfile extends React.Component{
                     <Tooltip title="Average Rating"><StarIcon className="starIcon2"/></Tooltip>
                     {border}
                     <a target='_blank' href={this.props.selectedPhotographer.website_url}>{website}</a>
-                    {console.log(this.props.selectedPhotographer.website_url)}
                     </Typography>
                     <Button startIcon={<AssignmentIndIcon/>} disableRipple className='removeOutline' color={this.state.button_1} onClick={() => this.handleClick(0)}>About</Button>
                     <Button startIcon={<CollectionsIcon />} disableRipple className='removeOutline' color={this.state.button_4} onClick={() => this.handleClick(3)}>Gallery</Button>
@@ -249,6 +252,13 @@ class ActiveProfile extends React.Component{
 }
 
 export default ActiveProfile
+
+/*         else {
+            this.galleryPhotos()
+            page = (
+                <ImageGallery photos={this.state.photos} /> 
+            )
+        } */ 
 
 /*            console.log("here")
 
