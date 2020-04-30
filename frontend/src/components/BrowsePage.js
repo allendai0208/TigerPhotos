@@ -17,7 +17,6 @@ import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import InputLabel from '@material-ui/core/InputLabel'
-import Button from '@material-ui/core/Button'
 
 class BrowsePage extends React.Component {
 
@@ -29,10 +28,9 @@ class BrowsePage extends React.Component {
       profileHasBeenClicked: false,
       filteredPhotographers: [],
       filter: "All",
-      sort: "alphebetical"
+      sort: "alphabetical"
     }
     this.handler = this.handler.bind(this)
-    this.handleSearch = this.handleSearch.bind(this)
     this.handleFilterChange = this.handleFilterChange.bind(this)
     this.handleSortChange = this.handleSortChange.bind(this)
   }
@@ -42,19 +40,23 @@ class BrowsePage extends React.Component {
   //containing their netid (photographer_netid), first name  (first_name),
   //last name (last_name), email (email), description (description), profile picture (profile_pic)
   //urls of portfolio photos (urls)
-  fetchPhotographers = () => {
+  componentDidMount() {
     fetch('/api/browse')
     .then(response => response.json())
     .then(result => this.setState({
       photographers: result.photographers,
       filteredPhotographers: result.photographers
     }))
-    .then(console.log(this.state.photographers))
+    .then(()=> {
+      let filtered = this.state.photographers
+      filtered = filtered.sort(function (a, b) {
+        if (a.first_name < b.first_name) return -1;
+        else if (a.first_name > b.first_name) return 1;
+        return 0;
+      })
+      this.setState({filteredPhotographers: filtered})
+    })
     .catch(e => console.log(e))
-  }
-
-  componentDidMount() {
-    this.fetchPhotographers()
   }
 
   handler(arg1, arg2) {
@@ -64,7 +66,9 @@ class BrowsePage extends React.Component {
     })
   }
 
-  handleSearch() {
+  handleSortChange(event) {
+    this.setState({sort:event.target.value})
+
     let filtered = []
     if (this.state.filter === "All") {
       filtered = this.state.photographers
@@ -73,6 +77,39 @@ class BrowsePage extends React.Component {
     else {
       for (const person of this.state.photographers) {
         if (person[this.state.filter])
+          filtered.push(person)
+      }
+    }
+    
+    if (event.target.value === "alphabetical") {
+      filtered = filtered.sort(function (a, b) {
+        if (a.first_name < b.first_name) return -1;
+        else if (a.first_name > b.first_name) return 1;
+        return 0;
+      })
+    }
+
+    else if (event.target.value === "rating") {
+      filtered = filtered.sort(function (a, b) {
+        if (a.average_rating > b.average_rating) return -1;
+        else if (a.average_rating < b.average_rating) return 1;
+        return 0;
+      })
+    }
+    this.setState({filteredPhotographers: filtered})
+  }
+
+  handleFilterChange(event) {
+    this.setState({filter:event.target.value})
+
+    let filtered = []
+    if (event.target.value === "All") {
+      filtered = this.state.photographers
+    }
+
+    else {
+      for (const person of this.state.photographers) {
+        if (person[event.target.value])
           filtered.push(person)
       }
     }
@@ -95,14 +132,6 @@ class BrowsePage extends React.Component {
     this.setState({filteredPhotographers: filtered})
   }
 
-  handleSortChange(event) {
-    this.setState({sort:event.target.value})
-  }
-
-  handleFilterChange(event) {
-    this.setState({filter:event.target.value})
-  }
-
   render() {
     let recentPhotographersMarkup = this.state.photographers ? (
       this.state.filteredPhotographers.map((photographer) => < ProfileCard key={photographer.netid} photographer={photographer} handler = {this.handler} /> )
@@ -115,11 +144,13 @@ class BrowsePage extends React.Component {
         <Row noGutters>
           <div>
             <Col xs={12} className="column1">
-              <FormControl style = {{minWidth: "75px"}}>
+
+               <FormControl style = {{minWidth: "75px"}}>
                 <InputLabel id="filter-label">Filter By</InputLabel>
                 <Select
                   labelId="filter-label"
                   onChange = {this.handleFilterChange}
+                  value = {this.state.filter}
                   >
                     <MenuItem value={"All"}> All </MenuItem>
                     <MenuItem value={"photography_exp"}> Photographers </MenuItem>
@@ -133,13 +164,12 @@ class BrowsePage extends React.Component {
                 <Select
                   labelId="sort-label"
                   onChange = {this.handleSortChange}
+                  value = {this.state.sort}
                   >
                     <MenuItem value={"alphabetical"}> Alphabetical </MenuItem>
                     <MenuItem value={"rating"}> Average Rating </MenuItem> 
                 </Select>
               </FormControl>
-
-              <Button color="primary" variant="contained" onClick = {this.handleSearch} style = {{marginTop:"10px"}}>Search</Button>
               {recentPhotographersMarkup}
             </Col>
           </div>
