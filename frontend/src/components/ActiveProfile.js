@@ -1,7 +1,7 @@
 // This component renders the information pertaining to the most recently clicked ProfileCard.
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
-import ActiveGallery from './ActiveGallery'
+//import ActiveGallery from './ActiveGallery'
 import Divider from '@material-ui/core/Divider'
 import Button from '@material-ui/core/Button'
 import ReviewForm from './ReviewForm'
@@ -134,18 +134,28 @@ class ActiveProfile extends React.Component{
         })   
     }
 
-    galleryPhotos() {
+    addImageProcess(urlImage){
+        return new Promise((resolve, reject) => {
+            let img = new Image()
+            img.src = urlImage
+            img.onload = () => resolve({src: urlImage, width:img.width, height:img.height})
+            img.onerror = reject
+        })
+    }
+
+    async galleryPhotos() {
+        let self = this
         if(this.props.selectedPhotographer.urls && !this.state.photos_loaded) {
-            let photos = this.state.photos
-            this.props.selectedPhotographer.urls.map(function(urlImage) {
-                console.log(urlImage)
-                let img = new Image();
-                img.src = urlImage;
-                img.onload = () => { photos.push({src: urlImage, width: img.width, height: img.height})}
-           })
-           this.setState({photos:photos, photos_loaded: true, switched: false})
+            //let photos = this.state.photos
+            console.log(this.props.selectedPhotographer.urls)
+            const promises = this.props.selectedPhotographer.urls.map(async function(urlImage) {
+                const response = await self.addImageProcess(urlImage)
+                return response
+            })
+            const photos = await Promise.all(promises)
+            this.setState({photos:photos, photos_loaded: true, switched: false})
         }
-     }
+    }
 
     render() {
         let page = null
@@ -170,6 +180,7 @@ class ActiveProfile extends React.Component{
                     <EmailModal phEmail = {this.props.selectedPhotographer.email} show = {this.state.UploadEmailShow} onHide = {this.handleClose.bind(this)}/>
                     {/* <ActiveGallery urls = {this.props.selectedPhotographer.urls}/> */}
                     
+                    {/*
                     <br/>
                     <Typography variant="h5" className="browse_description">
                         Gallery:
@@ -179,6 +190,7 @@ class ActiveProfile extends React.Component{
                     <div className='galleryDimensions'>
                        
                     </div>
+                    */}
                 </div>
             )
             
