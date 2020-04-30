@@ -61,7 +61,7 @@ body{
 
 .profileFormMargins {
   margin-left:50px;
-  margin-right:50px;
+  margin-right:50px
 }
 
 .browseRight {
@@ -156,9 +156,27 @@ body{
   color: orange; 
   opacity: 0.6;
 }
+.welcome1 {
+  font-size: 3em;
+  text-align:center;
+  margin: 0px;
+  padding: 5px 0;
+  line-height:1;
+  color: orange; 
+  opacity: 0.6;
+}
 
 .tigerphotos {
   font-size: 85px;
+  text-align:center;
+  padding: 5px 5px;
+  line-height:1;
+  color: orange; 
+  opacity: 0.6;
+  font-family: 'Pacifico', cursive;
+}
+.tigerphotos1 {
+  font-size: 5em;
   text-align:center;
   padding: 5px 5px;
   line-height:1;
@@ -185,8 +203,8 @@ body{
 
 .heading {
   margin: 40px;
-  width:600px;
-  height:210px;
+  max-width:600px;
+  height:200px;
   margin-left:auto;
   margin-right:auto;
   border-color: lightgray;
@@ -235,13 +253,17 @@ body{
   align-items: "flex-start";
   overflow-y: scroll;
 }
+.column2 {
+  height: 92vh;
+  overflow-y: scroll;
+}
 
 .hideScrollbar {
   overflow-y: hidden;
 }
 
 .cardColumn {
-  width: 26.5vw;
+  width: 360px;
   outline: none !important;
 }
 

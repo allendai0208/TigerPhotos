@@ -114,7 +114,7 @@ class BrowsePage extends React.Component {
       <Container fluid>
         <Row noGutters>
           <div>
-            <Col xs = {12} className="column1">
+            <Col xs={12} className="column1">
               <FormControl style = {{minWidth: "75px"}}>
                 <InputLabel id="filter-label">Filter By</InputLabel>
                 <Select
@@ -143,7 +143,7 @@ class BrowsePage extends React.Component {
               {recentPhotographersMarkup}
             </Col>
           </div>
-          <Col className="column1">
+          <Col className='column2'>
             {this.state.profileHasBeenClicked ? 
               <ActiveProfile selectedPhotographer = {this.state.selectedPhotographer} user_netid = {this.props.netid} /> : 
               <DefaultActiveProfile/>}
