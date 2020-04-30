@@ -1,7 +1,7 @@
 // This component renders the information pertaining to the most recently clicked ProfileCard.
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
-// import ActiveGallery from './ActiveGallery'
+import ActiveGallery from './ActiveGallery'
 import Divider from '@material-ui/core/Divider'
 import Button from '@material-ui/core/Button'
 import ReviewForm from './ReviewForm'
@@ -13,6 +13,7 @@ import CreateIcon from '@material-ui/icons/Create'
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd'
 import CollectionsIcon from '@material-ui/icons/Collections'
 import MailIcon from '@material-ui/icons/Mail'
+//import FbImageLibrary from 'react-fb-image-grid'
 import {EmailModal} from './EmailModal'
 import ImageGallery from "./ImageGallery"; 
 import Gallery from "react-photo-gallery";
@@ -169,6 +170,15 @@ class ActiveProfile extends React.Component{
                     <EmailModal phEmail = {this.props.selectedPhotographer.email} show = {this.state.UploadEmailShow} onHide = {this.handleClose.bind(this)}/>
                     {/* <ActiveGallery urls = {this.props.selectedPhotographer.urls}/> */}
                     
+                    <br/>
+                    <Typography variant="h5" className="browse_description">
+                        Gallery:
+                    </Typography>
+                    {<ActiveGallery urls = {this.props.selectedPhotographer.urls}/> }
+                    {console.log(this.props.selectedPhotographer.urls)}
+                    <div className='galleryDimensions'>
+                       
+                    </div>
                 </div>
             )
             
@@ -299,4 +309,5 @@ export default ActiveProfile
                     {this.props.selectedPhotographer.description}
                 </Typography>
                 <br />  
-                <ActiveGallery urls = {this.props.selectedPhotographer.urls}/> */ 
+                <ActiveGallery urls = {this.props.selectedPhotographer.urls}/> 
+                 <FbImageLibrary images={this.props.selectedPhotographer.urls}/>*/ 

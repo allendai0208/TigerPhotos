@@ -1,4 +1,4 @@
-from flask import jsonify, request
+from flask import jsonify, request, render_template
 from backend import app, db
 from backend.models import Reviews, Users, Photographers, Feed, Portfolio
 from CASClient import CASClient
@@ -423,8 +423,32 @@ def getPosts():
 
 @app.route('/api/createPost', methods=['POST'])
 def createPost():
-
+    mesg = []
     post_info = request.get_json()
+    if post_info['specialty'] == 'photographers':
+        msgz = Photographers.query.filter_by( photography_checkbox = True).all()
+        for tst in msgz:
+            mesg.append(tst.email)
+    elif post_info['specialty'] == 'videographers':
+        msgz = Photographers.query.filter_by(videography_checkbox = True).all()
+        for tst in msgz:
+            mesg.append(tst.email)
+    elif post_info['specialty'] == 'editors':
+        msgz = Photographers.query.filter_by(editing_checkbox = True).all()
+        for tst in msgz:
+            mesg.append(tst.email)
+    
+    print(mesg)
+
+    try:
+        msg = Message(post_info['subject_line'], sender = "tigerphotosteam@gmail.com", recipients = mesg)
+        msg.body = post_info['subject_line']
+        msg.html = render_template('contact1P.html', body=post_info['description'], clientEmail=post_info['email'])
+        mail.send(msg)
+    except Exception as e:
+        print(str(e))
+        return (str(e))
+
 
     post = Feed(
         netid = post_info['netid'],
@@ -460,3 +484,21 @@ def deletePost():
     db.session.commit()
 
     return 'Done', 201
+
+##@app.route('/api/emailAll', methods=['POST'])
+#def emailAll():
+
+ #   email_info = request.get_json()
+
+ ##   email = mail(
+ #       netid = post_info['netid'],
+  #      description = post_info['description'],
+  #      subject_line = post_info['subject_line'],
+  #      specialty = post_info['specialty'],
+ #       email = post_info['email']
+  #  )
+
+  #  db.session.add(post)
+  #  db.session.commit()
+
+  #  return 'Done', 201

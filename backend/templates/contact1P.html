@@ -1,0 +1,36 @@
+<p>Hello Tiger,</p>
+
+<p>This following message is sent to you from a TigerPhotos client who wanted to reach out.</p>
+
+<p>"{{body}}"</p>
+
+<p>If you wish to reach out to this client, find them at:</p>
+<p>{{clientEmail}}</p>
+<p>Best,</p>
+<p>TigerPhotos Team</p>
+<img src= './logo.jpg'/>
+
+<!---
+@app.route('/api/sendEmail', methods=['POST'])
+def sendEmail():
+    emailInfo = request.get_json()
+
+    try:
+        msg = Message(emailInfo["email_subject"], sender = "tigerphotosteam@gmail.com", recipients = [emailInfo["email_sendTo"]])
+        msg.body = emailInfo["email_body"]
+        mail.send(msg)
+    except Exception as e:
+        return (str(e))
+
+    return 'Done', 203@app.route('/api/sendEmail', methods=['POST'])
+def sendEmail22():
+    emailInfo = request.get_json()
+
+    try:
+        msg = Message(emailInfo["email_subject"], sender = "tigerphotosteam@gmail.com", recipients = [emailInfo["email_sendTo"]])
+        msg.body = emailInfo["email_body"]
+        mail.send(msg)
+    except Exception as e:
+        return (str(e))
+
+    return 'Done', 2000-->
