@@ -64,11 +64,9 @@ function ImageGallery(props) {
     }
   ];
 
-  console.log(props.photos)
-
   return (
     <div>
-      <Gallery photos={props.photos} onClick={openLightbox} />
+      <Gallery photos={props.photos} onClick={openLightbox} /> 
       <ModalGateway>
         {viewerIsOpen ? (
           <Modal onClose={closeLightbox}>

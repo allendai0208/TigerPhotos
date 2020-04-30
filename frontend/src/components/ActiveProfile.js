@@ -12,6 +12,7 @@ import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer'
 import CreateIcon from '@material-ui/icons/Create'
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd'
 import CollectionsIcon from '@material-ui/icons/Collections'
+import MailIcon from '@material-ui/icons/Mail'
 import {EmailModal} from './EmailModal'
 import ImageGallery from "./ImageGallery"; 
 
@@ -158,12 +159,8 @@ class ActiveProfile extends React.Component{
                         {this.props.selectedPhotographer.equipment}
                     </Typography>
                     <br/>
-                    <Button variant= 'contained' color='primary' onClick={this.handleShow.bind(this)} >Contact This Boii</Button>
+                    <Button startIcon={<MailIcon/>} color='primary' onClick={this.handleShow.bind(this)} >Contact</Button>
                     <EmailModal phEmail = {this.props.selectedPhotographer.email} show = {this.state.UploadEmailShow} onHide = {this.handleClose.bind(this)}/>
-                    <br/>
-                    <Typography variant="h5" className="browse_description">
-                        Gallery:
-                    </Typography>
                     {/* <ActiveGallery urls = {this.props.selectedPhotographer.urls}/> */}
                     
                 </div>
@@ -216,7 +213,7 @@ class ActiveProfile extends React.Component{
         else {
             this.galleryPhotos()
             page = (
-                <ImageGallery photos={this.state.photos} />
+                <ImageGallery photos={this.state.photos} /> 
             )
         }
 
@@ -240,9 +237,9 @@ class ActiveProfile extends React.Component{
                     {console.log(this.props.selectedPhotographer.website_url)}
                     </Typography>
                     <Button startIcon={<AssignmentIndIcon/>} disableRipple className='removeOutline' color={this.state.button_1} onClick={() => this.handleClick(0)}>About</Button>
+                    <Button startIcon={<CollectionsIcon />} disableRipple className='removeOutline' color={this.state.button_4} onClick={() => this.handleClick(3)}>Gallery</Button>
                     <Button startIcon={<QuestionAnswerIcon/>} disableRipple className='removeOutline' color={this.state.button_2} onClick={() => this.handleClick(1)}>Reviews</Button>
                     <Button startIcon={<CreateIcon/>} disableRipple className='removeOutline' color={this.state.button_3} onClick={() => this.handleClick(2)}>Leave a Review</Button>
-                    <Button startIcon={<CollectionsIcon />} disableRipple className='removeOutline' color={this.state.button_4} onClick={() => this.handleClick(3)}>Gallery</Button>
                     <Divider/>
                 </div>
                 {page}
