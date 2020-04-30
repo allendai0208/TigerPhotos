@@ -63,7 +63,9 @@ class AboutUs extends React.Component {
                     </Container>
                 </div>
                 <img className = "tigerLogo" src = {logo} alt = ""></img>
+                <br/>
             </div>
+            
         )
     }
 }
