@@ -33,7 +33,8 @@ class ProfileForm extends React.Component {
             stateHasLoaded: false,
             prof_pic_loaded: false,
             new_image_loading: false,
-            counter:0
+            counter:0,
+            show:false
         }
         this.handleChange = this.handleChange.bind(this)
         this.storePhoto = this.storePhoto.bind(this)
@@ -246,8 +247,11 @@ class ProfileForm extends React.Component {
     }
     
     deletePhoto(event) {
+        
         let current_image_name = event.target.name
         storage.ref(`imagesxoy`).child(current_image_name).delete()
+        console.log(current_image_name)
+        console.log(typeof current_image_name)
         let images = this.state.portfolio.filter((imag) => {
             return imag.key !== current_image_name
         })
@@ -260,6 +264,7 @@ class ProfileForm extends React.Component {
             }, 
             body: JSON.stringify({netid:this.props.netid, key:current_image_name})
         })
+            
     }
 
     // Called when submit button is pressed. This will get all the information in the fields from state, and the portfolio from state as well
@@ -301,28 +306,31 @@ class ProfileForm extends React.Component {
         fetch('/api/deleteProfile', {
             method: 'POST',
             headers: {
-              'Content_type':'application/json'
+            'Content_type':'application/json'
             },
             body: JSON.stringify({netid : this.props.netid})
         })
         .then(
             this.state.portfolio.map((image) =>
-                storage.ref(`imagesxoy`).child(image.key).delete())
+                storage.ref(`imagesxoy`).child(image.key.toString()).delete())
         )
         .then(
             this.setState({
                 show: false,
                 message: 'Your profile has been deleted.'
             }),
-            window.location.reload()
+            //window.location.reload()
         )
         .catch(function(error) {
             console.log(error)
-         })
+        })
+        
     }
 
     // shows modal when delete icon is clicked 
     showModal() {
+        this.state.portfolio.map((image) =>
+            console.log(image.key))
         console.log("changing")
         this.setState({
             show: true
