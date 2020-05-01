@@ -59,7 +59,7 @@ class Feed(db.Model):
 # This defines the columns and data types of the Portfolio table
 class Portfolio(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    netid = db.Column(db.String(80), db.ForeignKey('photographers.photographer_netid'), index=True)
+    netid = db.Column(db.String(80), index=True)
     picture = db.Column(db.String(255), index=True)
     key = db.Column(db.String(255), index=True)
 
