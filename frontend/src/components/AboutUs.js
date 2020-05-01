@@ -41,7 +41,7 @@ class AboutUs extends React.Component {
                 <br/>
                 <p className = "aboutHeader">About TigerPhotos</p>
                 <p className = 'aboutParagraph'> 
-                    TigerPhotos is a centralized location to hire student photographers, videographers, and video editors for student jobs around campus.
+                    Test TigerPhotos is a centralized location to hire student photographers, videographers, and video editors for student jobs around campus.
                 </p>
                 <p className = 'aboutParagraph'>
                     TigerPhotos was originally built by a group of students as their final project for COS 333: Advanced Programming Techniques taught by Robert Dondero in Spring 2020.
