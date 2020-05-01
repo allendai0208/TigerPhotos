@@ -88,7 +88,7 @@ export class FeedbackModal extends Component{
     }
   
    render() {
-        console.log(this.props.phEmail)
+    console.log(this.props.phEmail)
        return(
              <Modal
      {...this.props}

@@ -37,6 +37,7 @@ class ProfileForm extends React.Component {
             photography_checkbox:false,
             videography_checkbox:false,
             editing_checkbox:false,
+            notif_checkbox: false,
             equipment:"",         
             errors: {},
             redirect: false,
@@ -81,6 +82,7 @@ class ProfileForm extends React.Component {
             photography_checkbox:result.photography_checkbox,
             videography_checkbox:result.videography_checkbox,
             editing_checkbox:result.editing_checkbox,
+            notif_checkbox: result.notif_checkbox,
             equipment:result.equipment,
             portfolio:result.portfolio, 
             stateHasLoaded:true, 
@@ -369,9 +371,10 @@ class ProfileForm extends React.Component {
             const editing_checkbox = this.state.editing_checkbox
             const equipment = this.state.equipment
             const profile_pic = this.state.profPicUrl
+            const notif_checkbox =  this.state.notif_checkbox
             const key = this.state.profPic
             const photographer = { photographer_netid, first_name, last_name, email, website_url, 
-                                   description, photography_checkbox, videography_checkbox, editing_checkbox, 
+                                   description, photography_checkbox, videography_checkbox, editing_checkbox, notif_checkbox, 
                                    equipment, profile_pic, key};
             fetch('/api/createProfile', {
                 method: 'POST',
@@ -533,7 +536,12 @@ class ProfileForm extends React.Component {
                             checked={this.state.editing_checkbox} 
                             onChange={() => this.setState({editing_checkbox:!this.state.editing_checkbox})}/>
                 </Form.Field>
-            
+                <span className = "formFields">Would you like to be email notified on feed updates for your expertise:</span><span className="required">*</span>
+                <Form.Field>
+                <Checkbox label='Sign me up!'
+                            checked={this.state.notif_checkbox} 
+                            onChange={() => this.setState({notif_checkbox:!this.state.notif_checkbox})}/>
+                </Form.Field>
                 <span style={{color: "red"}}>{this.state.errors["equipment"]} <br/> </span>
                 <span className = "formFields">Please List Your Equipment/Software (max 250 characters):</span><span className="required">*</span>
                 <Form.Field>
