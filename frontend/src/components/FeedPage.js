@@ -305,22 +305,26 @@ class FeedPage extends React.Component {
                         <Button positive onClick={this.handleSubmit.bind(this)}>Submit</Button>
                     </Modal.Footer>
                 </Modal>
-                <div className="CreateProfileText" style={{marginTop: 40}}>Feed</div>
-                <div style={{marginLeft:"auto", marginRight:"auto", display:"block"}}>
+                <div className="CreateProfileText" style={{marginTop: 40, marginBottom:-15}}>
+                    Feed
+                    <br/>
+                    <br/>
+                    <br/>
                     <FormControl style = {{minWidth: "75px"}}>
-                    <InputLabel id="filter-label">Filter By</InputLabel>
-                    <Select
-                        labelId="filter-label"
-                        onChange = {this.handleFilterChange}
-                        value = {this.state.filter}
-                        >
-                        <MenuItem value={"All"}> All </MenuItem>
-                        <MenuItem value={"photographers"}> Photographers </MenuItem>
-                        <MenuItem value={"videographers"}> Videographers </MenuItem> 
-                        <MenuItem value={"editors"}> Editors </MenuItem>
-                    </Select>
+                        <InputLabel id="filter-label" >Filter By</InputLabel>
+                        <Select
+                            labelId="filter-label"
+                            onChange = {this.handleFilterChange}
+                            value = {this.state.filter}
+                            >
+                            <MenuItem value={"All"}> All </MenuItem>
+                            <MenuItem value={"photographers"}> Photographers </MenuItem>
+                            <MenuItem value={"videographers"}> Videographers </MenuItem> 
+                            <MenuItem value={"editors"}> Editors </MenuItem>
+                        </Select>
                     </FormControl>
-                </div>    
+                </div>
+                
                 <div style={{textAlign: 'center', marginTop: 30, marginBottom: 10}}> 
                     <Button2 startIcon={<CreateIcon/>} disableRipple className='removeOutline' onClick={() => this.showModalPost()}>Write a post</Button2>
                 </div>
