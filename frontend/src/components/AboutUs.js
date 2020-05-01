@@ -10,8 +10,30 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import logo from "./pictures/tigerLogo.png"
+import {FeedbackModal} from './FeedbackModal'
+import MailIcon from '@material-ui/icons/Mail'
+import Button from '@material-ui/core/Button'
+
 
 class AboutUs extends React.Component {
+
+   constructor(props) {
+       super(props)
+
+       this.state = {
+       UploadEmailShow: false
+       }
+
+       
+   }
+
+    handleClose(){
+        this.setState({UploadEmailShow: false});
+    }  
+
+    handleShow() {
+        this.setState({UploadEmailShow: true});
+    }
 
     render() {   
         return (
@@ -61,6 +83,10 @@ class AboutUs extends React.Component {
                             </Col>
                         </Row>
                     </Container>
+                    <Button startIcon={<MailIcon/>} color='primary' onClick={this.handleShow.bind(this)} >Feedback</Button>
+                    <FeedbackModal  show = {this.state.UploadEmailShow} onHide = {this.handleClose.bind(this)}/>
+
+                    
                 </div>
                 <img className = "tigerLogo" src = {logo} alt = ""></img>
             </div>

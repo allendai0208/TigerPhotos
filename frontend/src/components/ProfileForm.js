@@ -57,6 +57,8 @@ class ProfileForm extends React.Component {
         this.handleDelete = this.handleDelete.bind(this)
         this.storeProfPic = this.storeProfPic.bind(this)
         this.showModal = this.showModal.bind(this)
+        this.ValidateSingleInput = this.ValidateSingleInput.bind(this)
+        this.ValidateMultiInput = this.ValidateMultiInput.bind(this)
         //this.onLoad = this.onLoad.bind(this)
     }
     
@@ -190,10 +192,67 @@ class ProfileForm extends React.Component {
         this.setState(change)
     }
 
+      
+    ValidateSingleInput(oInput){
+        console.log("estoy aqui")
+        console.log(oInput)
+        console.log(typeof oInput)
+        var _validFileExtensions = [".jpg", ".jpeg", ".gif", ".png"];  
+        
+            console.log('hellur')
+            var sFileName = oInput.name;
+            if (sFileName.length > 0) {
+                var blnValid = false;
+                for (var j = 0; j < _validFileExtensions.length; j++) {
+                    var sCurExtension = _validFileExtensions[j];
+                    if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                        blnValid = true;
+                        break;
+                    }
+                }
+                
+                if (!blnValid) {
+                    alert("Sorry, " + sFileName + " is invalid, allowed extensions are: " + _validFileExtensions.join(", "));
+                    oInput.value = "";
+                    return false;
+                }
+            }
+        
+        return true;
+    }
+
+    ValidateMultiInput(oInput){
+        console.log("estoy aqui")
+        console.log(oInput)
+        console.log(typeof oInput)
+        var _validFileExtensions = [".jpg", ".jpeg", ".gif", ".png"];  
+        
+            console.log('hellur')
+            var sFileName = oInput.name;
+            if (sFileName.length > 0) {
+                var blnValid = false;
+                for (var j = 0; j < _validFileExtensions.length; j++) {
+                    var sCurExtension = _validFileExtensions[j];
+                    if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                        blnValid = true;
+                        break;
+                    }
+                }
+                
+                if (!blnValid) {
+                    oInput.value = "";
+                    return false;
+                }
+            }
+        
+        return true;
+    }
+
     storeProfPic(e) {
         
         if (e.target.files[0] === undefined)
             return
+        if (!this.ValidateSingleInput(e.target.files[0])) return;
         this.setState({prof_pic_loaded:false})
         //const key = e.target.files[0].name
         const key = (Math.floor(Math.random() * 1000000000000)).toString(); // hashes the key so that duplicate names don't collide
@@ -225,8 +284,16 @@ class ProfileForm extends React.Component {
 
         let i
         let length = e.target.files.length
+        let fails = []
+        let alertem = false
+        
         for (i = 0; i < length; i++) {
             
+            if (!this.ValidateMultiInput(e.target.files[i])) {
+                fails.push(e.target.files[i].name)
+                alertem = true
+                continue
+            }
             this.setState({new_image_loading:true})
             //const key = e.target.files[i].name
             const key = (Math.floor(Math.random() * 1000000000000)).toString(); // hashes the key so that duplicate names don't collide
@@ -259,6 +326,14 @@ class ProfileForm extends React.Component {
             )
             
         }
+        /*check the async execution
+        IMPORTANT!
+        */
+        if (alertem) {
+            alert("Sorry, " + fails.join(", ") + " are invalid, allowed extensions are: .jpg, .gif, .jpeg, .png");
+
+        }
+
 
     }
     

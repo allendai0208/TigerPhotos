@@ -54,6 +54,7 @@ class ActiveProfile extends React.Component{
     }  
   
     handleShow() {
+
         this.setState({UploadEmailShow: true});
     }
 
