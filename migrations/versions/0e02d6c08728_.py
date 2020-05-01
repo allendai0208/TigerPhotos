@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 685e2b0eb013
+Revision ID: 0e02d6c08728
 Revises: 
-Create Date: 2020-04-29 21:53:44.332236
+Create Date: 2020-05-01 17:54:18.409169
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '685e2b0eb013'
+revision = '0e02d6c08728'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -29,6 +29,7 @@ def upgrade():
     sa.Column('photography_checkbox', sa.Boolean(), nullable=True),
     sa.Column('videography_checkbox', sa.Boolean(), nullable=True),
     sa.Column('editing_checkbox', sa.Boolean(), nullable=True),
+    sa.Column('notif_checkbox', sa.Boolean(), nullable=True),
     sa.Column('equipment', sa.String(length=250), nullable=True),
     sa.Column('profile_pic', sa.String(length=255), nullable=True),
     sa.Column('key', sa.String(length=255), nullable=True),
@@ -37,10 +38,21 @@ def upgrade():
     )
     op.create_index(op.f('ix_photographers_editing_checkbox'), 'photographers', ['editing_checkbox'], unique=False)
     op.create_index(op.f('ix_photographers_key'), 'photographers', ['key'], unique=False)
+    op.create_index(op.f('ix_photographers_notif_checkbox'), 'photographers', ['notif_checkbox'], unique=False)
     op.create_index(op.f('ix_photographers_photographer_netid'), 'photographers', ['photographer_netid'], unique=True)
     op.create_index(op.f('ix_photographers_photography_checkbox'), 'photographers', ['photography_checkbox'], unique=False)
     op.create_index(op.f('ix_photographers_profile_pic'), 'photographers', ['profile_pic'], unique=False)
     op.create_index(op.f('ix_photographers_videography_checkbox'), 'photographers', ['videography_checkbox'], unique=False)
+    op.create_table('portfolio',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('netid', sa.String(length=80), nullable=True),
+    sa.Column('picture', sa.String(length=255), nullable=True),
+    sa.Column('key', sa.String(length=255), nullable=True),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_index(op.f('ix_portfolio_key'), 'portfolio', ['key'], unique=False)
+    op.create_index(op.f('ix_portfolio_netid'), 'portfolio', ['netid'], unique=False)
+    op.create_index(op.f('ix_portfolio_picture'), 'portfolio', ['picture'], unique=False)
     op.create_table('users',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('netid', sa.String(length=64), nullable=True),
@@ -62,17 +74,6 @@ def upgrade():
     )
     op.create_index(op.f('ix_feed_netid'), 'feed', ['netid'], unique=False)
     op.create_index(op.f('ix_feed_timestamp'), 'feed', ['timestamp'], unique=False)
-    op.create_table('portfolio',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('netid', sa.String(length=80), nullable=True),
-    sa.Column('picture', sa.String(length=255), nullable=True),
-    sa.Column('key', sa.String(length=255), nullable=True),
-    sa.ForeignKeyConstraint(['netid'], ['photographers.photographer_netid'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
-    op.create_index(op.f('ix_portfolio_key'), 'portfolio', ['key'], unique=False)
-    op.create_index(op.f('ix_portfolio_netid'), 'portfolio', ['netid'], unique=False)
-    op.create_index(op.f('ix_portfolio_picture'), 'portfolio', ['picture'], unique=False)
     op.create_table('reviews',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_netid', sa.String(length=80), nullable=True),
@@ -96,20 +97,21 @@ def downgrade():
     op.drop_index(op.f('ix_reviews_timestamp'), table_name='reviews')
     op.drop_index(op.f('ix_reviews_photographer_netid'), table_name='reviews')
     op.drop_table('reviews')
-    op.drop_index(op.f('ix_portfolio_picture'), table_name='portfolio')
-    op.drop_index(op.f('ix_portfolio_netid'), table_name='portfolio')
-    op.drop_index(op.f('ix_portfolio_key'), table_name='portfolio')
-    op.drop_table('portfolio')
     op.drop_index(op.f('ix_feed_timestamp'), table_name='feed')
     op.drop_index(op.f('ix_feed_netid'), table_name='feed')
     op.drop_table('feed')
     op.drop_index(op.f('ix_users_timestamp'), table_name='users')
     op.drop_index(op.f('ix_users_netid'), table_name='users')
     op.drop_table('users')
+    op.drop_index(op.f('ix_portfolio_picture'), table_name='portfolio')
+    op.drop_index(op.f('ix_portfolio_netid'), table_name='portfolio')
+    op.drop_index(op.f('ix_portfolio_key'), table_name='portfolio')
+    op.drop_table('portfolio')
     op.drop_index(op.f('ix_photographers_videography_checkbox'), table_name='photographers')
     op.drop_index(op.f('ix_photographers_profile_pic'), table_name='photographers')
     op.drop_index(op.f('ix_photographers_photography_checkbox'), table_name='photographers')
     op.drop_index(op.f('ix_photographers_photographer_netid'), table_name='photographers')
+    op.drop_index(op.f('ix_photographers_notif_checkbox'), table_name='photographers')
     op.drop_index(op.f('ix_photographers_key'), table_name='photographers')
     op.drop_index(op.f('ix_photographers_editing_checkbox'), table_name='photographers')
     op.drop_table('photographers')
