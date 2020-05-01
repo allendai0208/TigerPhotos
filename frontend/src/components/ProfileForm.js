@@ -462,7 +462,7 @@ class ProfileForm extends React.Component {
                 <input name = "newImage" type = "file" onChange = {this.storeProfPic}/>
                 <br/>
                 <div className = "formFields" style={{display: this.state.prof_pic_loaded ? "none" : "block"}}>
-                    <img src = {loadingIcon} style = {{height:"200px", width:"auto"}}/>
+                    <img src = {loadingIcon2} style = {{height:"200px", width:"auto"}}/>
                 </div>
                 <img alt = "" style={{display: this.state.prof_pic_loaded ? "block" : "none"}} src = {this.state.profPicUrl} className = "createProfilePic"/>
                     
