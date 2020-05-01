@@ -442,15 +442,16 @@ def createPost():
         for tst in msgz:
             mesg.append(tst.email)
     
-    try:
-        msg = Message(post_info['subject_line'], sender = "tigerphotosteam@gmail.com", recipients = mesg)
-        msg.body = post_info['subject_line']
-        msg.html = render_template('contact1P.html', body=post_info['description'], clientEmail=post_info['email'])
-        mail.send(msg)
-    except Exception as e:
-        print(str(e))
-        return (str(e))
-
+    if (len(mesg) != 0):
+        try:
+            msg = Message(post_info['subject_line'], sender = "tigerphotosteam@gmail.com", recipients = mesg)
+            msg.body = post_info['subject_line']
+            msg.html = render_template('contact1P.html', body=post_info['description'], clientEmail=post_info['email'])
+            mail.send(msg)
+        except Exception as e:
+            print(str(e))
+            return (str(e))
+    
 
     post = Feed(
         netid = post_info['netid'],

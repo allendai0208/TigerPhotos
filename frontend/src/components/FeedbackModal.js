@@ -3,6 +3,7 @@ import {Modal, Button, Row, Col} from 'react-bootstrap';
 import {DragDrop} from './DragDrop';
 import { Input} from 'semantic-ui-react';
 import Form from 'react-bootstrap/Form'
+import { Dropdown } from 'semantic-ui-react'
 
 export class FeedbackModal extends Component{
 
@@ -13,11 +14,58 @@ export class FeedbackModal extends Component{
             toContact: '',
             emailBody: '',
             emailSubject: '', 
-            expertise: ''
+            expertise: '', 
+            errors: {}
         }
         this.handleSubmit = this.handleSubmit.bind(this)
-       
+       this.handleValidation = this.handleValidation.bind(this)
+       this.handleChange = this.handleChange.bind(this)
+       this.handleChangeSpecialty = this.handleChangeSpecialty.bind(this)
     }
+
+    handleChangeSpecialty = (e, { value }) => this.setState({ expertise:value })
+
+    handleValidation() {
+        let formIsValid = true; 
+        let errors={}
+
+        // Description
+        if(!this.state.emailBody){
+            formIsValid = false;
+            errors["description"] = "Body cannot be empty";
+        }
+
+        // Subject line
+        if(!this.state.emailSubject){
+            formIsValid = false;
+            errors["subject_line"] = "Subject line cannot be empty";
+        }
+
+        // Specialty
+        if(!this.state.expertise){
+            formIsValid = false;
+            errors["specialty"] = "Please select at least one purpose";
+        }
+
+        // Email
+        if(!this.state.toContact){
+            formIsValid = false;
+            errors["email"] = "Email cannot be empty";
+        }
+        
+        else if(typeof this.state.toContact !== "undefined"){
+            let lastAtPos = this.state.toContact.lastIndexOf('@');
+            let lastDotPos = this.state.toContact.lastIndexOf('.');
+
+            if (!(lastAtPos < lastDotPos && lastAtPos > 0 && this.state.toContact.indexOf('@@') === -1 && lastDotPos > 2 && (this.state.toContact.length - lastDotPos) > 2)) {
+                formIsValid = false;
+                errors["email"] = "Email is not valid";
+            }
+        }
+
+        this.setState({errors:errors})
+        return formIsValid 
+        }
 
     /*componentDidMount() {
         this.setState({phEmail: this.props.phEmail})
@@ -38,22 +86,24 @@ export class FeedbackModal extends Component{
 
 
     handleSubmit() {
-        
-        this.props.onHide();
-        window.location.reload();
-        const email_body = this.state.emailBody
-        const email_toContact= this.state.toContact
-        const email_subject = this.state.emailSubject
-        const email_sendTo = 'tigerphotosteam@gmail.com'
-        
-        const emailInfo = {email_body, email_toContact, email_subject, email_sendTo};
-        fetch('/api/sendEmail', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }, 
-            body: JSON.stringify(emailInfo)
-        }).catch(e => console.log(e));
+        if (this.handleValidation()){
+            this.props.onHide();
+            window.location.reload();
+            const email_body = this.state.emailBody
+            const email_toContact= this.state.toContact
+            const email_subject = this.state.emailSubject
+            const email_sendTo = 'msaleh@princeton.edu'
+            
+            const emailInfo = {email_body, email_toContact, email_subject, email_sendTo};
+            fetch('/api/sendEmail', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }, 
+                body: JSON.stringify(emailInfo)
+            }).catch(e => console.log(e));
+        }
+
 
 
         /*const nodemailer = require('nodemailer');
@@ -86,8 +136,13 @@ export class FeedbackModal extends Component{
 
 
     }
-  
+
    render() {
+    const options= [
+        {text: 'Feeback', value: 'videographers'},
+        {text: 'Other', value: 'editors'}
+    ]
+    const { value } = this.state;
     console.log(this.props.phEmail)
        return(
              <Modal
@@ -98,7 +153,7 @@ export class FeedbackModal extends Component{
    >
      <Modal.Header closeButton>
        <Modal.Title id="contained-modal-title-vcenter">
-         Compose your email to this Photographer:
+         Compose your email to the TigerPhotos team:
        </Modal.Title>
      </Modal.Header>
      <Modal.Body>
@@ -106,25 +161,31 @@ export class FeedbackModal extends Component{
 
      <Form>
      <Form.Group controlId="exampleForm.ControlInput1">
-                   <Form.Label>Email you wish to be contacted at:</Form.Label>
+                    <span style={{color: "red"}}>{this.state.errors["email"]}</span><br/>
+                   <Form.Label>Email you wish to be contacted at:</Form.Label><span className="required">*</span>
                    <Form.Control name= "toContact" type="email" placeholder="name@example.com" value={this.state.toContact}  onChange={this.handleChange.bind(this)} />
                </Form.Group>
-
                <Form.Group controlId="exampleForm.ControlInput1">
-                   <Form.Label>Subject:</Form.Label>
-                   <Form.Control name = "emailSubject" value={this.state.emailSubject}  onChange={this.handleChange.bind(this)} type="email" placeholder="Need Your Skills!" />
+                    <span style={{color: "red"}}>{this.state.errors["subject_line"]}</span><br/>
+                   <Form.Label>Subject:</Form.Label><span className="required">*</span>
+                   <Form.Control name = "emailSubject" value={this.state.emailSubject}  onChange={this.handleChange.bind(this)} type="email" placeholder="Subject of your email" />
                </Form.Group>
                <Form.Group controlId="exampleForm.ControlSelect1">
-                   <Form.Label>Purpose For Hire:</Form.Label>
-                   <Form.Control as="select">
-                   <option>Videography</option>
-                   <option>Photography</option>
-                   <option>Photo Editing</option>
-                   </Form.Control>
+               <span style={{color: "red"}}>{this.state.errors["specialty"]}</span><br/>
+                   <Form.Label>Purpose For Email:</Form.Label><span className="required">*</span><br/>
+                   <Dropdown 
+                                placeholder='Pick One'
+                                name="specialty"
+                                onChange={this.handleChangeSpecialty}
+                                selection 
+                                options={options} 
+                                value={value}
+                                />
                </Form.Group>
                <Form.Group controlId="exampleForm.ControlTextarea1">
-                   <Form.Label>Write your message</Form.Label>
-                   <Form.Control name="emailBody" as="textarea" value={this.state.emailBody}  onChange={this.handleChange.bind(this)} rows="6" placeholder="Max. 750 characters"/>
+                   <span style={{color: "red"}}>{this.state.errors["description"]}</span><br/>
+                   <Form.Label>Write your message</Form.Label><span className="required">*</span>
+                   <Form.Control name="emailBody" as="textarea" value={this.state.emailBody}  onChange={this.handleChange.bind(this)} rows="6" placeholder="Compose your email here!"/>
                </Form.Group>
            </Form>
            </div>

@@ -46,7 +46,8 @@ class AboutUs extends React.Component {
                 <p className = 'aboutParagraph'>
                     TigerPhotos was originally built by a group of students as their final project for COS 333: Advanced Programming Techniques taught by Robert Dondero in Spring 2020.
                 </p>
-
+                <p className= 'aboutParagraph'><Button startIcon={<MailIcon/>} color='primary' onClick={this.handleShow.bind(this)} >Contact Us</Button>
+                </p>
                 <p className = 'aboutHeader'>Original Team</p>
                 <div  className = "aboutGrid">
                     <Container fluid>
@@ -83,7 +84,7 @@ class AboutUs extends React.Component {
                             </Col>
                         </Row>
                     </Container>
-                    <Button startIcon={<MailIcon/>} color='primary' onClick={this.handleShow.bind(this)} >Feedback</Button>
+                    
                     <FeedbackModal  show = {this.state.UploadEmailShow} onHide = {this.handleClose.bind(this)}/>
 
                     
