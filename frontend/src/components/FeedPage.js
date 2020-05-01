@@ -12,6 +12,10 @@ import Button2 from '@material-ui/core/Button'
 import {Modal} from 'react-bootstrap'
 import Grid from '@material-ui/core/Grid';
 import ClearIcon from '@material-ui/icons/Clear'
+import FormControl from '@material-ui/core/FormControl'
+import Select from '@material-ui/core/Select'
+import MenuItem from '@material-ui/core/MenuItem'
+import InputLabel from '@material-ui/core/InputLabel'
 
 class FeedPage extends React.Component {
 
@@ -19,6 +23,8 @@ class FeedPage extends React.Component {
         super(props)
         this.state = {
             posts: [],
+            filteredPosts: [],
+            filter:"All",
             subject_line: "",
             description:"",
             specialty:"",
@@ -36,6 +42,7 @@ class FeedPage extends React.Component {
         this.handleChangeSpecialty = this.handleChangeSpecialty.bind(this)
         this.handleChangeEmail = this.handleChangeEmail.bind(this)
         this.handleDelete = this.handleDelete.bind(this)
+        this.handleFilterChange = this.handleFilterChange.bind(this)
         this.showModalDelete = this.showModalDelete.bind(this)
     }
 
@@ -43,7 +50,8 @@ class FeedPage extends React.Component {
         fetch('/api/getPosts')
         .then(response => response.json())
         .then(result => this.setState({
-          posts: result.posts
+          posts: result.posts,
+          filteredPosts: result.posts
         }))
         .then(console.log(this.state.posts))
         .catch(e => console.log(e))
@@ -188,6 +196,39 @@ class FeedPage extends React.Component {
         })
     }
 
+    handleFilterChange(event) {   
+        this.setState({filter:event.target.value})
+ 
+        let filtered = []
+
+        if (event.target.value === "All") {
+          filtered = this.state.posts
+        }
+    
+        else if (event.target.value === "photographers") {
+            for (const post of this.state.posts) {
+                if (post['specialty'] === "photographers")
+                    filtered.push(post)
+            }
+        }
+
+        else if (event.target.value === "videographers") {
+            for (const post of this.state.posts) {
+                if (post['specialty'] === "videographers")
+                    filtered.push(post)
+            }
+        }
+    
+        else if (event.target.value === "editors") {
+            for (const post of this.state.posts) {
+                if (post['specialty'] === "editors")
+                    filtered.push(post)
+            }
+        }
+
+        this.setState({filteredPosts: filtered})
+    }
+
     handleChange = (e, { value }) => this.setState({ specialty:value })
 
     render() {
@@ -265,11 +306,26 @@ class FeedPage extends React.Component {
                     </Modal.Footer>
                 </Modal>
                 <div className="CreateProfileText" style={{marginTop: 40}}>Feed</div>
+                <div style={{marginLeft:"auto", marginRight:"auto", display:"block"}}>
+                    <FormControl style = {{minWidth: "75px"}}>
+                    <InputLabel id="filter-label">Filter By</InputLabel>
+                    <Select
+                        labelId="filter-label"
+                        onChange = {this.handleFilterChange}
+                        value = {this.state.filter}
+                        >
+                        <MenuItem value={"All"}> All </MenuItem>
+                        <MenuItem value={"photographers"}> Photographers </MenuItem>
+                        <MenuItem value={"videographers"}> Videographers </MenuItem> 
+                        <MenuItem value={"editors"}> Editors </MenuItem>
+                    </Select>
+                    </FormControl>
+                </div>    
                 <div style={{textAlign: 'center', marginTop: 30, marginBottom: 10}}> 
                     <Button2 startIcon={<CreateIcon/>} disableRipple className='removeOutline' onClick={() => this.showModalPost()}>Write a post</Button2>
                 </div>
                 
-                {this.state.posts.map(post => {
+                {this.state.filteredPosts.map(post => {
                     return (
                         <Card variant="outlined" style={{width: "65%", marginBottom: 10, margin: 'auto', borderRadius:"0%"}}>
                             <CardContent>

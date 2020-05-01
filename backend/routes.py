@@ -430,7 +430,7 @@ def createPost():
     mesg = []
     post_info = request.get_json()
     if post_info['specialty'] == 'photographers':
-        msgz = Photographers.query.filter_by( photography_checkbox = True, notif_checkbox = True).all()
+        msgz = Photographers.query.filter_by(photography_checkbox = True, notif_checkbox = True).all()
         for tst in msgz:
             mesg.append(tst.email)
     elif post_info['specialty'] == 'videographers':
@@ -442,8 +442,6 @@ def createPost():
         for tst in msgz:
             mesg.append(tst.email)
     
-    print(mesg)
-
     try:
         msg = Message(post_info['subject_line'], sender = "tigerphotosteam@gmail.com", recipients = mesg)
         msg.body = post_info['subject_line']
