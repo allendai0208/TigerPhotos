@@ -156,6 +156,7 @@ def getPhotographer():
                 'photography_checkbox':  bool(photographer_data[0].photography_checkbox),
                 'videography_checkbox': bool(photographer_data[0].videography_checkbox),
                 'editing_checkbox': bool(photographer_data[0].editing_checkbox),
+                'notif_checkbox': bool(photographer_data[0].notif_checkbox),
                 'website_url': photographer_data[0].website_url,
                 'equipment': photographer_data[0].equipment,
                 'profile_pic': photographer_data[0].profile_pic,
@@ -174,6 +175,7 @@ def getPhotographer():
                 'photography_checkbox': False,
                 'videography_checkbox': False,
                 'editing_checkbox': False,
+                'notif_checkbox': False,
                 'equipment': "",
                 'profile_pic': "",
                 'website_url': "",
@@ -204,6 +206,7 @@ def createProfile():
         photography_checkbox=photographer_data['photography_checkbox'],
         videography_checkbox=photographer_data['videography_checkbox'],
         editing_checkbox=photographer_data['editing_checkbox'],
+        notif_checkbox=photographer_data['notif_checkbox'],
         equipment=photographer_data['equipment'],
         profile_pic = photographer_data['profile_pic'],
         key = photographer_data['key'],
@@ -224,6 +227,7 @@ def createProfile():
         photographer.photography_checkbox = photographer_data['photography_checkbox']
         photographer.videography_checkbox = photographer_data['videography_checkbox']
         photographer.editing_checkbox = photographer_data['editing_checkbox']
+        photographer.notif_checkbox = photographer_data['notif_checkbox']
         photographer.equipment = photographer_data['equipment']
         photographer.profile_pic = photographer_data['profile_pic']
         photographer.key = photographer_data['key']
@@ -426,15 +430,15 @@ def createPost():
     mesg = []
     post_info = request.get_json()
     if post_info['specialty'] == 'photographers':
-        msgz = Photographers.query.filter_by( photography_checkbox = True).all()
+        msgz = Photographers.query.filter_by( photography_checkbox = True, notif_checkbox = True).all()
         for tst in msgz:
             mesg.append(tst.email)
     elif post_info['specialty'] == 'videographers':
-        msgz = Photographers.query.filter_by(videography_checkbox = True).all()
+        msgz = Photographers.query.filter_by(videography_checkbox = True, notif_checkbox = True).all()
         for tst in msgz:
             mesg.append(tst.email)
     elif post_info['specialty'] == 'editors':
-        msgz = Photographers.query.filter_by(editing_checkbox = True).all()
+        msgz = Photographers.query.filter_by(editing_checkbox = True, notif_checkbox = True).all()
         for tst in msgz:
             mesg.append(tst.email)
     

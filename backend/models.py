@@ -23,6 +23,7 @@ class Photographers(db.Model):
     photography_checkbox = db.Column(db.Boolean, index=True)
     videography_checkbox = db.Column(db.Boolean, index=True)
     editing_checkbox = db.Column(db.Boolean, index=True)
+    notif_checkbox = db.Column(db.Boolean, index=True)
     equipment = db.Column(db.String(250))
     profile_pic = db.Column(db.String(255), index=True)
     key = db.Column(db.String(255), index=True)
