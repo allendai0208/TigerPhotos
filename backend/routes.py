@@ -380,7 +380,7 @@ def getReviews():
         })                                       
     return jsonify({'reviews':reviews})
 
-# route that deletes image of a given photographer (given their netid and filename)
+# route that adds image of a given photographer (given their netid and filename)
 @app.route('/api/addImage', methods=['POST'])
 def addImage():
 
