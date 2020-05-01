@@ -249,6 +249,7 @@ body{
 
 .column1 {
   height: 92vh;
+  width: 362px;
   padding: 0px;
   align-items: "flex-start";
   overflow-y: scroll;
@@ -263,7 +264,7 @@ body{
 }
 
 .cardColumn {
-  width: 365px;
+  width: 362px;
   outline: none !important;
 }
 
