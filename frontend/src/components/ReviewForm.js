@@ -21,7 +21,6 @@ class ReviewForm extends React.Component {
             show: false,
             disabled: false
         }
-        this.showModal = this.showModal.bind(this)
     } 
 
     // If the user has a review in the database for this photographer, updates message to let them know they are editting and 
