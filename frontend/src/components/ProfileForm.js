@@ -48,7 +48,8 @@ class ProfileForm extends React.Component {
             stateHasLoaded: false,
             prof_pic_loaded: false,
             new_image_loading: false,
-            counter:0,
+            prof_pic_file:'',
+            user_uploaded_prof_pic:false,
             show:false
         }
         this.handleChange = this.handleChange.bind(this)
@@ -56,10 +57,11 @@ class ProfileForm extends React.Component {
         this.deletePhoto = this.deletePhoto.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleDelete = this.handleDelete.bind(this)
-        this.storeProfPic = this.storeProfPic.bind(this)
+        //this.storeProfPic = this.storeProfPic.bind(this)
         this.showModal = this.showModal.bind(this)
         this.ValidateSingleInput = this.ValidateSingleInput.bind(this)
         this.ValidateMultiInput = this.ValidateMultiInput.bind(this)
+        this.renderProfPic = this.renderProfPic.bind(this)
         //this.onLoad = this.onLoad.bind(this)
     }
     
@@ -102,17 +104,29 @@ class ProfileForm extends React.Component {
     }
     */
 
+    renderProfPic(e) {
+
+        if (e.target.files[0] === undefined)
+            return
+        if (!this.ValidateSingleInput(e.target.files[0])) return;
+        this.setState({
+            profPicUrl: URL.createObjectURL(e.target.files[0]),
+            prof_pic_file:e.target.files[0],
+            user_uploaded_prof_pic:true
+          })
+    }
+
     // Makes sure all the required fields give proper warnings
     handleValidation(){
         let errors = {};
         let formIsValid = true;
 
         //Profile pic is required
-        if (this.state.profPic === "") {
+        /*if (this.state.profPic === "") {
             formIsValid = false
             errors["profile_picture"] = "Profile Picture is required"
         }
-
+        */
         //First Name
         if(this.state.first_name === ""){
             formIsValid = false;
@@ -187,8 +201,6 @@ class ProfileForm extends React.Component {
 
     // Called when any of the text fields are edited
     handleChange(e){  
-        console.log(e.target.name)
-        console.log(e.target.value) 
         let change = this.state
         change[e.target.name] = e.target.value
         this.setState(change)
@@ -196,12 +208,9 @@ class ProfileForm extends React.Component {
 
       
     ValidateSingleInput(oInput){
-        console.log("estoy aqui")
-        console.log(oInput)
-        console.log(typeof oInput)
+
         var _validFileExtensions = [".jpg", ".jpeg", ".gif", ".png"];  
         
-            console.log('hellur')
             var sFileName = oInput.name;
             if (sFileName.length > 0) {
                 var blnValid = false;
@@ -224,12 +233,9 @@ class ProfileForm extends React.Component {
     }
 
     ValidateMultiInput(oInput){
-        console.log("estoy aqui")
-        console.log(oInput)
-        console.log(typeof oInput)
+
         var _validFileExtensions = [".jpg", ".jpeg", ".gif", ".png"];  
         
-            console.log('hellur')
             var sFileName = oInput.name;
             if (sFileName.length > 0) {
                 var blnValid = false;
@@ -250,6 +256,7 @@ class ProfileForm extends React.Component {
         return true;
     }
 
+    /*
     storeProfPic(e) {
         
         if (e.target.files[0] === undefined)
@@ -272,15 +279,9 @@ class ProfileForm extends React.Component {
         },
         );
     }
+    */
 
-    storePhoto(e) {/* storage.ref('images').child(files.item(i).name).getDownloadURL().then(url => {
-        console.log(url);
-        const isUploading = false;
-        this.setState({isUploading})
-        //const image = {url: url, added: new Date()}
-        //fstore.collection(this.props.netid).add(image).then(res =>{});*/
-        //console.log(e.target.files[0])
-        //console.log(URL.createObjectURL(e.target.files[0]))
+    storePhoto(e) {
         if (e.target.files[0] === undefined)
             return
 
@@ -297,7 +298,6 @@ class ProfileForm extends React.Component {
                 continue
             }
             this.setState({new_image_loading:true})
-            //const key = e.target.files[i].name
             const key = (Math.floor(Math.random() * 1000000000000)).toString(); // hashes the key so that duplicate names don't collide
             const img = storage.ref(`imagesxoy/${key}`)
             img.put(e.target.files[i]).then((snap) => {
@@ -360,30 +360,74 @@ class ProfileForm extends React.Component {
     // Second, will make a fetch call to update the portfolio pertaining to the browsing photographer via call to api/createPortfolio
     handleSubmit() {
         if (this.handleValidation()) {
-            const photographer_netid = this.state.netid
-            const first_name = this.state.first_name
-            const last_name = this.state.last_name
-            const email = this.state.email
-            const website_url = this.state.website_url
-            const description = this.state.description
-            const photography_checkbox = this.state.photography_checkbox
-            const videography_checkbox = this.state.videography_checkbox
-            const editing_checkbox = this.state.editing_checkbox
-            const equipment = this.state.equipment
-            const profile_pic = this.state.profPicUrl
-            const notif_checkbox =  this.state.notif_checkbox
-            const key = this.state.profPic
-            const photographer = { photographer_netid, first_name, last_name, email, website_url, 
-                                   description, photography_checkbox, videography_checkbox, editing_checkbox, notif_checkbox, 
-                                   equipment, profile_pic, key};
-            fetch('/api/createProfile', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
+
+            const key = (Math.floor(Math.random() * 1000000000000)).toString(); // hashes the key so that duplicate names don't collide
+            const img = storage.ref(`imagesxoy/${key}`)
+            if (this.state.user_uploaded_prof_pic) {
+
+                img.put(this.state.prof_pic_file).then((snap) => {
+                    storage.ref(`imagesxoy`).child(key).getDownloadURL().then(url => {
+                        const image = {key, url}
+                        fstore.collection(this.state.netid).doc(key).set(image)
+                        const profile_pic = url
+                        const photographer_netid = this.state.netid
+                        const first_name = this.state.first_name
+                        const last_name = this.state.last_name
+                        const email = this.state.email
+                        const website_url = this.state.website_url
+                        const description = this.state.description
+                        const photography_checkbox = this.state.photography_checkbox
+                        const videography_checkbox = this.state.videography_checkbox
+                        const editing_checkbox = this.state.editing_checkbox
+                        const equipment = this.state.equipment
+                        const notif_checkbox =  this.state.notif_checkbox
+                        const photographer = { photographer_netid, first_name, last_name, email, website_url, 
+                                            description, photography_checkbox, videography_checkbox, editing_checkbox, notif_checkbox, 
+                                            equipment, profile_pic, key};
+                        fetch('/api/createProfile', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }, 
+                            body: JSON.stringify(photographer)
+                        })
+                        .then(this.setState({redirect: true}))
+    
+                    })
                 }, 
-                body: JSON.stringify(photographer)
-            })
-            .then(this.setState({redirect: true}))
+                (error) => {    
+                // error function ....
+                console.log(error);
+                },
+                )
+            }
+            else {
+                const key = this.state.profile_pic
+                const profile_pic = this.state.profPicUrl
+                const photographer_netid = this.state.netid
+                const first_name = this.state.first_name
+                const last_name = this.state.last_name
+                const email = this.state.email
+                const website_url = this.state.website_url
+                const description = this.state.description
+                const photography_checkbox = this.state.photography_checkbox
+                const videography_checkbox = this.state.videography_checkbox
+                const editing_checkbox = this.state.editing_checkbox
+                const equipment = this.state.equipment
+                const notif_checkbox =  this.state.notif_checkbox
+                const photographer = { photographer_netid, first_name, last_name, email, website_url, 
+                                    description, photography_checkbox, videography_checkbox, editing_checkbox, notif_checkbox, 
+                                    equipment, profile_pic, key};
+                fetch('/api/createProfile', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }, 
+                    body: JSON.stringify(photographer)
+                })
+                .then(this.setState({redirect: true}))
+            }
+                    
         }
         else {
             alert("The form has errors. Please correct the errors and submit again.")
@@ -459,7 +503,7 @@ class ProfileForm extends React.Component {
                 <span style={{color: "red"}}>{this.state.errors["profile_picture"]} <br/> </span> 
                 <span className = "formFields">Upload a Profile Picture:</span><span className="required">*</span>
                 <br/>
-                <input name = "newImage" type = "file" onChange = {this.storeProfPic}/>
+                <input name = "newImage" type = "file" onChange = {this.renderProfPic}/>
                 <br/>
                 <div className = "formFields" style={{display: this.state.prof_pic_loaded ? "none" : "block"}}>
                     <img src = {loadingIcon2} style = {{height:"200px", width:"auto"}}/>
