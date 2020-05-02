@@ -3,7 +3,7 @@
 // and passing in their netid which is passed as a prop to this component
 // We then autofill the fields based on the information returned from /getPhotographer
 import React from 'react';
-import { Form, Input, Button, Checkbox, Modal} from 'semantic-ui-react';
+import { Form, Input, Button, Checkbox} from 'semantic-ui-react';
 import { Redirect } from 'react-router';
 import {storage, fstore} from './firebase/config';
 import loadingIcon from './pictures/loadingimageicon.gif'
@@ -12,6 +12,7 @@ import InfoIcon from '@material-ui/icons/Info'
 import Tooltip from '@material-ui/core/Tooltip'
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 import { createMuiTheme } from '@material-ui/core/styles';
+import {Modal} from 'react-bootstrap'
 
 const theme = createMuiTheme({
     overrides: {
@@ -483,18 +484,18 @@ class ProfileForm extends React.Component {
 
         return (
             <div>
-            <Modal className="deleteModal" size='small' open={this.state.show} onHide={() => this.setState({show: false})}>
+            <Modal className="deleteModal" size='small' show={this.state.show} onHide={() => this.setState({show: false})}>
                 <Modal.Header>
                     Confirm Deletion
                 </Modal.Header>
-                <Modal.Content>
+                <Modal.Body>
                         <span style={{color:'red', fontWeight:'bold'}}>Warning: </span> 
                         Are you sure you want to delete your profile? This action will delete all contents from your profile.
-                </Modal.Content>
-                <Modal.Actions>
+                </Modal.Body>
+                <Modal.Footer>
                     <Button negative onClick={() => this.setState({show: false})}>No</Button>
                     <Button positive onClick={this.handleDelete}>Yes</Button>
-                </Modal.Actions>
+                </Modal.Footer>
             </Modal>
             
             <div className = "profileFormMargins">

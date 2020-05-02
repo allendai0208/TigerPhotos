@@ -1,5 +1,6 @@
 import React from 'react';
-import { Form, Rating, Button, Modal } from 'semantic-ui-react';
+import { Form, Rating, Button } from 'semantic-ui-react';
+import {Modal} from 'react-bootstrap'
 import DeleteIcon from '@material-ui/icons/Delete';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
@@ -20,6 +21,7 @@ class ReviewForm extends React.Component {
             show: false,
             disabled: false
         }
+        this.showModal = this.showModal.bind(this)
     } 
 
     // If the user has a review in the database for this photographer, updates message to let them know they are editting and 
@@ -111,14 +113,6 @@ class ReviewForm extends React.Component {
         this.props.handler2(data.rating)
     }
 
-    // shows modal when delete icon is clicked 
-    showModal() {
-        console.log("changing")
-        this.setState({
-            show: true
-        })
-    }
-
     // if delete icon is clicked, deletes old review from database and updates message for user 
     handleDelete() {
         const user_netid = this.props.user_netid
@@ -151,57 +145,57 @@ class ReviewForm extends React.Component {
     render() {
         return (
             <div>
-                <Modal className="deleteModal" size='small' open={this.state.show} onHide={() => this.setState({show: false})}>
-                    <Modal.Header>
-                            Confirm Deletion
+                <Modal show={this.state.show} onHide={() => this.setState({show: false})}>
+                    <Modal.Header closeButton>
+                        Confirm Deletion
                     </Modal.Header>
-                    <Modal.Content>Are you sure you want to delete your review?</Modal.Content>
-                    <Modal.Actions>
-                        <Button negative onClick={() => this.setState({show: false})}>No</Button>
-                        <Button positive onClick={this.handleDelete.bind(this)}>Yes</Button>
-                    </Modal.Actions>
+                    <Modal.Body>Are you sure you want to delete your post?</Modal.Body>
+                    <Modal.Footer>
+                        <Button negative onClick={() => this.setState({show: false})}>no</Button>
+                        <Button positive onClick={() => this.handleDelete()}>yes</Button>
+                    </Modal.Footer>
                 </Modal>
-            <Form className="reviewForm">
-                <div style={{marginBottom: 5, color: "grey"}}>{this.state.message}</div>
-                <span style={{color: "red"}}>{this.state.errors["review"]}</span>
-                <Form.Field>
-                    <Form.TextArea disabled={this.state.disabled}
-                        maxLength="750"
-                        className="reviewDescription"
-                        placeholder="Write your review (max 750 characters)" 
-                        value={this.state.review} 
-                        onChange={event => this.handleChange(event)}
-                    />
-                </Form.Field> 
-                <Grid container className="reviewGrid">
-                    <Grid item xs={11}>
-                        <Form.Field>
-                            <Rating disabled={this.state.disabled}
-                                icon="star"
-                                rating={this.state.rating}
-                                maxRating={5}
-                                onRate={(_, data) => this.handleRate(_, data)}
-                            />
-                        </Form.Field>
+                <Form className="reviewForm">
+                    <div style={{marginBottom: 5, color: "grey"}}>{this.state.message}</div>
+                    <span style={{color: "red"}}>{this.state.errors["review"]}</span>
+                    <Form.Field>
+                        <Form.TextArea disabled={this.state.disabled}
+                            maxLength="750"
+                            className="reviewDescription"
+                            placeholder="Write your review (max 750 characters)" 
+                            value={this.state.review} 
+                            onChange={event => this.handleChange(event)}
+                        />
+                    </Form.Field> 
+                    <Grid container className="reviewGrid">
+                        <Grid item xs={11}>
+                            <Form.Field>
+                                <Rating disabled={this.state.disabled}
+                                    icon="star"
+                                    rating={this.state.rating}
+                                    maxRating={5}
+                                    onRate={(_, data) => this.handleRate(_, data)}
+                                />
+                            </Form.Field>
+                        </Grid>
+                        <Grid item xs={1}>
+                            <div style={{textAlign: 'right'}}>
+                            <Form.Field>
+                                <Tooltip title="Delete">
+                                    <IconButton aria-label="delete review" onClick={() => this.setState({show: true})}>
+                                        <DeleteIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            </Form.Field>
+                            </div>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={1}>
-                        <div style={{textAlign: 'right'}}>
-                        <Form.Field>
-                            <Tooltip title="Delete">
-                                <IconButton aria-label="delete review" onClick={this.showModal.bind(this)}>
-                                    <DeleteIcon />
-                                </IconButton>
-                            </Tooltip>
-                        </Form.Field>
-                        </div>
-                    </Grid>
-                </Grid>
-                <Form.Field>
-                    <Button disabled={this.state.disabled} onClick={this.handleSubmit.bind(this)}>
-                        Save
-                    </Button>
-                </Form.Field>
-            </Form>
+                    <Form.Field>
+                        <Button disabled={this.state.disabled} onClick={this.handleSubmit.bind(this)}>
+                            Save
+                        </Button>
+                    </Form.Field>
+                </Form>
             </div>
         )
     }

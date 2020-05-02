@@ -242,7 +242,7 @@ class FeedPage extends React.Component {
             <div>
                 <Modal show={this.state.showDelete} onHide={() => this.setState({showDelete: false})}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Confirm Deletion</Modal.Title>
+                        Confirm Deletion
                     </Modal.Header>
                     <Modal.Body>Are you sure you want to delete your post?</Modal.Body>
                     <Modal.Footer>

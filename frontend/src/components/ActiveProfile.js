@@ -24,14 +24,14 @@ class ActiveProfile extends React.Component{
 
         // if 0 displays about, if 1 displays reviews, if 2 displays write review, if 3 displays contact
         this.state = {
-            page_id:0,
+            page_id:3,
             current_review: "" ,
             current_rating: 0,
             loaded: false,
-            button_1: 'primary', 
+            button_1: 'secondary', 
             button_2: 'secondary', 
             button_3: 'secondary', 
-            button_4: 'secondary', 
+            button_4: 'primary', 
             selectedPhotographer: this.props.selectedPhotographer,
             UploadEmailShow: false,
             photos: [],
@@ -64,14 +64,14 @@ class ActiveProfile extends React.Component{
             console.log(nextProps.selectedPhotographer)
             console.log(prevState.selectedPhotographer)
             return {selectedPhotographer: nextProps.selectedPhotographer, 
-                    page_id: 0, 
+                    page_id: 3, 
                     loaded: false, 
                     current_review: "", 
                     current_rating: 0,
-                    button_1: 'primary',
+                    button_1: 'secondary',
                     button_2: 'secondary',
                     button_3: 'secondary',
-                    button_4: 'secondary',
+                    button_4: 'primary',
                     photos_loaded: false,
                     photos: [],
                     switched: true
@@ -262,8 +262,8 @@ class ActiveProfile extends React.Component{
                     {border}
                     <a target='_blank' href={this.props.selectedPhotographer.website_url}>{website}</a>
                     </Typography>
-                    <Button startIcon={<AssignmentIndIcon/>} disableRipple className='removeOutline' color={this.state.button_1} onClick={() => this.handleClick(0)}>About</Button>
                     <Button startIcon={<CollectionsIcon />} disableRipple className='removeOutline' color={this.state.button_4} onClick={() => this.handleClick(3)}>Gallery</Button>
+                    <Button startIcon={<AssignmentIndIcon/>} disableRipple className='removeOutline' color={this.state.button_1} onClick={() => this.handleClick(0)}>About</Button>
                     <Button startIcon={<QuestionAnswerIcon/>} disableRipple className='removeOutline' color={this.state.button_2} onClick={() => this.handleClick(1)}>Reviews</Button>
                     <Button startIcon={<CreateIcon/>} disableRipple className='removeOutline' color={this.state.button_3} onClick={() => this.handleClick(2)}>Leave a Review</Button>
                     <Divider/>
