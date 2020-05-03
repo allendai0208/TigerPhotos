@@ -5,7 +5,6 @@ import CardContent from '@material-ui/core/CardContent'
 import { Form, Input, Button } from 'semantic-ui-react';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
-import DeleteIcon from '@material-ui/icons/Delete';
 import { Dropdown } from 'semantic-ui-react'
 import CreateIcon from '@material-ui/icons/Create';
 import Button2 from '@material-ui/core/Button'
@@ -137,10 +136,10 @@ class FeedPage extends React.Component {
             const specialty = this.state.specialty
             const email = this.state.email
             const post = {netid, subject_line, description, specialty, email};
-            fetch('/api/createPost', {
-                method: 'POST',
+            fetch("/api/createPost", {
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json'
+                    "content-type":"application/json"
                 }, 
                 body: JSON.stringify(post)
             });
@@ -328,7 +327,13 @@ class FeedPage extends React.Component {
                 <div style={{textAlign: 'center', marginTop: 30, marginBottom: 10}}> 
                     <Button2 startIcon={<CreateIcon/>} disableRipple className='removeOutline' onClick={() => this.showModalPost()}>Write a post</Button2>
                 </div>
-                
+
+                <br/>
+                <div style={{width: "65%", margin: 'auto', borderRadius:"0%"}}>
+                    Note: new posts will be displayed here for 90 days unless deleted by the original poster beforehand. After 90 days, posts will be moved to the archived feed.
+                    <br/>
+                    <a href="/archivedFeed"> Click here to view archived feed posts</a>
+                </div>
                 {this.state.filteredPosts.map(post => {
                     return (
                         <Card variant="outlined" style={{width: "65%", marginBottom: 10, margin: 'auto', borderRadius:"0%"}}>
