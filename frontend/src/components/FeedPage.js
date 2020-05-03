@@ -5,7 +5,6 @@ import CardContent from '@material-ui/core/CardContent'
 import { Form, Input, Button } from 'semantic-ui-react';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
-import DeleteIcon from '@material-ui/icons/Delete';
 import { Dropdown } from 'semantic-ui-react'
 import CreateIcon from '@material-ui/icons/Create';
 import Button2 from '@material-ui/core/Button'
@@ -137,10 +136,10 @@ class FeedPage extends React.Component {
             const specialty = this.state.specialty
             const email = this.state.email
             const post = {netid, subject_line, description, specialty, email};
-            fetch('/api/createPost', {
-                method: 'POST',
+            fetch("/api/createPost", {
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json'
+                    "content-Type":"application/json"
                 }, 
                 body: JSON.stringify(post)
             });
@@ -339,7 +338,7 @@ class FeedPage extends React.Component {
                                     </Grid>
                                     <Grid item xs={1}>
                                     <div style={{textAlign: 'right'}}>
-                                    {post.netid == this.props.netid ? 
+                                    {post.netid === this.props.netid ? 
                                     <Tooltip title="Delete Post">
                                         <IconButton aria-label="delete review" onClick={() => this.showModalDelete(post)}>
                                             <ClearIcon />

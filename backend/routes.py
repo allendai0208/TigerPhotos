@@ -416,7 +416,7 @@ def getPosts():
     today = datetime.today()
     for post in post_list:
         duration = today - post.timestamp
-        if (duration.seconds <= 20):
+        if (duration.days <= 90):
             posts.append({
                 'netid': post.netid,
                 'description': post.description,
@@ -434,7 +434,7 @@ def getPosts():
 @app.route('/api/createPost', methods=['POST'])
 def createPost():
     mesg = []
-    post_info = request.get_json()
+    post_info = request.get_json(force=True)
     if post_info['specialty'] == 'photographers':
         msgz = Photographers.query.filter_by(photography_checkbox = True, notif_checkbox = True).all()
         for tst in msgz:

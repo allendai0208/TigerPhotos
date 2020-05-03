@@ -6,7 +6,6 @@ import React from 'react';
 import { Form, Input, Button, Checkbox} from 'semantic-ui-react';
 import { Redirect } from 'react-router';
 import {storage, fstore} from './firebase/config';
-import loadingIcon from './pictures/loadingimageicon.gif'
 import loadingIcon2 from './pictures/loadingicon2.gif'
 import InfoIcon from '@material-ui/icons/Info'
 import Tooltip from '@material-ui/core/Tooltip'
@@ -218,7 +217,7 @@ class ProfileForm extends React.Component {
                 var blnValid = false;
                 for (var j = 0; j < _validFileExtensions.length; j++) {
                     var sCurExtension = _validFileExtensions[j];
-                    if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                    if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() === sCurExtension.toLowerCase()) {
                         blnValid = true;
                         break;
                     }
@@ -243,7 +242,7 @@ class ProfileForm extends React.Component {
                 var blnValid = false;
                 for (var j = 0; j < _validFileExtensions.length; j++) {
                     var sCurExtension = _validFileExtensions[j];
-                    if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                    if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() === sCurExtension.toLowerCase()) {
                         blnValid = true;
                         break;
                     }
