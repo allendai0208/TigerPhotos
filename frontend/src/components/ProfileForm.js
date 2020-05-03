@@ -50,7 +50,8 @@ class ProfileForm extends React.Component {
             new_image_loading: false,
             prof_pic_file:'',
             user_uploaded_prof_pic:false,
-            show:false
+            show:false,
+            use_clicked_save:false
         }
         this.handleChange = this.handleChange.bind(this)
         this.storePhoto = this.storePhoto.bind(this)
@@ -96,15 +97,6 @@ class ProfileForm extends React.Component {
         .catch(e => console.log(e))
     }
 
-    /*onLoad() {
-        console.log("before update counter: ", this.state.gallery_counter)
-        this.setState({gallery_counter:this.state.gallery_counter+1})
-        console.log("after update counter: ", this.state.gallery_counter)
-        if (this.state.gallery_counter >= this.state.portfolio.length) 
-            this.setState({gallery_loaded:true})
-    }
-    */
-
     renderProfPic(e) {
 
         if (e.target.files[0] === undefined)
@@ -123,11 +115,11 @@ class ProfileForm extends React.Component {
         let formIsValid = true;
 
         //Profile pic is required
-        /*if (this.state.profPic === "") {
+        if (this.state.profPicUrl === "") {
             formIsValid = false
             errors["profile_picture"] = "Profile Picture is required"
         }
-        */
+        
         //First Name
         if(this.state.first_name === ""){
             formIsValid = false;
@@ -365,11 +357,15 @@ class ProfileForm extends React.Component {
     // Second, will make a fetch call to update the portfolio pertaining to the browsing photographer via call to api/createPortfolio
     handleSubmit() {
         if (this.handleValidation()) {
-
+            this.setState({user_clicked_submit:true})
             const key = (Math.floor(Math.random() * 1000000000000)).toString(); // hashes the key so that duplicate names don't collide
             const img = storage.ref(`imagesxoy/${key}`)
             if (this.state.user_uploaded_prof_pic) {
 
+                if (this.state.profPic != "") {
+                    storage.ref(`imagesxoy`).child(this.state.profPic).delete()
+                }
+                console.log(this.state)
                 img.put(this.state.prof_pic_file).then((snap) => {
                     storage.ref(`imagesxoy`).child(key).getDownloadURL().then(url => {
                         const image = {key, url}
@@ -634,10 +630,16 @@ class ProfileForm extends React.Component {
                 <p className = "formFields"> Note: click on a picture to delete it from your portfolio</p>
                 <br/>
                 <br/>
-                <Button color='blue' size='large'onClick={this.handleSubmit} className ="createSubmit">
+                <Button color='blue' size='large'onClick={this.handleSubmit} className ="createSubmit" style={{display: this.state.user_clicked_submit ? "none" : "inline"}}>
                     Save
                 </Button>
-                <Button color='red' size='large'onClick={this.showModal} className ="createSubmit">
+                <Button color='blue' size='large' className ="createSubmit" style={{display: this.state.user_clicked_submit ? "inline" : "none"}}>
+                    Saving...
+                </Button>
+                <Button color='red' size='large'onClick={this.showModal} className ="createSubmit" style={{display: this.state.user_clicked_submit ? "none" : "inline"}}>
+                    Delete My Profile
+                </Button>
+                <Button color="#ef9a9a" size='large' className ="createSubmit" style={{display: this.state.user_clicked_submit ? "inline" : "none"}}>
                     Delete My Profile
                 </Button>
                 <br/>
