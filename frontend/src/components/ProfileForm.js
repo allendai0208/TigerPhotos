@@ -314,7 +314,7 @@ class ProfileForm extends React.Component {
                     portfolio.push({
                         key: key,
                         url: url,
-                    })
+                    }).then(console.log("adsf"))
                     this.setState({portfolio:portfolio, new_image_loading:false})
                 })
             }, 
