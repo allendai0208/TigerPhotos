@@ -3,7 +3,7 @@ from backend import app, db
 from backend.models import Reviews, Users, Photographers, Feed, Portfolio
 from CASClient import CASClient
 from flask_mail import Mail, Message
-
+from datetime import datetime
 
 app.config.update(
 	DEBUG=True,
@@ -413,22 +413,28 @@ def getPosts():
     post_list = Feed.query.all()
     posts = []
 
+    today = datetime.today()
     for post in post_list:
-        posts.append({
-            'netid': post.netid,
-            'description': post.description,
-            'subject_line': post.subject_line,
-            'timestamp': str(post.timestamp).split(' ')[0],
-            'specialty': post.specialty,
-            'email': post.email
-        })
-
+        duration = today - post.timestamp
+        if (duration.days <= 90):
+            posts.append({
+                'netid': post.netid,
+                'description': post.description,
+                'subject_line': post.subject_line,
+                'timestamp': str(post.timestamp).split(' ')[0],
+                'specialty': post.specialty,
+                'email': post.email
+            })
+        # This actually deletes the old rows from the database
+        #else: 
+            #Feed.query.filter_by(id = post.id).delete()
+    
     return jsonify({'posts':posts})
 
 @app.route('/api/createPost', methods=['POST'])
 def createPost():
     mesg = []
-    post_info = request.get_json()
+    post_info = request.get_json(force=True)
     if post_info['specialty'] == 'photographers':
         msgz = Photographers.query.filter_by(photography_checkbox = True, notif_checkbox = True).all()
         for tst in msgz:
