@@ -23,6 +23,7 @@ class BrowsePage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      width: window.innerWidth,
       photographers: [],
       selectedPhotographer: [],
       profileHasBeenClicked: false,
@@ -58,6 +59,18 @@ class BrowsePage extends React.Component {
     })
     .catch(e => console.log(e))
   }
+
+  componentWillMount() {
+    window.addEventListener('resize', this.handleWindowSizeChange);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleWindowSizeChange);
+  }
+
+  handleWindowSizeChange = () => {
+    this.setState({ width: window.innerWidth });
+  };
 
   handler(arg1, arg2) {
     this.setState({
@@ -138,94 +151,106 @@ class BrowsePage extends React.Component {
     ) : (
       <p>Loading...</p>
     )
-    return (
-      <div className='hideScrollbar'>
-      <Container fluid>
-        <Row noGutters>
-          <div>
-            <Col xs={12} className="column1">
+    
+    const { width } = this.state;
+    const isMobile = width <= 500;
 
-               <FormControl style = {{minWidth: "75px"}}>
-                <InputLabel id="filter-label">Filter By</InputLabel>
-                <Select
-                  labelId="filter-label"
-                  onChange = {this.handleFilterChange}
-                  value = {this.state.filter}
-                  >
-                    <MenuItem value={"All"}> All </MenuItem>
-                    <MenuItem value={"photography_exp"}> Photographers </MenuItem>
-                    <MenuItem value={"videography_exp"}> Videographers </MenuItem> 
-                    <MenuItem value={"editing_exp"}> Editors </MenuItem>
-                </Select>
-              </FormControl>
+    if (!isMobile) {
+      return (
+        <div className='hideScrollbar'>
+        <Container fluid>
+          <Row noGutters>
+            <div>
+              <Col xs={12} className="column1">
 
-              <FormControl style = {{minWidth: "75px"}}>
-                <InputLabel id="sort-label">Sort By</InputLabel>
-                <Select
-                  labelId="sort-label"
-                  onChange = {this.handleSortChange}
-                  value = {this.state.sort}
-                  >
-                    <MenuItem value={"alphabetical"}> Alphabetical </MenuItem>
-                    <MenuItem value={"rating"}> Average Rating </MenuItem> 
-                </Select>
-              </FormControl>
-              {recentPhotographersMarkup}
+                <FormControl style = {{minWidth: "75px"}}>
+                  <InputLabel id="filter-label">Filter By</InputLabel>
+                  <Select
+                    labelId="filter-label"
+                    onChange = {this.handleFilterChange}
+                    value = {this.state.filter}
+                    >
+                      <MenuItem value={"All"}> All </MenuItem>
+                      <MenuItem value={"photography_exp"}> Photographers </MenuItem>
+                      <MenuItem value={"videography_exp"}> Videographers </MenuItem> 
+                      <MenuItem value={"editing_exp"}> Editors </MenuItem>
+                  </Select>
+                </FormControl>
+
+                <FormControl style = {{minWidth: "75px"}}>
+                  <InputLabel id="sort-label">Sort By</InputLabel>
+                  <Select
+                    labelId="sort-label"
+                    onChange = {this.handleSortChange}
+                    value = {this.state.sort}
+                    >
+                      <MenuItem value={"alphabetical"}> Alphabetical </MenuItem>
+                      <MenuItem value={"rating"}> Average Rating </MenuItem> 
+                  </Select>
+                </FormControl>
+                {recentPhotographersMarkup}
+              </Col>
+            </div>
+            <Col className='column2'>
+              {this.state.profileHasBeenClicked ? 
+                <ActiveProfile selectedPhotographer = {this.state.selectedPhotographer} user_netid = {this.props.netid} /> : 
+                <DefaultActiveProfile/>}
             </Col>
-          </div>
-          <Col className='column2'>
-            {this.state.profileHasBeenClicked ? 
-              <ActiveProfile selectedPhotographer = {this.state.selectedPhotographer} user_netid = {this.props.netid} /> : 
-              <DefaultActiveProfile/>}
-          </Col>
-        </Row>
-      </Container>
-      </div>
-    )
+          </Row>
+        </Container>
+        </div>
+      )
+    }
+    else {
+      return (
+        <div className='hideScrollbar'>
+        <Container fluid>
+          <Row noGutters>
+            <div>
+              <Col className="smallColumn1">
+
+                <FormControl style = {{minWidth: "75px"}}>
+                  <InputLabel id="filter-label">Filter By</InputLabel>
+                  <Select
+                    labelId="filter-label"
+                    onChange = {this.handleFilterChange}
+                    value = {this.state.filter}
+                    >
+                      <MenuItem value={"All"}> All </MenuItem>
+                      <MenuItem value={"photography_exp"}> Photographers </MenuItem>
+                      <MenuItem value={"videography_exp"}> Videographers </MenuItem> 
+                      <MenuItem value={"editing_exp"}> Editors </MenuItem>
+                  </Select>
+                </FormControl>
+
+                <FormControl style = {{minWidth: "75px"}}>
+                  <InputLabel id="sort-label">Sort By</InputLabel>
+                  <Select
+                    labelId="sort-label"
+                    onChange = {this.handleSortChange}
+                    value = {this.state.sort}
+                    >
+                      <MenuItem value={"alphabetical"}> Alphabetical </MenuItem>
+                      <MenuItem value={"rating"}> Average Rating </MenuItem> 
+                  </Select>
+                </FormControl>
+                {recentPhotographersMarkup}
+              </Col>
+            </div>
+            </Row>
+            <hr/>
+            <Row>
+            <Col>
+              {this.state.profileHasBeenClicked ? 
+                <ActiveProfile selectedPhotographer = {this.state.selectedPhotographer} user_netid = {this.props.netid} /> : 
+                <DefaultActiveProfile/>}
+            </Col>
+          </Row>
+        </Container>
+        </div>
+      )
+    }
   }
 } 
 
 export default BrowsePage;
-
-/*
-<Container fluid>
-        <Row >
-          <div>
-            <Col xs = {12} className="column1">
-              <FormControl style = {{minWidth: "75px"}}>
-                <InputLabel id="filter-label">Filter By</InputLabel>
-                <Select
-                  labelId="filter-label"
-                  onChange = {this.handleFilterChange}
-                  >
-                    <MenuItem value={"All"}> All </MenuItem>
-                    <MenuItem value={"photography_exp"}> Photographers </MenuItem>
-                    <MenuItem value={"videography_exp"}> Videographers </MenuItem> 
-                    <MenuItem value={"editing_exp"}> Editors </MenuItem>
-                </Select>
-              </FormControl>
-
-              <FormControl style = {{minWidth: "75px"}}>
-                <InputLabel id="sort-label">Sort By</InputLabel>
-                <Select
-                  labelId="sort-label"
-                  onChange = {this.handleSortChange}
-                  >
-                    <MenuItem value={"alphabetical"}> Alphabetical </MenuItem>
-                    <MenuItem value={"rating"}> Average Rating </MenuItem> 
-                </Select>
-              </FormControl>
-
-              <Button color="primary" variant="contained" onClick = {this.handleSearch} style = {{marginTop:"10px"}}>Search</Button>
-              {recentPhotographersMarkup}
-            </Col>
-          </div>
-          <Col>
-            {this.state.profileHasBeenClicked ? 
-              <ActiveProfile selectedPhotographer = {this.state.selectedPhotographer} user_netid = {this.props.netid} /> : 
-              <DefaultActiveProfile/>}
-          </Col>
-        </Row>
-      </Container>
-    )
-    */

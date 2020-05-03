@@ -55,6 +55,7 @@ class ProfileForm extends React.Component {
         }
         this.handleChange = this.handleChange.bind(this)
         this.storePhoto = this.storePhoto.bind(this)
+        this.onInputClick = this.onInputClick.bind(this)
         this.deletePhoto = this.deletePhoto.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleDelete = this.handleDelete.bind(this)
@@ -282,6 +283,10 @@ class ProfileForm extends React.Component {
     }
     */
 
+    onInputClick = (e) => {
+        e.target.value = ''
+    }
+
     storePhoto(e) {
         if (e.target.files[0] === undefined)
             return
@@ -403,7 +408,7 @@ class ProfileForm extends React.Component {
                 )
             }
             else {
-                const key = this.state.profile_pic
+                const key = this.state.profPic
                 const profile_pic = this.state.profPicUrl
                 const photographer_netid = this.state.netid
                 const first_name = this.state.first_name
@@ -498,13 +503,14 @@ class ProfileForm extends React.Component {
                 </Modal.Footer>
             </Modal>
             
-            <div className = "profileFormMargins">
+            <div>
                 <span className = "formFields">Note: profiles are only meant for photographers/videomakers/editors. General users do not need to make a profile.</span>
                 <br/>
                 <span style={{color: "red"}}>{this.state.errors["profile_picture"]} <br/> </span> 
                 <span className = "formFields">Upload a Profile Picture:</span><span className="required">*</span>
                 <br/>
-                <input name = "newImage" type = "file" onChange = {this.renderProfPic}/>
+                <input name = "newImage" id="profpic" type = "file" style={{display: "none"}} onChange = {this.renderProfPic}/>
+                <label class="custom-file-upload" for="profpic">Choose file</label>
                 <br/>
                 <div className = "formFields" style={{display: this.state.prof_pic_loaded ? "none" : "block"}}>
                     <img src = {loadingIcon2} style = {{height:"200px", width:"auto"}}/>
@@ -549,7 +555,7 @@ class ProfileForm extends React.Component {
                 <Form.Field>
                     <Input 
                         name = "website_url"
-                        placeholder="Website URL" 
+                        placeholder="https://yourwebsite.com" 
                         value={this.state.website_url}
                         onChange={this.handleChange}
                     />
@@ -606,7 +612,11 @@ class ProfileForm extends React.Component {
                 <div className = "formFields">Upload photos from your portfolio to show of to potential clients (changes are saved automatically):</div>    
                 </Form>
                 
-                <input id="input" multiple type="file" onChange={this.storePhoto}/>
+                {/*<input id="galleryPics" multiple type="file" onChange={this.storePhoto}/>*/}
+
+                <input id="galleryPics" multiple type="file" style={{display: "none"}} onClick={this.onInputClick} onChange = {this.storePhoto}/>
+                <label class="custom-file-upload" for="galleryPics">Choose files</label>
+
                 <br/>
                 <div className = "createGalleryText">
                     My Gallery  
