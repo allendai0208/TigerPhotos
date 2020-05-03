@@ -25,6 +25,7 @@ class FeedPage extends React.Component {
             posts: [],
             filteredPosts: [],
             filter:"All",
+            sort:"newest",
             subject_line: "",
             description:"",
             specialty:"",
@@ -43,6 +44,7 @@ class FeedPage extends React.Component {
         this.handleChangeEmail = this.handleChangeEmail.bind(this)
         this.handleDelete = this.handleDelete.bind(this)
         this.handleFilterChange = this.handleFilterChange.bind(this)
+        this.handleSortChange = this.handleSortChange.bind(this)
         this.showModalDelete = this.showModalDelete.bind(this)
     }
 
@@ -53,7 +55,15 @@ class FeedPage extends React.Component {
           posts: result.posts,
           filteredPosts: result.posts
         }))
-        .then(console.log(this.state.posts))
+        .then(() => {
+            let filtered = this.state.posts
+            filtered = filtered.sort(function (a, b) {
+                if (a.timestamp > b.timestamp) return -1;
+                else if (a.timestamp < b.timestamp) return 1;
+                return 0;
+              })
+            this.setState({filteredPosts: filtered})
+        })
         .catch(e => console.log(e))
     }
 
@@ -204,7 +214,7 @@ class FeedPage extends React.Component {
         if (event.target.value === "All") {
           filtered = this.state.posts
         }
-    
+        
         else if (event.target.value === "photographers") {
             for (const post of this.state.posts) {
                 if (post['specialty'] === "photographers")
@@ -224,6 +234,83 @@ class FeedPage extends React.Component {
                 if (post['specialty'] === "editors")
                     filtered.push(post)
             }
+        }
+
+        else if (event.target.value === "mypost") {
+            for (const post of this.state.posts)
+                if(post['netid'] === this.props.netid)
+                    filtered.push(post)
+        }
+
+        if (this.state.sort === "oldest") {
+            filtered = filtered.sort(function (a, b) {
+              if (a.timestamp < b.timestamp) return -1;
+              else if (a.timestamp > b.timestamp) return 1;
+              return 0;
+            })
+        }
+
+        else if (this.state.sort === "newest") {
+            filtered = filtered.sort(function (a, b) {
+              if (a.timestamp > b.timestamp) return -1;
+              else if (a.timestamp < b.timestamp) return 1;
+              return 0;
+            })
+        }
+
+        this.setState({filteredPosts: filtered})
+    }
+
+    handleSortChange(event) {
+        this.setState({sort:event.target.value})
+    
+        let filtered = []
+
+        if (this.state.filter === "All") {
+          filtered = this.state.posts
+        }
+        
+        else if (this.state.filter === "photographers") {
+            for (const post of this.state.posts) {
+                if (post['specialty'] === "photographers")
+                    filtered.push(post)
+            }
+        }
+
+        else if (this.state.filter === "videographers") {
+            for (const post of this.state.posts) {
+                if (post['specialty'] === "videographers")
+                    filtered.push(post)
+            }
+        }
+    
+        else if (this.state.filter === "editors") {
+            for (const post of this.state.posts) {
+                if (post['specialty'] === "editors")
+                    filtered.push(post)
+            }
+        }
+
+        else if (this.state.filter === "mypost") {
+            for (const post of this.state.posts)
+                if(post['netid'] === this.props.netid)
+                    filtered.push(post)
+        }
+
+        if (event.target.value === "oldest") {
+            filtered = filtered.sort(function (a, b) {
+              if (a.timestamp < b.timestamp) return -1;
+              else if (a.timestamp > b.timestamp) return 1;
+              return 0;
+            })
+        }
+
+        else if (event.target.value === "newest") {
+            filtered = filtered.sort(function (a, b) {
+              if (a.timestamp > b.timestamp) return -1;
+              else if (a.timestamp < b.timestamp) return 1;
+              return 0;
+            })
         }
 
         this.setState({filteredPosts: filtered})
@@ -321,6 +408,18 @@ class FeedPage extends React.Component {
                             <MenuItem value={"photographers"}> Photographers </MenuItem>
                             <MenuItem value={"videographers"}> Videographers </MenuItem> 
                             <MenuItem value={"editors"}> Editors </MenuItem>
+                            <MenuItem value={"mypost"}> My Posts </MenuItem>
+                        </Select>
+                    </FormControl>
+                    <FormControl style = {{minWidth: "75px"}}>
+                        <InputLabel id="sort-label">Sort By</InputLabel>
+                        <Select
+                            labelId="sort-label"
+                            onChange = {this.handleSortChange}
+                            value = {this.state.sort}
+                            >
+                            <MenuItem value={"newest"}> Newest </MenuItem>
+                            <MenuItem value={"oldest"}> Oldest </MenuItem> 
                         </Select>
                     </FormControl>
                 </div>
