@@ -429,7 +429,7 @@ def getPosts():
         #else: 
             #Feed.query.filter_by(id = post.id).delete()
     
-    return 'Done', 201
+    return jsonify({'posts':posts})
 
 @app.route('/api/createPost', methods=['POST'])
 def createPost():
