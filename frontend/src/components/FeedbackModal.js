@@ -1,9 +1,22 @@
 import React, {Component} from 'react';
-import {Modal, Button, Row, Col} from 'react-bootstrap';
-import {DragDrop} from './DragDrop';
-import { Input} from 'semantic-ui-react';
+import {Modal, Button} from 'react-bootstrap';
+
 import Form from 'react-bootstrap/Form'
 import { Dropdown } from 'semantic-ui-react'
+/*import InfoIcon from '@material-ui/icons/Info'
+import Tooltip from '@material-ui/core/Tooltip'
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles'
+import { createMuiTheme } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+    overrides: {
+        MuiTooltip: {
+            tooltip: {
+            fontSize: "1em"
+            }
+        }
+    }
+});*/
 
 export class FeedbackModal extends Component{
 

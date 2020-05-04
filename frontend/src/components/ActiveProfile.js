@@ -259,7 +259,7 @@ class ActiveProfile extends React.Component{
                     {this.props.selectedPhotographer.average_rating !== -1 ? <span>{this.props.selectedPhotographer.average_rating.toFixed(2)}</span> : "N/A"} 
                     <Tooltip title="Average Rating"><StarIcon className="starIcon2"/></Tooltip>
                     {border}
-                    <a target='_blank' href={this.props.selectedPhotographer.website_url}>{website}</a>
+                    <a target='_blank' rel="noopener noreferrer" href={this.props.selectedPhotographer.website_url}>{website}</a>
                     </Typography>
                     <Button startIcon={<CollectionsIcon />} disableRipple className='removeOutline' color={this.state.button_4} onClick={() => this.handleClick(3)}>Gallery</Button>
                     <Button startIcon={<AssignmentIndIcon/>} disableRipple className='removeOutline' color={this.state.button_1} onClick={() => this.handleClick(0)}>About</Button>

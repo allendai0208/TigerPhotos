@@ -6,11 +6,10 @@ import React from 'react';
 import { Form, Input, Button, Checkbox} from 'semantic-ui-react';
 import { Redirect } from 'react-router';
 import {storage, fstore} from './firebase/config';
-import loadingIcon from './pictures/loadingimageicon.gif'
 import loadingIcon2 from './pictures/loadingicon2.gif'
 import InfoIcon from '@material-ui/icons/Info'
 import Tooltip from '@material-ui/core/Tooltip'
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles'
 import { createMuiTheme } from '@material-ui/core/styles';
 import {Modal} from 'react-bootstrap'
 
@@ -51,10 +50,12 @@ class ProfileForm extends React.Component {
             new_image_loading: false,
             prof_pic_file:'',
             user_uploaded_prof_pic:false,
-            show:false
+            show:false,
+            use_clicked_save:false
         }
         this.handleChange = this.handleChange.bind(this)
         this.storePhoto = this.storePhoto.bind(this)
+        this.onInputClick = this.onInputClick.bind(this)
         this.deletePhoto = this.deletePhoto.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleDelete = this.handleDelete.bind(this)
@@ -96,15 +97,6 @@ class ProfileForm extends React.Component {
         .catch(e => console.log(e))
     }
 
-    /*onLoad() {
-        console.log("before update counter: ", this.state.gallery_counter)
-        this.setState({gallery_counter:this.state.gallery_counter+1})
-        console.log("after update counter: ", this.state.gallery_counter)
-        if (this.state.gallery_counter >= this.state.portfolio.length) 
-            this.setState({gallery_loaded:true})
-    }
-    */
-
     renderProfPic(e) {
 
         if (e.target.files[0] === undefined)
@@ -123,11 +115,11 @@ class ProfileForm extends React.Component {
         let formIsValid = true;
 
         //Profile pic is required
-        /*if (this.state.profPic === "") {
+        if (this.state.profPicUrl === "") {
             formIsValid = false
             errors["profile_picture"] = "Profile Picture is required"
         }
-        */
+        
         //First Name
         if(this.state.first_name === ""){
             formIsValid = false;
@@ -217,7 +209,7 @@ class ProfileForm extends React.Component {
                 var blnValid = false;
                 for (var j = 0; j < _validFileExtensions.length; j++) {
                     var sCurExtension = _validFileExtensions[j];
-                    if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                    if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() === sCurExtension.toLowerCase()) {
                         blnValid = true;
                         break;
                     }
@@ -242,7 +234,7 @@ class ProfileForm extends React.Component {
                 var blnValid = false;
                 for (var j = 0; j < _validFileExtensions.length; j++) {
                     var sCurExtension = _validFileExtensions[j];
-                    if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                    if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() === sCurExtension.toLowerCase()) {
                         blnValid = true;
                         break;
                     }
@@ -282,23 +274,28 @@ class ProfileForm extends React.Component {
     }
     */
 
+    onInputClick = (e) => {
+        e.target.value = ''
+    }
+
     storePhoto(e) {
         if (e.target.files[0] === undefined)
             return
 
-        let i
         let length = e.target.files.length
         let fails = []
         let alertem = false
         
-        for (i = 0; i < length; i++) {
-            
+        if (!this.state.new_image_loading) {
+            this.setState({new_image_loading:true})
+        }
+
+        for (let i = 0; i < length; i++) {
             if (!this.ValidateMultiInput(e.target.files[i])) {
                 fails.push(e.target.files[i].name)
                 alertem = true
                 continue
             }
-            this.setState({new_image_loading:true})
             const key = (Math.floor(Math.random() * 1000000000000)).toString(); // hashes the key so that duplicate names don't collide
             const img = storage.ref(`imagesxoy/${key}`)
             img.put(e.target.files[i]).then((snap) => {
@@ -319,7 +316,10 @@ class ProfileForm extends React.Component {
                         key: key,
                         url: url,
                     })
-                    this.setState({portfolio:portfolio, new_image_loading:false})
+                    this.setState({portfolio:portfolio})
+                    if (i === length - 1) {
+                        this.setState({new_image_loading:false})
+                    }
                 })
             }, 
             (error) => {    
@@ -327,7 +327,6 @@ class ProfileForm extends React.Component {
                 console.log(error);
             },
             )
-            
         }
         /*check the async execution
         IMPORTANT!
@@ -361,11 +360,15 @@ class ProfileForm extends React.Component {
     // Second, will make a fetch call to update the portfolio pertaining to the browsing photographer via call to api/createPortfolio
     handleSubmit() {
         if (this.handleValidation()) {
-
+            this.setState({user_clicked_submit:true})
             const key = (Math.floor(Math.random() * 1000000000000)).toString(); // hashes the key so that duplicate names don't collide
             const img = storage.ref(`imagesxoy/${key}`)
             if (this.state.user_uploaded_prof_pic) {
 
+                if (this.state.profPic !== "") {
+                    storage.ref(`imagesxoy`).child(this.state.profPic).delete()
+                }
+                console.log(this.state)
                 img.put(this.state.prof_pic_file).then((snap) => {
                     storage.ref(`imagesxoy`).child(key).getDownloadURL().then(url => {
                         const image = {key, url}
@@ -403,7 +406,7 @@ class ProfileForm extends React.Component {
                 )
             }
             else {
-                const key = this.state.profile_pic
+                const key = this.state.profPic
                 const profile_pic = this.state.profPicUrl
                 const photographer_netid = this.state.netid
                 const first_name = this.state.first_name
@@ -498,16 +501,17 @@ class ProfileForm extends React.Component {
                 </Modal.Footer>
             </Modal>
             
-            <div className = "profileFormMargins">
+            <div>
                 <span className = "formFields">Note: profiles are only meant for photographers/videomakers/editors. General users do not need to make a profile.</span>
                 <br/>
                 <span style={{color: "red"}}>{this.state.errors["profile_picture"]} <br/> </span> 
                 <span className = "formFields">Upload a Profile Picture:</span><span className="required">*</span>
                 <br/>
-                <input name = "newImage" type = "file" onChange = {this.renderProfPic}/>
+                <input name = "newImage" id="profpic" type = "file" style={{display: "none"}} onChange = {this.renderProfPic}/>
+                <label className="custom-file-upload" htmlFor="profpic">Choose file</label>
                 <br/>
                 <div className = "formFields" style={{display: this.state.prof_pic_loaded ? "none" : "block"}}>
-                    <img src = {loadingIcon2} style = {{height:"200px", width:"auto"}}/>
+                    <img alt='' src = {loadingIcon2} style = {{height:"200px", width:"auto"}}/>
                 </div>
                 <img alt = "" style={{display: this.state.prof_pic_loaded ? "block" : "none"}} src = {this.state.profPicUrl} className = "createProfilePic"/>
                     
@@ -549,7 +553,7 @@ class ProfileForm extends React.Component {
                 <Form.Field>
                     <Input 
                         name = "website_url"
-                        placeholder="Website URL" 
+                        placeholder="https://yourwebsite.com" 
                         value={this.state.website_url}
                         onChange={this.handleChange}
                     />
@@ -581,7 +585,7 @@ class ProfileForm extends React.Component {
                             checked={this.state.editing_checkbox} 
                             onChange={() => this.setState({editing_checkbox:!this.state.editing_checkbox})}/>
                 </Form.Field>
-                <span className = "formFields">Would you like to be email notified on feed updates for your expertise:</span>
+                <span className = "formFields">Our 'Feed' tab allows visitors to make job postings for photographers, videographers and editors.<br/>Would you like to recieve email notifications on feed updates looking for your expertise?</span>
                 <Form.Field>
                 <Checkbox label='Sign me up!'
                             checked={this.state.notif_checkbox} 
@@ -606,7 +610,11 @@ class ProfileForm extends React.Component {
                 <div className = "formFields">Upload photos from your portfolio to show of to potential clients (changes are saved automatically):</div>    
                 </Form>
                 
-                <input id="input" multiple type="file" onChange={this.storePhoto}/>
+                {/*<input id="galleryPics" multiple type="file" onChange={this.storePhoto}/>*/}
+
+                <input id="galleryPics" multiple type="file" style={{display: "none"}} onClick={this.onInputClick} onChange = {this.storePhoto}/>
+                <label className="custom-file-upload" htmlFor="galleryPics">Choose files</label>
+
                 <br/>
                 <div className = "createGalleryText">
                     My Gallery  
@@ -625,10 +633,16 @@ class ProfileForm extends React.Component {
                 <p className = "formFields"> Note: click on a picture to delete it from your portfolio</p>
                 <br/>
                 <br/>
-                <Button color='blue' size='large'onClick={this.handleSubmit} className ="createSubmit">
+                <Button color='blue' size='large'onClick={this.handleSubmit} className ="createSubmit" style={{display: this.state.user_clicked_submit ? "none" : "inline"}}>
                     Save
                 </Button>
-                <Button color='red' size='large'onClick={this.showModal} className ="createSubmit">
+                <Button color='blue' size='large' className ="createSubmit" style={{display: this.state.user_clicked_submit ? "inline" : "none"}}>
+                    Saving...
+                </Button>
+                <Button color='red' size='large'onClick={this.showModal} className ="createSubmit" style={{display: this.state.user_clicked_submit ? "none" : "inline"}}>
+                    Delete My Profile
+                </Button>
+                <Button color="#ef9a9a" size='large' className ="createSubmit" style={{display: this.state.user_clicked_submit ? "inline" : "none"}}>
                     Delete My Profile
                 </Button>
                 <br/>

@@ -20,6 +20,7 @@ body{
 }
 
 .createGalleryText {
+  min-width: 350px;
   margin-top:20px;
   font-size:50px;
   color:gray;
@@ -59,7 +60,19 @@ body{
   color:gray;
 }
 
+.feedDescription {
+  margin-bottom:5px;
+  font-family: "Roboto";
+  font-size:15px;
+  color:black;
+}
+
 .profileFormMargins {
+  width:70%;
+  margin:auto;
+}
+
+.profileFormMargins1 {
   margin-left:50px;
   margin-right:50px
 }
@@ -254,6 +267,15 @@ body{
   align-items: "flex-start";
   overflow-y: scroll;
 }
+
+.smallColumn1 {
+  height: 100vh;
+  width: 100%;
+  padding: 0px;
+  align-items: "flex-start";
+  overflow-y: scroll;
+}
+
 .column2 {
   height: 92vh;
   overflow-y: scroll;
@@ -398,6 +420,13 @@ body{
 
 .postModal {
   max-height: 475px;
+}
+
+.custom-file-upload {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 2px 5px;
+  cursor: pointer;
 }
 
 .visible.transition {
