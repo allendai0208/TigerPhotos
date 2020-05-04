@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 69a9da737dc5
+Revision ID: be88d0e40eb4
 Revises: 
-Create Date: 2020-05-04 17:38:13.815997
+Create Date: 2020-05-04 18:24:37.217088
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '69a9da737dc5'
+revision = 'be88d0e40eb4'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -25,12 +25,12 @@ def upgrade():
     sa.Column('last_name', sa.String(length=64), nullable=True),
     sa.Column('email', sa.String(length=120), nullable=True),
     sa.Column('website_url', sa.String(length=120), nullable=True),
-    sa.Column('description', sa.String(length=1000), nullable=True),
+    sa.Column('description', sa.String(length=2000), nullable=True),
     sa.Column('photography_checkbox', sa.Boolean(), nullable=True),
     sa.Column('videography_checkbox', sa.Boolean(), nullable=True),
     sa.Column('editing_checkbox', sa.Boolean(), nullable=True),
     sa.Column('notif_checkbox', sa.Boolean(), nullable=True),
-    sa.Column('equipment', sa.String(length=250), nullable=True),
+    sa.Column('equipment', sa.String(length=500), nullable=True),
     sa.Column('profile_pic', sa.String(length=255), nullable=True),
     sa.Column('key', sa.String(length=255), nullable=True),
     sa.Column('avg_rating', sa.Integer(), nullable=True),
@@ -64,7 +64,7 @@ def upgrade():
     op.create_table('feed',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('netid', sa.String(length=80), nullable=True),
-    sa.Column('description', sa.String(length=750), nullable=True),
+    sa.Column('description', sa.String(length=1000), nullable=True),
     sa.Column('subject_line', sa.String(length=100), nullable=True),
     sa.Column('timestamp', sa.DateTime(), nullable=True),
     sa.Column('specialty', sa.String(length=100), nullable=True),
