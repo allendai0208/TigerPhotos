@@ -9,7 +9,7 @@ import {storage, fstore} from './firebase/config';
 import loadingIcon2 from './pictures/loadingicon2.gif'
 import InfoIcon from '@material-ui/icons/Info'
 import Tooltip from '@material-ui/core/Tooltip'
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles'
 import { createMuiTheme } from '@material-ui/core/styles';
 import {Modal} from 'react-bootstrap'
 
@@ -282,20 +282,20 @@ class ProfileForm extends React.Component {
         if (e.target.files[0] === undefined)
             return
 
-        let i
         let length = e.target.files.length
         let fails = []
         let alertem = false
-        let counter = 0
         
-        for (i = 0; i < length; i++) {
-            
+        if (!this.state.new_image_loading) {
+            this.setState({new_image_loading:true})
+        }
+
+        for (let i = 0; i < length; i++) {
             if (!this.ValidateMultiInput(e.target.files[i])) {
                 fails.push(e.target.files[i].name)
                 alertem = true
                 continue
             }
-            this.setState({new_image_loading:true})
             const key = (Math.floor(Math.random() * 1000000000000)).toString(); // hashes the key so that duplicate names don't collide
             const img = storage.ref(`imagesxoy/${key}`)
             img.put(e.target.files[i]).then((snap) => {
@@ -317,8 +317,7 @@ class ProfileForm extends React.Component {
                         url: url,
                     })
                     this.setState({portfolio:portfolio})
-                    counter += 1
-                    if (counter === length) {
+                    if (i === length - 1) {
                         this.setState({new_image_loading:false})
                     }
                 })
@@ -328,7 +327,6 @@ class ProfileForm extends React.Component {
                 console.log(error);
             },
             )
-            
         }
         /*check the async execution
         IMPORTANT!
@@ -367,7 +365,7 @@ class ProfileForm extends React.Component {
             const img = storage.ref(`imagesxoy/${key}`)
             if (this.state.user_uploaded_prof_pic) {
 
-                if (this.state.profPic != "") {
+                if (this.state.profPic !== "") {
                     storage.ref(`imagesxoy`).child(this.state.profPic).delete()
                 }
                 console.log(this.state)
@@ -510,10 +508,10 @@ class ProfileForm extends React.Component {
                 <span className = "formFields">Upload a Profile Picture:</span><span className="required">*</span>
                 <br/>
                 <input name = "newImage" id="profpic" type = "file" style={{display: "none"}} onChange = {this.renderProfPic}/>
-                <label class="custom-file-upload" for="profpic">Choose file</label>
+                <label className="custom-file-upload" htmlFor="profpic">Choose file</label>
                 <br/>
                 <div className = "formFields" style={{display: this.state.prof_pic_loaded ? "none" : "block"}}>
-                    <img src = {loadingIcon2} style = {{height:"200px", width:"auto"}}/>
+                    <img alt='' src = {loadingIcon2} style = {{height:"200px", width:"auto"}}/>
                 </div>
                 <img alt = "" style={{display: this.state.prof_pic_loaded ? "block" : "none"}} src = {this.state.profPicUrl} className = "createProfilePic"/>
                     
@@ -615,7 +613,7 @@ class ProfileForm extends React.Component {
                 {/*<input id="galleryPics" multiple type="file" onChange={this.storePhoto}/>*/}
 
                 <input id="galleryPics" multiple type="file" style={{display: "none"}} onClick={this.onInputClick} onChange = {this.storePhoto}/>
-                <label class="custom-file-upload" for="galleryPics">Choose files</label>
+                <label className="custom-file-upload" htmlFor="galleryPics">Choose files</label>
 
                 <br/>
                 <div className = "createGalleryText">
