@@ -165,8 +165,8 @@ class FeedPage extends React.Component {
                     "content-Type":"application/json"
                 }, 
                 body: JSON.stringify(post)
-            });
-            window.location.reload()
+            })
+            .then(window.location.reload())
         }
     }
 
@@ -472,6 +472,8 @@ class FeedPage extends React.Component {
                         </Card>
                     );
                 })}
+                <br/>
+                <br/>
             </div>
         )
     }
