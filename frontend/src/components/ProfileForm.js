@@ -585,7 +585,7 @@ class ProfileForm extends React.Component {
                             checked={this.state.editing_checkbox} 
                             onChange={() => this.setState({editing_checkbox:!this.state.editing_checkbox})}/>
                 </Form.Field>
-                <span className = "formFields">Would you like to be email notified on feed updates for your expertise:</span>
+                <span className = "formFields">Our 'Feed' tab allows visitors to make job postings for photographers, videographers and editors.<br/>Would you like to recieve email notifications on feed updates looking for your expertise?</span>
                 <Form.Field>
                 <Checkbox label='Sign me up!'
                             checked={this.state.notif_checkbox} 

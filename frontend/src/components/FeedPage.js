@@ -395,7 +395,7 @@ class FeedPage extends React.Component {
                     Feed
                     <br/>
                     <br/>
-                    <br/>
+                   <span className="formFields">Welcome to our Feed! This is a space for visitors of our website to make job postings for all photographers, editors, and videographers to see. <br/>In addition, to ensure greater connection between our users, we notify all of our artists (that satify the required expertise and have allowed email notification) of your job posting.</span> <br/> <br/>
                     <FormControl style = {{minWidth: "75px"}}>
                         <InputLabel id="filter-label" >Filter By</InputLabel>
                         <Select
