@@ -103,7 +103,7 @@ export class EmailModal extends Component{
             const email_body = this.state.emailBody
             const email_toContact= this.state.toContact
             const email_subject = this.state.emailSubject
-            const email_sendTo = 'msaleh@princeton.edu'
+            const email_sendTo = this.props.phEmail
             
             const emailInfo = {email_body, email_toContact, email_subject, email_sendTo};
             fetch('/api/sendEmail', {
@@ -156,6 +156,8 @@ export class EmailModal extends Component{
     ]
     const { value } = this.state;
     console.log(this.props.phEmail)
+    if (!this.props.phEmail) return null
+    else{
        return(
              <Modal
      {...this.props}
@@ -207,6 +209,7 @@ export class EmailModal extends Component{
      </Modal.Footer>
    </Modal>
        );
+    }
    
 }
 }
