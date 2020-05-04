@@ -602,7 +602,7 @@ class ProfileForm extends React.Component {
                 <Button color='red' size='large'onClick={this.showModal} className ="createSubmit" style={{display: this.state.user_clicked_submit ? "none" : "inline"}}>
                     Delete My Profile
                 </Button>
-                <Button color="#ef9a9a" size='large' className ="createSubmit" style={{display: this.state.user_clicked_submit ? "inline" : "none"}}>
+                <Button disabled size='large' className ="createSubmit" style={{display: this.state.user_clicked_submit ? "inline" : "none"}}>
                     Delete My Profile
                 </Button>
                 <br/>
