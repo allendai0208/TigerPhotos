@@ -70,8 +70,10 @@ class FeedPage extends React.Component {
         .then(() => {
             let filtered = this.state.posts
             filtered = filtered.sort(function (a, b) {
-                if (a.sorting_timestamp > b.sorting_timestamp) return -1;
-                else if (a.sorting_timestamp < b.sorting_timestamp) return 1;
+                a = new Date(a.sorting_timestamp)
+                b = new Date(b.sorting_timestamp)
+                if (a > b) return -1;
+                else if (a < b) return 1;
                 return 0;
               })
             this.setState({filteredPosts: filtered})
@@ -256,17 +258,21 @@ class FeedPage extends React.Component {
 
         if (this.state.sort === "oldest") {
             filtered = filtered.sort(function (a, b) {
-              if (a.sorting_timestamp < b.sorting_timestamp) return -1;
-              else if (a.sorting_timestamp > b.sorting_timestamp) return 1;
-              return 0;
+                a = new Date(a.sorting_timestamp)
+                b = new Date(b.sorting_timestamp)
+                if (a < b) return -1;
+                else if (a > b) return 1;
+                return 0;
             })
         }
 
         else if (this.state.sort === "newest") {
             filtered = filtered.sort(function (a, b) {
-              if (a.sorting_timestamp > b.sorting_timestamp) return -1;
-              else if (a.sorting_timestamp < b.sorting_timestamp) return 1;
-              return 0;
+                a = new Date(a.sorting_timestamp)
+                b = new Date(b.sorting_timestamp)
+                if (a > b) return -1;
+                else if (a < b) return 1;
+                return 0;
             })
         }
 
@@ -311,17 +317,21 @@ class FeedPage extends React.Component {
 
         if (event.target.value === "oldest") {
             filtered = filtered.sort(function (a, b) {
-              if (a.sorting_timestamp < b.sorting_timestamp) return -1;
-              else if (a.sorting_timestamp > b.sorting_timestamp) return 1;
-              return 0;
+                a = new Date(a.sorting_timestamp)
+                b = new Date(b.sorting_timestamp)
+                if (a < b) return -1;
+                else if (a > b) return 1;
+                return 0;
             })
         }
 
         else if (event.target.value === "newest") {
             filtered = filtered.sort(function (a, b) {
-              if (a.sorting_timestamp > b.sorting_timestamp) return -1;
-              else if (a.sorting_timestamp < b.sorting_timestamp) return 1;
-              return 0;
+                a = new Date(a.sorting_timestamp)
+                b = new Date(b.sorting_timestamp)
+                if (a > b) return -1;
+                else if (a < b) return 1;
+                return 0;
             })
         }
 

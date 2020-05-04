@@ -421,7 +421,7 @@ def getPosts():
                 'netid': post.netid,
                 'description': post.description,
                 'subject_line': post.subject_line,
-                'sorting_timestamp': post.timestamp, # only used to sort by newest/oldest
+                'sorting_timestamp': post.timestamp, # only used to sort by newest/oldest 
                 'timestamp': str(post.timestamp).split(' ')[0],
                 'specialty': post.specialty,
                 'email': post.email
