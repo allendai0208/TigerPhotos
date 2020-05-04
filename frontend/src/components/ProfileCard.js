@@ -20,8 +20,6 @@ const styles = {
         height: "150px",
         borderRadius:"0%",
         width: '375px'
-        //width: "100%",
-        //justifyContent: 'center'
     },
     image: {
         marginTop: "15px",
@@ -37,9 +35,6 @@ const styles = {
         "&:last-child": {
         paddingBottom: 7
         }
-        //textAlign:'left',
-        //marginTop: "15px",
-        //margin: 10,
     },
     right: {
         textAlign: 'right',
@@ -76,20 +71,9 @@ class ProfileCard extends React.Component {
                     </CardContent>
                 </Card>  
                 </ButtonBase>
-            </div>
-            
+            </div>            
         )
     }
 }
 
 export default withStyles(styles)(ProfileCard);
- 
-//variant="outlined"
-// disableRipple
-
-/*
-{this.props.photographer.average_rating !== -1 ? <span>{this.props.photographer.average_rating.toFixed(2)}</span> : "N/A"}
-                            <Tooltip title="Average Rating"><StarIcon className="starIcon"/></Tooltip>                
-
-                
-*/

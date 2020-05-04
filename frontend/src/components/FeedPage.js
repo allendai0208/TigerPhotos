@@ -376,10 +376,11 @@ class FeedPage extends React.Component {
                                 />
                             </Form.Field>
                             <span style={{color: "red"}}>{this.state.errors["description"]}</span> <br/>
-                            <span className = "formFields">Description:</span><span className="required">*</span><MuiThemeProvider theme={theme}><Tooltip placement='right' title="Describe your event below. We recommend you include dates, pricing, and event logistics"><InfoIcon/></Tooltip></MuiThemeProvider>
+                            <span className = "formFields">Description (max 1000 characters):</span><span className="required">*</span><MuiThemeProvider theme={theme}><Tooltip placement='right' title="Describe your event below. We recommend you include dates, pricing, and event logistics"><InfoIcon/></Tooltip></MuiThemeProvider>
                             <Form.Field>
                                 <Form.TextArea
                                     name = "Description"
+                                    maxLength = "1000"
                                     placeholder= "Write your post here"
                                     value={this.state.description}
                                     onChange={event => this.handleChangeDescription(event)}
@@ -411,14 +412,14 @@ class FeedPage extends React.Component {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button negative onClick={this.handleClose.bind(this)}>Discard</Button>
-                        <Button positive onClick={this.handleSubmit.bind(this)}>Submit</Button>
+                        <Button color='blue' positive onClick={this.handleSubmit.bind(this)}>Submit</Button>
                     </Modal.Footer>
                 </Modal>
                 <div className="CreateProfileText" style={{marginTop: 40, marginBottom:-15}}>
                     Feed
                     <br/>
                     <br/>
-                   <span className= "feedDescription">Welcome to our Feed! This is a space for visitors of our website to make job postings for all photographers, editors, and videographers to see. <br/>In addition, to ensure greater connection between our users, we notify all of our artists (that satify the required expertise and have allowed email notification) of your job posting.<br/> Note: Remember to delete your post after finding a match! Posts will be deleted after 90 days.</span> <br/> <br/>
+                    <span className= "feedDescription">Welcome to our Feed! This is a space for visitors of our website to make job postings for all photographers, editors, and videographers to see. <br/>In addition, to ensure greater connection between our users, we notify all of our artists (that satify the required expertise and have allowed email notification) of your job posting.<br/> Note: Remember to delete your post after finding a match! Posts will be deleted after 90 days.</span> <br/> <br/>
                     <FormControl style = {{minWidth: "75px"}}>
                         <InputLabel id="filter-label" >Filter By</InputLabel>
                         <Select
@@ -490,15 +491,3 @@ class FeedPage extends React.Component {
 }
 
 export default FeedPage
-
-
-/*                 <Modal closeOnDimmerClick={true} className="deleteModal" size='small' open={this.state.showDelete} onHide={() => this.setState({showDelete: false})}>
-                    <Modal.Header>
-                            Confirm Deletion
-                    </Modal.Header>
-                    <Modal.Content>Are you sure you want to delete your post?</Modal.Content>
-                    <Modal.Actions>
-                        <Button negative onClick={() => this.setState({showDelete: false})}>no</Button>
-                        <Button positive onClick={() => this.handleDelete()}>yes</Button>
-                    </Modal.Actions>
-                </Modal> */ 

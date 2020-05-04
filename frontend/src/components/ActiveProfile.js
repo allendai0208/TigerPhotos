@@ -1,7 +1,6 @@
 // This component renders the information pertaining to the most recently clicked ProfileCard.
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
-//import ActiveGallery from './ActiveGallery'
 import Divider from '@material-ui/core/Divider'
 import Button from '@material-ui/core/Button'
 import ReviewForm from './ReviewForm'
@@ -13,7 +12,6 @@ import CreateIcon from '@material-ui/icons/Create'
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd'
 import CollectionsIcon from '@material-ui/icons/Collections'
 import MailIcon from '@material-ui/icons/Mail'
-//import FbImageLibrary from 'react-fb-image-grid'
 import {EmailModal} from './EmailModal'
 import ImageGallery from "./ImageGallery"; 
 
@@ -62,18 +60,18 @@ class ActiveProfile extends React.Component{
             console.log(nextProps.selectedPhotographer)
             console.log(prevState.selectedPhotographer)
             return {selectedPhotographer: nextProps.selectedPhotographer, 
-                    page_id: 3, 
-                    loaded: false, 
-                    current_review: "", 
-                    current_rating: 0,
-                    button_1: 'secondary',
-                    button_2: 'secondary',
-                    button_3: 'secondary',
-                    button_4: 'primary',
-                    photos_loaded: false,
-                    photos: [],
-                    switched: true
-                };
+                page_id: 3, 
+                loaded: false, 
+                current_review: "", 
+                current_rating: 0,
+                button_1: 'secondary',
+                button_2: 'secondary',
+                button_3: 'secondary',
+                button_4: 'primary',
+                photos_loaded: false,
+                photos: [],
+                switched: true
+            };
         }
     }
 
@@ -83,15 +81,6 @@ class ActiveProfile extends React.Component{
         }
     }
 
-    //componentWillReceiveProps(newProps) {
-    //    const oldProps = this.props
-    //    if(oldProps.selectedPhotographer !== newProps.selectedPhotographer) {
-    //        console.log("pls")
-    //        this.galleryPhotos()
-    //    }
-    //}
-
-    // sets page_id to corresponding number when button is clicked
     handleClick(i) {
         this.setState({
             page_id: i
@@ -145,7 +134,6 @@ class ActiveProfile extends React.Component{
     async galleryPhotos() {
         let self = this
         if(this.props.selectedPhotographer.urls && !this.state.photos_loaded) {
-            //let photos = this.state.photos
             console.log(this.props.selectedPhotographer.urls)
             const promises = this.props.selectedPhotographer.urls.map(async function(urlImage) {
                 const response = await self.addImageProcess(urlImage)
@@ -177,22 +165,8 @@ class ActiveProfile extends React.Component{
                     <br/>
                     <Button startIcon={<MailIcon/>} color='primary' onClick={this.handleShow.bind(this)} >Contact</Button>
                     <EmailModal phEmail = {this.props.selectedPhotographer.email} show = {this.state.UploadEmailShow} onHide = {this.handleClose.bind(this)}/>
-                    {/* <ActiveGallery urls = {this.props.selectedPhotographer.urls}/> */}
-                    
-                    {/*
-                    <br/>
-                    <Typography variant="h5" className="browse_description">
-                        Gallery:
-                    </Typography>
-                    {<ActiveGallery urls = {this.props.selectedPhotographer.urls}/> }
-                    {console.log(this.props.selectedPhotographer.urls)}
-                    <div className='galleryDimensions'>
-                       
-                    </div>
-                    */}
                 </div>
             )
-            
         }
         else if (this.state.page_id === 1) {
             page = (
@@ -200,7 +174,6 @@ class ActiveProfile extends React.Component{
                     <ReviewPage reviews={this.props.selectedPhotographer.reviews} />
                 </div>
             )
-            
         }
         else if (this.state.page_id === 2) {
             let old_review = this.props.selectedPhotographer.reviews.filter(d => d.user_netid === this.props.user_netid)[0]
@@ -241,7 +214,7 @@ class ActiveProfile extends React.Component{
             console.log(this.state.photos.length)
             if (this.state.photos.length === 0 ) {
                 page=
-                <div style={{marginTop: 25}}>
+                <div style={{marginTop: 25, marginLeft: 10}}>
                     <Typography style={{fontSize: 20, color:'gray'}}> No Gallery Available</Typography>
                 </div>  
             }
@@ -281,52 +254,3 @@ class ActiveProfile extends React.Component{
 }
 
 export default ActiveProfile
-
-/*         else {
-            this.galleryPhotos()
-            page = (
-                <ImageGallery photos={this.state.photos} /> 
-            )
-        } */ 
-
-/*            console.log("here")
-
-           return this.props.selectedPhotographer.urls.map(function(urlImage){
-               console.log(imgHeights.urlImage)
-               console.log(urlImage)
-               console.log(imgHeights)
-               console.log(imgWidths)
-               console.log(imgWidths.urlImage)
-               return {src: urlImage, width: imgWidths.urlImage, height: imgHeights.urlImage } 
-           }) */ 
-
-//<FbImageLibrary images={this.props.selectedPhotographer.urls}/>
-//import FbImageLibrary from 'react-fb-image-grid'
-
-//<ActiveGallery urls = {this.props.selectedPhotographer.urls}/>
-
-/*             if (old_review !== undefined && this.state.loaded === false) {
-                console.log(old_review["review"])
-                console.log(old_review["rating"])
-                this.setReview(old_review)
-            }
-            page = (
-                <ReviewForm 
-                    photographer_netid={this.props.selectedPhotographer.photographer_netid} 
-                    user_netid={this.props.user_netid} 
-                    current_review={this.state.current_review} 
-                    current_rating={this.state.current_rating}
-                    handler1={this.handler}
-                    handler2={this.handler2}/>
-            ) */ 
-
-/*                 <Typography variant="h5"> 
-                    {this.props.selectedPhotographer.email}
-                </Typography>
-                <br/>
-                <Typography variant="h5"> 
-                    {this.props.selectedPhotographer.description}
-                </Typography>
-                <br />  
-                <ActiveGallery urls = {this.props.selectedPhotographer.urls}/> 
-                 <FbImageLibrary images={this.props.selectedPhotographer.urls}/>*/ 

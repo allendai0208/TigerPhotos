@@ -59,17 +59,14 @@ class ProfileForm extends React.Component {
         this.deletePhoto = this.deletePhoto.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleDelete = this.handleDelete.bind(this)
-        //this.storeProfPic = this.storeProfPic.bind(this)
         this.showModal = this.showModal.bind(this)
         this.ValidateSingleInput = this.ValidateSingleInput.bind(this)
         this.ValidateMultiInput = this.ValidateMultiInput.bind(this)
         this.renderProfPic = this.renderProfPic.bind(this)
-        //this.onLoad = this.onLoad.bind(this)
     }
     
     // Get the pertinent information to the user when the component mounts to autofill the form fields with their information if possible
     componentDidMount() {
-
         fetch('/api/getPhotographer', {
             method: 'POST',
             headers: {
@@ -98,7 +95,6 @@ class ProfileForm extends React.Component {
     }
 
     renderProfPic(e) {
-
         if (e.target.files[0] === undefined)
             return
         if (!this.ValidateSingleInput(e.target.files[0])) return;
@@ -201,7 +197,6 @@ class ProfileForm extends React.Component {
 
       
     ValidateSingleInput(oInput){
-
         var _validFileExtensions = [".jpg", ".jpeg", ".gif", ".png"];  
         
             var sFileName = oInput.name;
@@ -226,7 +221,6 @@ class ProfileForm extends React.Component {
     }
 
     ValidateMultiInput(oInput){
-
         var _validFileExtensions = [".jpg", ".jpeg", ".gif", ".png"];  
         
             var sFileName = oInput.name;
@@ -248,31 +242,6 @@ class ProfileForm extends React.Component {
         
         return true;
     }
-
-    /*
-    storeProfPic(e) {
-        
-        if (e.target.files[0] === undefined)
-            return
-        if (!this.ValidateSingleInput(e.target.files[0])) return;
-        this.setState({prof_pic_loaded:false})
-        //const key = e.target.files[0].name
-        const key = (Math.floor(Math.random() * 1000000000000)).toString(); // hashes the key so that duplicate names don't collide
-        const img = storage.ref(`imagesxoy/${key}`)
-        img.put(e.target.files[0]).then((snap) => {
-            storage.ref(`imagesxoy`).child(key).getDownloadURL().then(url => {
-            const image = {key, url}
-            fstore.collection(this.state.netid).doc(key).set(image)
-            this.setState({profPic:key, profPicUrl:url, prof_pic_loaded:true})
-            })
-        }, 
-        (error) => {    
-          // error function ....
-          console.log(error);
-        },
-        );
-    }
-    */
 
     onInputClick = (e) => {
         e.target.value = ''
@@ -335,8 +304,6 @@ class ProfileForm extends React.Component {
             alert("Sorry, " + fails.join(", ") + " are invalid, allowed extensions are: .jpg, .gif, .jpeg, .png");
 
         }
-
-
     }
     
     deletePhoto(event) {
@@ -476,11 +443,8 @@ class ProfileForm extends React.Component {
     }
 
     // The actual rendering of the form. Use the state which has stored the current photographer's information to autofill the fields
-    render(){
-        // Calling render() without loading info into state will cause error, therefore do this if statement to catch
-        //if(this.state.hasLoaded === false) return null
-
-        /*else */if(this.state.redirect) {
+    render() { 
+        if (this.state.redirect) {
             console.log("redirect")
             return <Redirect to='/browse'/>;
         }
@@ -559,11 +523,11 @@ class ProfileForm extends React.Component {
                     />
                 </Form.Field>
                 <span style={{color: "red"}}>{this.state.errors["description"]} <br/> </span>
-                <span className = "formFields">Description about yourself (max 1000 characters):</span><span className="required">*</span>
+                <span className = "formFields">Description about yourself (max 2000 characters):</span><span className="required">*</span>
                 <Form.Field>
                     <Form.TextArea 
                         name = "description"
-                        maxLength="1000"
+                        maxLength="2000"
                         placeholder="Description" 
                         value={this.state.description} 
                         onChange={this.handleChange}
@@ -592,11 +556,11 @@ class ProfileForm extends React.Component {
                             onChange={() => this.setState({notif_checkbox:!this.state.notif_checkbox})}/>
                 </Form.Field>
                 <span style={{color: "red"}}>{this.state.errors["equipment"]} <br/> </span>
-                <span className = "formFields">Please List Your Equipment/Software (max 250 characters):</span><span className="required">*</span>
+                <span className = "formFields">Please List Your Equipment/Software (max 500 characters):</span><span className="required">*</span>
                 <Form.Field>
                     <Form.TextArea 
                         name = "equipment"
-                        maxLength="250"
+                        maxLength="500"
                         placeholder="I own a DSLR..." 
                         value={this.state.equipment} 
                         onChange={this.handleChange}
@@ -622,12 +586,7 @@ class ProfileForm extends React.Component {
                 </div>
                 <hr className = "createHR"/>
                 {this.state.portfolio.map((image) => 
-                <img alt = '' 
-                key = {image.url} 
-                name={image.key} 
-                className = "createGallery" 
-                src = {image.url} 
-                onClick = {(image) => this.deletePhoto(image)}/>)}
+                    <img alt='' key={image.url} name={image.key} className="createGallery" src={image.url} onClick={(image) => this.deletePhoto(image)}/>)}
                 <br/>
                 <br/>
                 <p className = "formFields"> Note: click on a picture to delete it from your portfolio</p>

@@ -34,5 +34,4 @@ class Profile extends React.Component {
 
 export default Profile
 
-/* this.state.profile.map((photographer) => < Profiles photographer={photographer} />) */ 
  

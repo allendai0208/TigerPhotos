@@ -49,6 +49,8 @@ class Navigation extends React.Component {
     
             )
         }
+        
+        // render the navigation bar as a dropdown if the page gets really small
         else {
             return (
                 <Navbar bg="light" className="navbar">
