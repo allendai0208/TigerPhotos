@@ -494,21 +494,3 @@ def deletePost():
     db.session.commit()
 
     return 'Done', 201
-
-##@app.route('/api/emailAll', methods=['POST'])
-#def emailAll():
-
- #   email_info = request.get_json()
-
- ##   email = mail(
- #       netid = post_info['netid'],
-  #      description = post_info['description'],
-  #      subject_line = post_info['subject_line'],
-  #      specialty = post_info['specialty'],
- #       email = post_info['email']
-  #  )
-
-  #  db.session.add(post)
-  #  db.session.commit()
-
-  #  return 'Done', 201

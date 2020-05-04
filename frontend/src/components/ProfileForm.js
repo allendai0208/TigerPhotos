@@ -263,6 +263,7 @@ class ProfileForm extends React.Component {
             if (!this.ValidateMultiInput(e.target.files[i])) {
                 fails.push(e.target.files[i].name)
                 alertem = true
+                this.setState({new_image_loading:false})
                 continue
             }
             const key = (Math.floor(Math.random() * 1000000000000)).toString(); // hashes the key so that duplicate names don't collide
