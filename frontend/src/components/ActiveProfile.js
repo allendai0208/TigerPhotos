@@ -16,7 +16,6 @@ import MailIcon from '@material-ui/icons/Mail'
 //import FbImageLibrary from 'react-fb-image-grid'
 import {EmailModal} from './EmailModal'
 import ImageGallery from "./ImageGallery"; 
-import Gallery from "react-photo-gallery";
 
 class ActiveProfile extends React.Component{
     constructor(props) {
