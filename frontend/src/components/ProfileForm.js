@@ -286,6 +286,7 @@ class ProfileForm extends React.Component {
         let length = e.target.files.length
         let fails = []
         let alertem = false
+        let counter = 0
         
         for (i = 0; i < length; i++) {
             
@@ -314,8 +315,12 @@ class ProfileForm extends React.Component {
                     portfolio.push({
                         key: key,
                         url: url,
-                    }).then(console.log("adsf"))
-                    this.setState({portfolio:portfolio, new_image_loading:false})
+                    })
+                    this.setState({portfolio:portfolio})
+                    counter += 1
+                    if (counter === length) {
+                        this.setState({new_image_loading:false})
+                    }
                 })
             }, 
             (error) => {    
