@@ -30,8 +30,8 @@ class CASClient:
     # "ticket" parameter added by the CAS server.
 	
     def stripTicket(self):
-        url = 'https://tigerphotos.herokuapp.com/'
-        #url = 'http://localhost:3000/'
+        url = 'https://tigerphotos.herokuapp.com/'  # Comment this when testing locally
+        #url = 'http://localhost:3000/'             # Comment this when deploying to Heroku
         if url is None:
             return "something is badly wrong"
         url = sub(r'ticket=[^&]*&?', '', url)
