@@ -60,6 +60,13 @@ body{
   color:gray;
 }
 
+.feedDescription {
+  margin-bottom:5px;
+  font-family: "Roboto";
+  font-size:15px;
+  color:black;
+}
+
 .profileFormMargins {
   width:70%;
   margin:auto;

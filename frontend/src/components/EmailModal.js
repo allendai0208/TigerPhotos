@@ -1,10 +1,21 @@
 import React, {Component} from 'react';
-import {Modal, Button, Row, Col} from 'react-bootstrap';
-import {DragDrop} from './DragDrop';
-import { Input} from 'semantic-ui-react';
+import {Modal, Button} from 'react-bootstrap';
 import Form from 'react-bootstrap/Form'
 import { Dropdown } from 'semantic-ui-react'
+import InfoIcon from '@material-ui/icons/Info'
+import Tooltip from '@material-ui/core/Tooltip'
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles'
+import { createMuiTheme } from '@material-ui/core/styles';
 
+const theme = createMuiTheme({
+    overrides: {
+        MuiTooltip: {
+            tooltip: {
+            fontSize: "1em"
+            }
+        }
+    }
+});
 export class EmailModal extends Component{
 
     constructor(props) {
@@ -185,7 +196,7 @@ export class EmailModal extends Component{
                </Form.Group>
                <Form.Group controlId="exampleForm.ControlTextarea1">
                    <span style={{color: "red"}}>{this.state.errors["description"]}</span><br/>
-                   <Form.Label>Write your message</Form.Label><span className="required">*</span>
+                   <Form.Label>Write your message</Form.Label><span className="required">*</span><MuiThemeProvider theme={theme}><Tooltip placement='right' title="Describe your event below. We recommend you include dates, pricing, and event logistics"><InfoIcon/></Tooltip></MuiThemeProvider>
                    <Form.Control name="emailBody" as="textarea" value={this.state.emailBody}  onChange={this.handleChange.bind(this)} rows="6" placeholder="Compose your email here!"/>
                </Form.Group>
            </Form>

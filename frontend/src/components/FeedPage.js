@@ -15,6 +15,19 @@ import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import InputLabel from '@material-ui/core/InputLabel'
+import InfoIcon from '@material-ui/icons/Info'
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles'
+import { createMuiTheme } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+    overrides: {
+        MuiTooltip: {
+            tooltip: {
+            fontSize: "1em"
+            }
+        }
+    }
+});
 
 class FeedPage extends React.Component {
 
@@ -353,7 +366,7 @@ class FeedPage extends React.Component {
                                 />
                             </Form.Field>
                             <span style={{color: "red"}}>{this.state.errors["description"]}</span> <br/>
-                            <span className = "formFields">Description:</span><span className="required">*</span> 
+                            <span className = "formFields">Description:</span><span className="required">*</span><MuiThemeProvider theme={theme}><Tooltip placement='right' title="Describe your event below. We recommend you include dates, pricing, and event logistics"><InfoIcon/></Tooltip></MuiThemeProvider>
                             <Form.Field>
                                 <Form.TextArea
                                     name = "Description"
@@ -395,7 +408,7 @@ class FeedPage extends React.Component {
                     Feed
                     <br/>
                     <br/>
-                   <span className="formFields">Welcome to our Feed! This is a space for visitors of our website to make job postings for all photographers, editors, and videographers to see. <br/>In addition, to ensure greater connection between our users, we notify all of our artists (that satify the required expertise and have allowed email notification) of your job posting.</span> <br/> <br/>
+                   <span className= "feedDescription">Welcome to our Feed! This is a space for visitors of our website to make job postings for all photographers, editors, and videographers to see. <br/>In addition, to ensure greater connection between our users, we notify all of our artists (that satify the required expertise and have allowed email notification) of your job posting.<br/> Note: Remember to delete your post after finding a match! Posts will be deleted after 90 days.</span> <br/> <br/>
                     <FormControl style = {{minWidth: "75px"}}>
                         <InputLabel id="filter-label" >Filter By</InputLabel>
                         <Select
