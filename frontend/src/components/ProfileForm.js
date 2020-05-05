@@ -267,6 +267,7 @@ class ProfileForm extends React.Component {
                 this.setState({new_image_loading:false})
                 continue
             }
+            this.setState({new_image_loading:true})
             const key = (Math.floor(Math.random() * 1000000000000)).toString(); // hashes the key so that duplicate names don't collide
             const img = storage.ref(`imagesxoy/${key}`)
             img.put(e.target.files[i]).then((snap) => {
