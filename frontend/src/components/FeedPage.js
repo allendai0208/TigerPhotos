@@ -60,8 +60,30 @@ class FeedPage extends React.Component {
         this.showModalDelete = this.showModalDelete.bind(this)
     }
 
+    // Currently not used
+    fetchPosts = () => {
+        fetch('/api/getPosts')
+        .then(response => response.json())
+        .then(result => this.setState({
+          posts: result.posts,
+          filteredPosts: result.posts
+        }))
+        .then(() => {
+            let filtered = this.state.posts
+            filtered = filtered.sort(function (a, b) {
+                a = new Date(a.sorting_timestamp)
+                b = new Date(b.sorting_timestamp)
+                if (a > b) return -1;
+                else if (a < b) return 1;
+                return 0;
+              })
+            this.setState({filteredPosts: filtered})
+        })
+        .catch(e => console.log(e))
+    }
 
     componentDidMount() {
+        //this.fetchPosts()
         fetch('/api/getPosts')
         .then(response => response.json())
         .then(result => this.setState({
