@@ -48,7 +48,8 @@ class FeedPage extends React.Component {
             delete_subject_line:"",
             delete_description:"",
             delete_specialty:"",
-            delete_email:""
+            delete_email:"",
+            loaded:false
         }
         this.handleChangeSubject = this.handleChangeSubject.bind(this)
         this.handleChangeDescription = this.handleChangeDescription.bind(this)
@@ -99,7 +100,7 @@ class FeedPage extends React.Component {
                 else if (a < b) return 1;
                 return 0;
               })
-            this.setState({filteredPosts: filtered})
+            this.setState({filteredPosts: filtered, loaded:true})
         })
         .catch(e => console.log(e))
     }
@@ -360,6 +361,7 @@ class FeedPage extends React.Component {
     handleChange = (e, { value }) => this.setState({ specialty:value })
 
     render() {
+        if (!this.state.loaded) return null;
         const options= [
             {text: 'Photographers', value: 'photographers'},
             {text: 'Videographers', value: 'videographers'},
