@@ -255,6 +255,10 @@ class ProfileForm extends React.Component {
         let fails = []
         let alertem = false
 
+        if (!this.state.new_image_loading) {
+            this.setState({new_image_loading:true})
+        }
+
         for (let i = 0; i < length; i++) {
             if (!this.ValidateMultiInput(e.target.files[i])) {
                 fails.push(e.target.files[i].name)
@@ -302,7 +306,6 @@ class ProfileForm extends React.Component {
         */
         if (alertem) {
             alert("Sorry, " + fails.join(", ") + " are invalid, allowed extensions are: .jpg, .gif, .jpeg, .png");
-
         }
         this.setState({new_image_loading:false})
     }
