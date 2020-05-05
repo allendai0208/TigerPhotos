@@ -436,29 +436,6 @@ def getPosts():
 def createPost():
     mesg = []
     post_info = request.get_json(force=True)
-    if post_info['specialty'] == 'photographers':
-        msgz = Photographers.query.filter_by(photography_checkbox = True, notif_checkbox = True).all()
-        for tst in msgz:
-            mesg.append(tst.email)
-    elif post_info['specialty'] == 'videographers':
-        msgz = Photographers.query.filter_by(videography_checkbox = True, notif_checkbox = True).all()
-        for tst in msgz:
-            mesg.append(tst.email)
-    elif post_info['specialty'] == 'editors':
-        msgz = Photographers.query.filter_by(editing_checkbox = True, notif_checkbox = True).all()
-        for tst in msgz:
-            mesg.append(tst.email)
-    
-    if (len(mesg) != 0):
-        try:
-            msg = Message(post_info['subject_line'], sender = "tigerphotosteam@gmail.com", recipients = mesg)
-            msg.body = post_info['subject_line']
-            msg.html = render_template('contact1P.html', body=post_info['description'], clientEmail=post_info['email'])
-            mail.send(msg)
-        except Exception as e:
-            print(str(e))
-            return (str(e))
-    
 
     post = Feed(
         netid = post_info['netid'],
@@ -470,6 +447,29 @@ def createPost():
 
     db.session.add(post)
     db.session.commit()
+
+    if post_info['specialty'] == 'photographers':
+        msgz = Photographers.query.filter_by(photography_checkbox = True, notif_checkbox = True).all()
+        for tst in msgz:
+            mesg.append(tst.email)
+    elif post_info['specialty'] == 'videographers':
+        msgz = Photographers.query.filter_by(videography_checkbox = True, notif_checkbox = True).all()
+        for tst in msgz:
+            mesg.append(tst.email)
+    elif post_info['specialty'] == 'editors':
+        msgz = Photographers.query.filter_by(editing_checkbox = True, notif_checkbox = True).all()
+        for tst in msgz:
+            mesg.append(tst.email)    
+
+    if (len(mesg) != 0):
+        try:
+            msg = Message(post_info['subject_line'], sender = "tigerphotosteam@gmail.com", recipients = mesg)
+            msg.body = post_info['subject_line']
+            msg.html = render_template('contact1P.html', body=post_info['description'], clientEmail=post_info['email'])
+            mail.send(msg)
+        except Exception as e:
+            print(str(e))
+            return (str(e))
 
     return 'Done', 201
 
