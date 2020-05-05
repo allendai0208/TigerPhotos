@@ -257,6 +257,7 @@ class ProfileForm extends React.Component {
 
         if (!this.state.new_image_loading) {
             this.setState({new_image_loading:true})
+            console.log(this.state.new_image_loading)
         }
 
         for (let i = 0; i < length; i++) {
@@ -265,9 +266,6 @@ class ProfileForm extends React.Component {
                 alertem = true
                 this.setState({new_image_loading:false})
                 continue
-            }
-            if (!this.state.new_image_loading) {
-                this.setState({new_image_loading:true})
             }
             const key = (Math.floor(Math.random() * 1000000000000)).toString(); // hashes the key so that duplicate names don't collide
             const img = storage.ref(`imagesxoy/${key}`)
@@ -307,7 +305,6 @@ class ProfileForm extends React.Component {
         if (alertem) {
             alert("Sorry, " + fails.join(", ") + " are invalid, allowed extensions are: .jpg, .gif, .jpeg, .png");
         }
-        this.setState({new_image_loading:false})
     }
     
     deletePhoto(event) {
@@ -577,8 +574,6 @@ class ProfileForm extends React.Component {
 
                 <div className = "formFields">Upload photos from your portfolio to show of to potential clients (changes are saved automatically):</div>    
                 </Form>
-                
-                {/*<input id="galleryPics" multiple type="file" onChange={this.storePhoto}/>*/}
 
                 <input id="galleryPics" multiple type="file" style={{display: "none"}} onClick={this.onInputClick} onChange = {this.storePhoto}/>
                 <label className="custom-file-upload" htmlFor="galleryPics">Choose files</label>
