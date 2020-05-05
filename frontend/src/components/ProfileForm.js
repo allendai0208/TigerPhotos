@@ -254,10 +254,6 @@ class ProfileForm extends React.Component {
         let length = e.target.files.length
         let fails = []
         let alertem = false
-        
-        if (!this.state.new_image_loading) {
-            this.setState({new_image_loading:true})
-        }
 
         for (let i = 0; i < length; i++) {
             if (!this.ValidateMultiInput(e.target.files[i])) {
@@ -265,6 +261,9 @@ class ProfileForm extends React.Component {
                 alertem = true
                 this.setState({new_image_loading:false})
                 continue
+            }
+            if (!this.state.new_image_loading) {
+                this.setState({new_image_loading:true})
             }
             const key = (Math.floor(Math.random() * 1000000000000)).toString(); // hashes the key so that duplicate names don't collide
             const img = storage.ref(`imagesxoy/${key}`)
@@ -305,6 +304,7 @@ class ProfileForm extends React.Component {
             alert("Sorry, " + fails.join(", ") + " are invalid, allowed extensions are: .jpg, .gif, .jpeg, .png");
 
         }
+        this.setState({new_image_loading:false})
     }
     
     deletePhoto(event) {
