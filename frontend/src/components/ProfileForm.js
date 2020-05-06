@@ -525,7 +525,7 @@ class ProfileForm extends React.Component {
                     />
                 </Form.Field>
                 <span style={{color: "red"}}>{this.state.errors["description"]} <br/> </span>
-                <span className = "formFields">Description about yourself (max 2000 characters):</span><span className="required">*</span>
+                <span className = "formFields">Description about yourself, e.g., past experience, pricing, and availability (max 2000 characters):</span><span className="required">*</span>
                 <Form.Field>
                     <Form.TextArea 
                         name = "description"

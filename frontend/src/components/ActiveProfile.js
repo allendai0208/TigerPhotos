@@ -172,6 +172,7 @@ class ActiveProfile extends React.Component{
             page = (
                 <div className="activeProfileBody">
                     <ReviewPage reviews={this.props.selectedPhotographer.reviews} />
+                    <br/>
                 </div>
             )
         }
@@ -188,6 +189,7 @@ class ActiveProfile extends React.Component{
                         handler1={this.handler}
                         handler2={this.handler2}
                         oldReview={true}/>
+                        <br />
                     </div>
                 )
                 this.setState({
@@ -206,6 +208,7 @@ class ActiveProfile extends React.Component{
                             handler1={this.handler}
                             handler2={this.handler2}
                             oldReview={this.state.loaded}/>
+                            <br/>
                     </div>
                 ) 
             }
@@ -216,6 +219,7 @@ class ActiveProfile extends React.Component{
                 page=
                 <div style={{marginTop: 25, marginLeft: 10}}>
                     <Typography style={{fontSize: 20, color:'gray'}}> No Gallery Available</Typography>
+                    <br/>
                 </div>  
             }
             else {
