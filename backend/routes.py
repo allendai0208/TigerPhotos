@@ -164,6 +164,24 @@ def getPhotographer():
                 'portfolio': portfolio,
                 'avg_rating': photographer_data[0].avg_rating
         }
+    elif len(portfolio_list) != 0:
+        photographer = {
+                'photographer_netid': None,
+                'first_name': None, 
+                'last_name': None,
+                'email': None,
+                'description': None,
+                'photography_checkbox':  None,
+                'videography_checkbox': None,
+                'editing_checkbox': None,
+                'notif_checkbox': None,
+                'website_url': None,
+                'equipment': None,
+                'profile_pic': None,
+                'key': photographer_data[0].key,
+                'portfolio': portfolio,
+                'avg_rating': None
+        }
     
     else:
         photographer = {
