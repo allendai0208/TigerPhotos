@@ -262,7 +262,7 @@ body{
 }
 
 .column1 {
-  height: 100vh;
+  height: 92vh;
   width: 385px;
   padding: 0px;
   align-items: "flex-start";
@@ -270,7 +270,7 @@ body{
 }
 
 .smallColumn1 {
-  height: 100vh;
+  height: 92vh;
   width: 385px;
   padding: 0px;
   align-items: "flex-start";
