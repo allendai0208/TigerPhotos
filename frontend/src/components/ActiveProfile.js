@@ -164,7 +164,7 @@ class ActiveProfile extends React.Component{
                     </Typography>
                     <br/>
                     <Button startIcon={<MailIcon/>} color='primary' onClick={this.handleShow.bind(this)} >Contact</Button>
-                    <EmailModal phEmail = {this.props.selectedPhotographer.email} show = {this.state.UploadEmailShow} onHide = {this.handleClose.bind(this)}/>
+                    <EmailModal phEmail = {this.props.selectedPhotographer.email} name = {this.props.selectedPhotographer.first_name} show = {this.state.UploadEmailShow} onHide = {this.handleClose.bind(this)}/>
                 </div>
             )
         }
