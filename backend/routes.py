@@ -166,21 +166,20 @@ def getPhotographer():
         }
     elif len(portfolio_list) != 0:
         photographer = {
-                'photographer_netid': None,
-                'first_name': None, 
-                'last_name': None,
-                'email': None,
-                'description': None,
-                'photography_checkbox':  None,
-                'videography_checkbox': None,
-                'editing_checkbox': None,
-                'notif_checkbox': None,
-                'website_url': None,
-                'equipment': None,
-                'profile_pic': None,
-                'key': None,
-                'portfolio': portfolio,
-                'avg_rating': None
+                'photographer_netid': "",
+                'first_name': "", 
+                'last_name': "",
+                'email': "",
+                'description': "",
+                'photography_checkbox':  False,
+                'videography_checkbox': False,
+                'editing_checkbox': False,
+                'notif_checkbox': False,
+                'website_url': "",
+                'equipment': "",
+                'profile_pic': "",
+                'key': "",
+                'portfolio': portfolio
         }
     
     else:
