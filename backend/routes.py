@@ -178,7 +178,7 @@ def getPhotographer():
                 'website_url': None,
                 'equipment': None,
                 'profile_pic': None,
-                'key': photographer_data[0].key,
+                'key': None,
                 'portfolio': portfolio,
                 'avg_rating': None
         }
