@@ -118,12 +118,13 @@ def deleteProfile():
     info = request.get_json(force=True)
     netid = info['netid']
 
-    Photographers.query.filter_by(photographer_netid = netid).delete()
-    Portfolio.query.filter_by(netid = netid).delete()
     Reviews.query.filter_by(user_netid = netid).delete()
-
     db.session.commit()
-
+    Photographers.query.filter_by(photographer_netid = netid).delete()
+    db.session.commit()
+    Portfolio.query.filter_by(netid = netid).delete()
+    db.session.commit()
+    
     return 'Done', 201
 
 # route that sends a JSON of a specific photographer to frontend (given a first name)
