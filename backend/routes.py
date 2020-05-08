@@ -106,7 +106,7 @@ def browse():
             'profile_pic' : photographer.profile_pic,
             'urls' : urls,
             'reviews' : reviews,
-            'average_rating' : photographer.avg_rating,
+            'average_rating' : float(photographer.avg_rating),
             'photography_exp': photographer.photography_checkbox,
             'editing_exp': photographer.editing_checkbox,
             'videography_exp': photographer.videography_checkbox 
@@ -164,7 +164,7 @@ def getPhotographer():
                 'profile_pic': photographer_data[0].profile_pic,
                 'key': photographer_data[0].key,
                 'portfolio': portfolio,
-                'avg_rating': photographer_data[0].avg_rating
+                'avg_rating': float(photographer_data[0].avg_rating)
         }
     elif len(portfolio_list) != 0:
         photographer = {
@@ -326,11 +326,11 @@ def createReview():
         total_rating += float(review.rating)
         num_rating += 1
 
-    avg_rating = float(float(total_rating) / float(num_rating))
+    avg_rating = (float(total_rating) / num_rating)
     print(avg_rating)
 
     photographer = Photographers.query.filter_by(photographer_netid = review_info['photographer_netid']).first()
-    photographer.avg_rating = float(avg_rating)
+    photographer.avg_rating = str(avg_rating)
 
     db.session.add(new_review)
     db.session.commit()
@@ -357,10 +357,10 @@ def deleteReview():
     if num_rating == 0:
         avg_rating = -1
     else:
-        avg_rating = float(float(total_rating) / float(num_rating))
+        avg_rating = (float(total_rating) / num_rating)
 
     photographer = Photographers.query.filter_by(photographer_netid = review_info['photographer_netid']).first()
-    photographer.avg_rating = avg_rating
+    photographer.avg_rating = str(avg_rating)
 
     Reviews.query.filter_by(user_netid=review_info['user_netid'],
                             photographer_netid=review_info['photographer_netid']).delete()
