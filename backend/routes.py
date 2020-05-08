@@ -120,6 +120,7 @@ def deleteProfile():
 
     Photographers.query.filter_by(photographer_netid = netid).delete()
     Portfolio.query.filter_by(netid = netid).delete()
+    Reviews.query.filter_by(user_netid = netid).delete()
 
     db.session.commit()
 

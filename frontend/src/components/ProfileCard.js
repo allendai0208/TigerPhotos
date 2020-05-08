@@ -66,7 +66,7 @@ class ProfileCard extends React.Component {
                             <br/>
                             {this.props.photographer.photography_exp ? <span><Tooltip title="Photography"><PhotoCameraIcon className="browseIcon"/></Tooltip></span> : null}
                             {this.props.photographer.videography_exp ? <span><Tooltip title="Videography"><VideocamIcon className="browseIcon" /></Tooltip></span> : null}
-                            {this.props.photographer.editing_exp ? <span><Tooltip title="Editting"><PhotoFilterIcon className="browseIcon" /></Tooltip></span> : null}
+                            {this.props.photographer.editing_exp ? <span><Tooltip title="Editing"><PhotoFilterIcon className="browseIcon" /></Tooltip></span> : null}
                         </Typography>
                     </CardContent>
                 </Card>  
