@@ -327,6 +327,7 @@ def createReview():
         num_rating += 1
 
     avg_rating = float(float(total_rating) / float(num_rating))
+    print(avg_rating)
 
     photographer = Photographers.query.filter_by(photographer_netid = review_info['photographer_netid']).first()
     photographer.avg_rating = avg_rating
@@ -375,6 +376,7 @@ def sendEmail():
     try:
         msg = Message(emailInfo["email_subject"], sender = "tigerphotosteam@gmail.com", recipients = [emailInfo["email_sendTo"]])
         msg.body = emailInfo["email_body"]
+        msg.html = render_template('contact1P.html', body=emailInfo['email_body'], clientEmail=emailInfo['email_toContact'])
         mail.send(msg)
     except Exception as e:
         return (str(e))
