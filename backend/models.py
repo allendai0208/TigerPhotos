@@ -27,7 +27,7 @@ class Photographers(db.Model):
     equipment = db.Column(db.String(500))
     profile_pic = db.Column(db.String(255))
     key = db.Column(db.String(255))
-    avg_rating = db.Column(db.Numeric(3,5))
+    avg_rating = db.Column(db.Numeric(10,5))
     #avg_rating = db.Column(db.Float(precision=5,asdecimal=True,decimal_return_scale=None))
 
     def __repr__(self):
@@ -39,7 +39,7 @@ class Reviews(db.Model):
     user_netid = db.Column(db.String(255), db.ForeignKey('users.netid'), index=True)
     photographer_netid = db.Column(db.String(255), db.ForeignKey('photographers.photographer_netid'), index=True)
     review = db.Column(db.String(750))
-    rating = db.Column(db.Numeric(3,5))
+    rating = db.Column(db.Numeric(10,5))
     #rating = db.Column(db.Float(precision=5,asdecimal=True,decimal_return_scale=None))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.now)
 
