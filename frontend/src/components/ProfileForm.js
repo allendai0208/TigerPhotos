@@ -483,8 +483,9 @@ class ProfileForm extends React.Component {
                     
                 <Form>
                 <span style={{color: "red"}}>{this.state.errors["first_name"]} <br/> </span>
-                <span className = "formFields">First Name:</span><span className="required">*</span> <MuiThemeProvider theme={theme}><Tooltip placement='right' title="If your first or last name exceed approximately 20 characters, 
-                        please consider using an abbreviation or nickname for best viewing purposes. If your email exceeds approximately 30 characters then please consider using a different email."><InfoIcon/></Tooltip></MuiThemeProvider>
+                <span className = "formFields">First Name:</span><span className="required">*</span> 
+                <span className = "formFields"> <MuiThemeProvider theme={theme}><Tooltip placement='right' title="If your first or last name exceed approximately 20 characters, 
+                        please consider using an abbreviation or nickname for best viewing purposes. If your email exceeds approximately 30 characters then please consider using a different email."><InfoIcon/></Tooltip></MuiThemeProvider> </span>
                 <Form.Field>
                     <Input 
                         name = "first_name"
