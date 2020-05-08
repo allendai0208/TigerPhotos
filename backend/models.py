@@ -4,7 +4,7 @@ from datetime import datetime
 # This defines the columns and data types of the User table.
 class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    netid = db.Column(db.String(64), index=True, unique=True)
+    netid = db.Column(db.String(255), index=True, unique=True)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.now)
     
     def __repr__(self):
@@ -15,18 +15,18 @@ class Users(db.Model):
 class Photographers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     photographer_netid = db.Column(db.String, index=True, unique=True)
-    first_name = db.Column(db.String(64))
-    last_name = db.Column(db.String(64))
-    email = db.Column(db.String(120))
-    website_url = db.Column(db.String(120))
+    first_name = db.Column(db.String(255))
+    last_name = db.Column(db.String(255))
+    email = db.Column(db.String(255))
+    website_url = db.Column(db.String(256))
     description = db.Column(db.String(2000))
     photography_checkbox = db.Column(db.Boolean, index=True)
     videography_checkbox = db.Column(db.Boolean, index=True)
     editing_checkbox = db.Column(db.Boolean, index=True)
     notif_checkbox = db.Column(db.Boolean, index=True)
     equipment = db.Column(db.String(500))
-    profile_pic = db.Column(db.String(255), index=True)
-    key = db.Column(db.String(255), index=True)
+    profile_pic = db.Column(db.String(255))
+    key = db.Column(db.String(255))
     avg_rating = db.Column(db.Integer)
 
     def __repr__(self):
@@ -35,8 +35,8 @@ class Photographers(db.Model):
 # This defines the columns and data types of the Reviews table.
 class Reviews(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_netid = db.Column(db.String(80), db.ForeignKey('users.netid'), index=True)
-    photographer_netid = db.Column(db.String(80), db.ForeignKey('photographers.photographer_netid'), index=True)
+    user_netid = db.Column(db.String(255), db.ForeignKey('users.netid'), index=True)
+    photographer_netid = db.Column(db.String(255), db.ForeignKey('photographers.photographer_netid'), index=True)
     review = db.Column(db.String(750))
     rating = db.Column(db.Integer)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.now)
@@ -46,12 +46,12 @@ class Reviews(db.Model):
 
 class Feed(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    netid = db.Column(db.String(80), db.ForeignKey('users.netid'), index=True)
+    netid = db.Column(db.String(255), db.ForeignKey('users.netid'), index=True)
     description = db.Column(db.String(1000))
     subject_line = db.Column(db.String(100))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.now)
     specialty = db.Column(db.String(100))
-    email = db.Column(db.String(80))
+    email = db.Column(db.String(255))
 
     def __repr__(self):
         return 'Feed {} {}>'.format(self.netid, self.subject_line)
@@ -59,7 +59,7 @@ class Feed(db.Model):
 # This defines the columns and data types of the Portfolio table
 class Portfolio(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    netid = db.Column(db.String(80), index=True)
+    netid = db.Column(db.String(255), index=True)
     picture = db.Column(db.String(255), index=True)
     key = db.Column(db.String(255), index=True)
 
