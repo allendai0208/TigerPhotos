@@ -315,7 +315,7 @@ def createReview():
 
     current_reviews = Reviews.query.filter_by(photographer_netid = review_info['photographer_netid']).all()
     
-    total_rating = review_info['rating']
+    total_rating = float(review_info['rating'])
 
     if total_rating == -1:
         total_rating = 0
@@ -326,7 +326,7 @@ def createReview():
         total_rating += float(review.rating)
         num_rating += 1
 
-    avg_rating = float(total_rating / num_rating)
+    avg_rating = float(float(total_rating) / float(num_rating))
 
     photographer = Photographers.query.filter_by(photographer_netid = review_info['photographer_netid']).first()
     photographer.avg_rating = avg_rating
@@ -356,7 +356,7 @@ def deleteReview():
     if num_rating == 0:
         avg_rating = -1
     else:
-        avg_rating = float(total_rating / num_rating)
+        avg_rating = float(float(total_rating) / float(num_rating))
 
     photographer = Photographers.query.filter_by(photographer_netid = review_info['photographer_netid']).first()
     photographer.avg_rating = avg_rating
