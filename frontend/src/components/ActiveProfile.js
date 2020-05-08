@@ -215,15 +215,16 @@ class ActiveProfile extends React.Component{
         }
         else if (this.state.page_id === 3){
             console.log(this.state.photos.length)
-            if (this.state.photos.length === 0 ) {
+            let length = this.state.photos.length
+            if (length !== 0 ) {
+                page = <ImageGallery photos={this.state.photos} />
+            }
+            else {
                 page=
                 <div style={{marginTop: 25, marginLeft: 10}}>
                     <Typography style={{fontSize: 20, color:'gray'}}> No Gallery Available</Typography>
                     <br/>
                 </div>  
-            }
-            else {
-                page = <ImageGallery photos={this.state.photos} />
             }
         }
 
