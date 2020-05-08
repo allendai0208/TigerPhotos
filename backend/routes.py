@@ -118,7 +118,7 @@ def deleteProfile():
     info = request.get_json(force=True)
     netid = info['netid']
 
-    Reviews.query.filter_by(user_netid = netid).delete()
+    Reviews.query.filter_by(photographer_netid = netid).delete()
     db.session.commit()
     Photographers.query.filter_by(photographer_netid = netid).delete()
     db.session.commit()
