@@ -27,7 +27,7 @@ class Photographers(db.Model):
     equipment = db.Column(db.String(500))
     profile_pic = db.Column(db.String(255))
     key = db.Column(db.String(255))
-    avg_rating = db.Column(db.Integer)
+    avg_rating = db.Column(db.Real)
 
     def __repr__(self):
         return '<Photographers {} {}>'.format(self.first_name, self.last_name)
@@ -61,7 +61,7 @@ class Portfolio(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     netid = db.Column(db.String(255), index=True)
     picture = db.Column(db.String(255), index=True)
-    key = db.Column(db.String(255), index=True)
+    key = db.Column(db.String(255))
 
     def __repr__(self):
         return 'Portfolio {} {}>'.format(self.netid, self.picture)
