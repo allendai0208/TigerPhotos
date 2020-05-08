@@ -27,7 +27,7 @@ class Photographers(db.Model):
     equipment = db.Column(db.String(500))
     profile_pic = db.Column(db.String(255))
     key = db.Column(db.String(255))
-    avg_rating = db.Column(db.Real)
+    avg_rating = db.Column(db.Float)
 
     def __repr__(self):
         return '<Photographers {} {}>'.format(self.first_name, self.last_name)
