@@ -38,7 +38,7 @@ class Reviews(db.Model):
     user_netid = db.Column(db.String(255), db.ForeignKey('users.netid'), index=True)
     photographer_netid = db.Column(db.String(255), db.ForeignKey('photographers.photographer_netid'), index=True)
     review = db.Column(db.String(750))
-    rating = db.Column(db.Integer)
+    rating = db.Column(db.Float(5))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.now)
 
     def __repr__(self):
@@ -60,7 +60,7 @@ class Feed(db.Model):
 class Portfolio(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     netid = db.Column(db.String(255), index=True)
-    picture = db.Column(db.String(255), index=True)
+    picture = db.Column(db.String(255))
     key = db.Column(db.String(255))
 
     def __repr__(self):
