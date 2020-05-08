@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: a17a6501ec6e
+Revision ID: 4cc3a287a092
 Revises: 
-Create Date: 2020-05-07 22:52:05.293187
+Create Date: 2020-05-08 13:37:08.109192
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'a17a6501ec6e'
+revision = '4cc3a287a092'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -33,7 +33,7 @@ def upgrade():
     sa.Column('equipment', sa.String(length=500), nullable=True),
     sa.Column('profile_pic', sa.String(length=255), nullable=True),
     sa.Column('key', sa.String(length=255), nullable=True),
-    sa.Column('avg_rating', sa.REAL(), nullable=True),
+    sa.Column('avg_rating', sa.String(length=10), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_photographers_editing_checkbox'), 'photographers', ['editing_checkbox'], unique=False)
@@ -49,7 +49,6 @@ def upgrade():
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_portfolio_netid'), 'portfolio', ['netid'], unique=False)
-    op.create_index(op.f('ix_portfolio_picture'), 'portfolio', ['picture'], unique=False)
     op.create_table('users',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('netid', sa.String(length=255), nullable=True),
@@ -76,7 +75,7 @@ def upgrade():
     sa.Column('user_netid', sa.String(length=255), nullable=True),
     sa.Column('photographer_netid', sa.String(length=255), nullable=True),
     sa.Column('review', sa.String(length=750), nullable=True),
-    sa.Column('rating', sa.REAL(), nullable=True),
+    sa.Column('rating', sa.Integer(), nullable=True),
     sa.Column('timestamp', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['photographer_netid'], ['photographers.photographer_netid'], ),
     sa.ForeignKeyConstraint(['user_netid'], ['users.netid'], ),
@@ -100,7 +99,6 @@ def downgrade():
     op.drop_index(op.f('ix_users_timestamp'), table_name='users')
     op.drop_index(op.f('ix_users_netid'), table_name='users')
     op.drop_table('users')
-    op.drop_index(op.f('ix_portfolio_picture'), table_name='portfolio')
     op.drop_index(op.f('ix_portfolio_netid'), table_name='portfolio')
     op.drop_table('portfolio')
     op.drop_index(op.f('ix_photographers_videography_checkbox'), table_name='photographers')
