@@ -39,7 +39,7 @@ class Reviews(db.Model):
     user_netid = db.Column(db.String(255), db.ForeignKey('users.netid'), index=True)
     photographer_netid = db.Column(db.String(255), db.ForeignKey('photographers.photographer_netid'), index=True)
     review = db.Column(db.String(750))
-    rating = db.Column(db.Integer)
+    rating = db.Column(db.Numeric(10,5))
     #rating = db.Column(db.Float(precision=5,asdecimal=True,decimal_return_scale=None))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.now)
 
