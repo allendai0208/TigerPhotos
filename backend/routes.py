@@ -106,11 +106,14 @@ def browse():
             'profile_pic' : photographer.profile_pic,
             'urls' : urls,
             'reviews' : reviews,
-            'average_rating' : photographer.avg_rating,
+            'average_rating' : float(photographer.avg_rating),
             'photography_exp': photographer.photography_checkbox,
             'editing_exp': photographer.editing_checkbox,
             'videography_exp': photographer.videography_checkbox 
         })
+
+        print(float(photographer.avg_rating))
+
     return jsonify({'photographers':photographers})
 
 @app.route('/api/deleteProfile', methods=['POST'])
@@ -164,8 +167,9 @@ def getPhotographer():
                 'profile_pic': photographer_data[0].profile_pic,
                 'key': photographer_data[0].key,
                 'portfolio': portfolio,
-                'avg_rating': photographer_data[0].avg_rating
+                'avg_rating': float(photographer_data[0].avg_rating)
         }
+        print(float(photographer_data[0].avg_rating))
     elif len(portfolio_list) != 0:
         photographer = {
                 'photographer_netid': "",
@@ -326,7 +330,7 @@ def createReview():
         total_rating += float(review.rating)
         num_rating += 1
 
-    avg_rating = float(float(total_rating) / float(num_rating))
+    avg_rating = total_rating / num_rating
     print(avg_rating)
 
     photographer = Photographers.query.filter_by(photographer_netid = review_info['photographer_netid']).first()
@@ -348,7 +352,7 @@ def deleteReview():
     num_rating = 0
 
     for review in current_reviews:
-        total_rating += float(review.rating)
+        total_rating += review.rating
         num_rating += 1
 
     total_rating = float(total_rating - review_info['rating'])
@@ -357,7 +361,7 @@ def deleteReview():
     if num_rating == 0:
         avg_rating = -1
     else:
-        avg_rating = float(float(total_rating) / float(num_rating))
+        avg_rating = total_rating / num_rating
 
     print(avg_rating)
 
