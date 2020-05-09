@@ -112,7 +112,7 @@ def browse():
             'videography_exp': photographer.videography_checkbox 
         })
 
-        print(float(photographer.avg_rating))
+        print("fetched avg rating:", float(photographer.avg_rating))
 
     return jsonify({'photographers':photographers})
 
@@ -169,7 +169,7 @@ def getPhotographer():
                 'portfolio': portfolio,
                 'avg_rating': float(photographer_data[0].avg_rating)
         }
-        print(float(photographer_data[0].avg_rating))
+        print("fetched avg rating:", float(photographer_data[0].avg_rating))
     elif len(portfolio_list) != 0:
         photographer = {
                 'photographer_netid': "",
@@ -331,7 +331,7 @@ def createReview():
         num_rating += 1
 
     avg_rating = total_rating / num_rating
-    print(avg_rating)
+    print("computed avg rating:", avg_rating)
 
     photographer = Photographers.query.filter_by(photographer_netid = review_info['photographer_netid']).first()
     photographer.avg_rating = avg_rating
@@ -363,7 +363,7 @@ def deleteReview():
     else:
         avg_rating = total_rating / num_rating
 
-    print(avg_rating)
+    print("computed avg rating:", avg_rating)
 
     photographer = Photographers.query.filter_by(photographer_netid = review_info['photographer_netid']).first()
     photographer.avg_rating = avg_rating
