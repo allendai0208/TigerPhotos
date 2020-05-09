@@ -335,6 +335,7 @@ def createReview():
 
     photographer = Photographers.query.filter_by(photographer_netid = review_info['photographer_netid']).first()
     photographer.avg_rating = avg_rating
+    print("line 338:", photographer.avg_rating)
 
     db.session.add(new_review)
     db.session.commit()
