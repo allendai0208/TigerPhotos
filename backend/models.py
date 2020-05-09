@@ -62,7 +62,7 @@ class Feed(db.Model):
 class Portfolio(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     netid = db.Column(db.String(255), index=True)
-    picture = db.Column(db.String(255))
+    picture = db.Column(db.String(255), index=True)
     key = db.Column(db.String(255))
 
     def __repr__(self):
