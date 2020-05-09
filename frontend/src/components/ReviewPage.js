@@ -26,7 +26,7 @@ export const ReviewPage = ({ reviews }) => {
                 {reviews.map(review => {
                     return (
                         <Card variant="outlined" style={{width: "75%", marginBottom: 10}}>
-                            <CardContent>
+                            <CardContent className="wrappedText">
                                 <Typography  color="secondary">{review.user_netid}</Typography>
                                 <Rating icon="star" defaultRating={review.rating} maxRating={5} disabled />
                                 <Typography style={{whiteSpace: 'pre-line'}}>{review.review}</Typography>
