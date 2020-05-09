@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 4cc3a287a092
+Revision ID: 298ec3f949ba
 Revises: 
-Create Date: 2020-05-08 13:37:08.109192
+Create Date: 2020-05-08 23:16:43.692017
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '4cc3a287a092'
+revision = '298ec3f949ba'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -33,7 +33,7 @@ def upgrade():
     sa.Column('equipment', sa.String(length=500), nullable=True),
     sa.Column('profile_pic', sa.String(length=255), nullable=True),
     sa.Column('key', sa.String(length=255), nullable=True),
-    sa.Column('avg_rating', sa.String(length=10), nullable=True),
+    sa.Column('avg_rating', sa.Numeric(precision=10, scale=5), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_photographers_editing_checkbox'), 'photographers', ['editing_checkbox'], unique=False)
@@ -75,7 +75,7 @@ def upgrade():
     sa.Column('user_netid', sa.String(length=255), nullable=True),
     sa.Column('photographer_netid', sa.String(length=255), nullable=True),
     sa.Column('review', sa.String(length=750), nullable=True),
-    sa.Column('rating', sa.Integer(), nullable=True),
+    sa.Column('rating', sa.Numeric(precision=10, scale=5), nullable=True),
     sa.Column('timestamp', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['photographer_netid'], ['photographers.photographer_netid'], ),
     sa.ForeignKeyConstraint(['user_netid'], ['users.netid'], ),
