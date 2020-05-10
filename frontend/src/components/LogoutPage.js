@@ -7,7 +7,6 @@ class LogoutPage extends React.Component {
         fetch('/api/logout')
         .then(response => response.json())
         .then(function(result) {
-            console.log(result.logoutUrl)
             window.location.assign(result.logoutUrl)
         })
         .catch(e => console.log(e))  

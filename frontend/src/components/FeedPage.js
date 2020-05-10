@@ -193,7 +193,6 @@ class FeedPage extends React.Component {
     }
 
     handleDelete() {
-        console.log("here")
         const netid = this.props.netid
         const subject_line = this.state.delete_subject_line
         const description = this.state.delete_description
@@ -211,8 +210,6 @@ class FeedPage extends React.Component {
     }
 
     showModalDelete(post) {
-        console.log("changing")
-        console.log(post.subject_line)
         this.setState({
             showDelete: true,
             delete_subject_line: post.subject_line,
@@ -229,7 +226,6 @@ class FeedPage extends React.Component {
     }
 
     handleClose() {
-        console.log("closing")
         this.setState({
             showPost: false,
             errors: {},

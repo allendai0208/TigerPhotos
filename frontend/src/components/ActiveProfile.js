@@ -56,9 +56,6 @@ class ActiveProfile extends React.Component{
 
      static getDerivedStateFromProps(nextProps, prevState) {
         if(nextProps.selectedPhotographer !== prevState.selectedPhotographer ) {
-            console.log("changed")
-            console.log(nextProps.selectedPhotographer)
-            console.log(prevState.selectedPhotographer)
             return {selectedPhotographer: nextProps.selectedPhotographer, 
                 page_id: 3, 
                 loaded: false, 
@@ -134,7 +131,6 @@ class ActiveProfile extends React.Component{
     async galleryPhotos() {
         let self = this
         if(this.props.selectedPhotographer.urls && !this.state.photos_loaded) {
-            console.log(this.props.selectedPhotographer.urls)
             const promises = this.props.selectedPhotographer.urls.map(async function(urlImage) {
                 const response = await self.addImageProcess(urlImage)
                 return response
@@ -214,7 +210,6 @@ class ActiveProfile extends React.Component{
             }
         }
         else if (this.state.page_id === 3){
-            console.log(this.state.photos.length)
             if (!this.state.photos_loaded) {
                 page=
                 <div style={{marginTop: 25, marginLeft: 10}}>

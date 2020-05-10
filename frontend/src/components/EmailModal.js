@@ -83,14 +83,10 @@ export class EmailModal extends Component{
         this.props.onHide();
     }
 
-    handleChange(e){  
-        console.log(e.target.name)
-        console.log(e.target.value) 
+    handleChange(e){   
         let change = this.state
-        console.log (change)
         change[e.target.name] = e.target.value
         this.setState(change)
-        console.log (change)
     }
 
 
@@ -121,7 +117,6 @@ export class EmailModal extends Component{
             {text: 'Editing', value: 'editors'}
         ]
         const { value } = this.state;
-        console.log(this.props.phEmail)
         if (!this.props.phEmail) return null
         else{
             return (

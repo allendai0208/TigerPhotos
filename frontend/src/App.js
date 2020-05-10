@@ -63,7 +63,6 @@ class App extends React.Component {
       return response.json(); 
     })
     .then(function(result) {        // If the netid is null, then redirect to the login page
-      console.log(result.netid)
       if (result.netid === null) {
         self.setState(
           {'go_to_login':true}      

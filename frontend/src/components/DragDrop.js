@@ -16,7 +16,6 @@ export class DragDrop extends Component {
     
 ///Applications/Python\ 3.6/Install\ Certificates.command
       handleUpload(files){
-        console.log(this.props.netid)
         for (let i = 0; i < files.length; i++){
           const uploadTask = storage.ref(`images/${files.item(i).name}`).put(files.item(i));
           uploadTask.on('state_changed', 
@@ -34,7 +33,6 @@ export class DragDrop extends Component {
           () => {
             // complete function ....
             storage.ref('images').child(files.item(i).name).getDownloadURL().then(url => {
-                console.log(url);
                 const isUploading = false;
                 this.setState({isUploading})
                 //const image = {url: url, added: new Date()}

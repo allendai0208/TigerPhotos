@@ -23,7 +23,6 @@ class Profile extends React.Component {
     }
 
     render() {
-        console.log(this.state.profile)
         return (
             <div>
                 <p>name: {this.state.profile.last_name}</p>

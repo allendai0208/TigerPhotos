@@ -71,13 +71,9 @@ export class FeedbackModal extends Component{
     }
 
     handleChange(e){  
-        console.log(e.target.name)
-        console.log(e.target.value) 
         let change = this.state
-        console.log (change)
         change[e.target.name] = e.target.value
         this.setState(change)
-        console.log (change)
     }
 
     handleSubmit() {

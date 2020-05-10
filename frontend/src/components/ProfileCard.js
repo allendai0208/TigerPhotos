@@ -55,7 +55,6 @@ class ProfileCard extends React.Component {
                     <CardMedia image={profile_pic} title = "Profile image" className={classes.image} />
                     <CardContent className={classes.content}>
                         <Typography variant="body1" m={1} className={classes.right} >
-                            {console.log(this.props.photographer.average_rating)}
                             {this.props.photographer.average_rating !== -1 ? <span>{this.props.photographer.average_rating.toFixed(2)}</span> : "N/A"}
                             <Tooltip title="Average Rating"><StarIcon className="starIcon"/></Tooltip>
                         </Typography>

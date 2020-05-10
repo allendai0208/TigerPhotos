@@ -17,8 +17,6 @@ export class NewUpload extends React.Component {
     }
  
   storePhoto(e) {
-      console.log(e.target.files[0])
-      console.log(URL.createObjectURL(e.target.files[0]))
       const key = e.target.files[0].name
       const img = storage.ref(`imagesxoy/${key}`)
       img.put(e.target.files[0]).then((snap) => {
@@ -32,7 +30,6 @@ export class NewUpload extends React.Component {
             photographer_netid: this.props.netid
           })
           this.setState({images})
-          console.log(this.state.images)
           })
       }, 
       (error) => {    
@@ -46,7 +43,6 @@ export class NewUpload extends React.Component {
     deletePhoto(event) {
         let uid = this.state.netid
         let current_image_name = event.target.name
-        console.log(event.target.name)
         storage.ref(`imagesxoy`).child(current_image_name).delete()
         let images = this.state.images.filter((imag) => {
           return imag.key != current_image_name

@@ -90,7 +90,6 @@ class ProfileForm extends React.Component {
             profPic:result.key, 
             profPicUrl:result.profile_pic,
             prof_pic_loaded: true}))
-        .then(console.log(this.state))
         .catch(e => console.log(e))
     }
 
@@ -257,7 +256,6 @@ class ProfileForm extends React.Component {
 
         if (!this.state.new_image_loading) {
             this.setState({new_image_loading:true})
-            console.log(this.state.new_image_loading)
         }
 
         for (let i = 0; i < length; i++) {
@@ -337,7 +335,6 @@ class ProfileForm extends React.Component {
                 if (this.state.profPic !== "") {
                     storage.ref(`imagesxoy`).child(this.state.profPic).delete()
                 }
-                console.log(this.state)
                 img.put(this.state.prof_pic_file).then((snap) => {
                     storage.ref(`imagesxoy`).child(key).getDownloadURL().then(url => {
                         const image = {key, url}
@@ -436,9 +433,6 @@ class ProfileForm extends React.Component {
 
     // shows modal when delete icon is clicked 
     showModal() {
-        this.state.portfolio.map((image) =>
-            console.log(image.key))
-        console.log("changing")
         this.setState({
             show: true
         })
@@ -447,7 +441,6 @@ class ProfileForm extends React.Component {
     // The actual rendering of the form. Use the state which has stored the current photographer's information to autofill the fields
     render() { 
         if (this.state.redirect) {
-            console.log("redirect")
             return <Redirect to='/browse'/>;
         }
 
