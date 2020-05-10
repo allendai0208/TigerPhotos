@@ -397,7 +397,7 @@ class FeedPage extends React.Component {
                                 />
                             </Form.Field>
                             <span style={{color: "red"}}>{this.state.errors["description"]}</span> <br/>
-                            <span className = "formFields">Description (max 1000 characters):</span><span className="required">*</span><MuiThemeProvider theme={theme}><Tooltip placement='right' title="Describe your event below. We recommend you include dates, pricing, and event logistics"><InfoIcon/></Tooltip></MuiThemeProvider>
+                            <span className = "formFields">Description (max 1000 characters):</span><span className="required">*</span><span className="formFields"><MuiThemeProvider theme={theme}><Tooltip placement='right' title="Describe your event below. We recommend you include dates, pricing, and event logistics"><InfoIcon/></Tooltip></MuiThemeProvider></span>
                             <Form.Field>
                                 <Form.TextArea
                                     name = "Description"

@@ -575,7 +575,7 @@ class ProfileForm extends React.Component {
                 <br/>
                 <br/>
 
-                <div className = "formFields">Upload photos from your portfolio to show of to potential clients (changes are saved automatically):</div>    
+                <div className = "formFields">Upload photos from your portfolio to show of to potential clients. We recommend uploading ~10-15 photos (changes are saved automatically):</div>    
                 </Form>
 
                 <input id="galleryPics" multiple type="file" style={{display: "none"}} onClick={this.onInputClick} onChange = {this.storePhoto}/>
@@ -591,7 +591,7 @@ class ProfileForm extends React.Component {
                     <img alt='' key={image.url} name={image.key} className="createGallery" src={image.url} onClick={(image) => this.deletePhoto(image)}/>)}
                 <br/>
                 <br/>
-                <p className = "formFields"> Note: click on a picture to delete it from your portfolio</p>
+                <p className = "formFields"> Note: please wait for the pictures to finish uploading before saving your profile. Click on a picture to delete it from your portfolio. </p>
                 <br/>
                 <br/>
                 <Button color='blue' size='large'onClick={this.handleSubmit} className ="createSubmit" style={{display: this.state.user_clicked_submit ? "none" : "inline"}}>

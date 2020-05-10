@@ -159,7 +159,7 @@ export class EmailModal extends Component{
                         </Form.Group>
                         <Form.Group controlId="exampleForm.ControlTextarea1">
                             <span style={{color: "red"}}>{this.state.errors["description"]}</span><br/>
-                            <Form.Label>Write your message (max 2000 characters): </Form.Label><span className="required">*</span><MuiThemeProvider theme={theme}><Tooltip placement='right' title="Describe your event below. We recommend you include dates, pricing, and event logistics"><InfoIcon/></Tooltip></MuiThemeProvider>
+                            <Form.Label>Write your message (max 2000 characters): </Form.Label><span className="required">*</span><span className="formFields"><MuiThemeProvider theme={theme}><Tooltip placement='right' title="Describe your event below. We recommend you include dates, pricing, and event logistics"><InfoIcon/></Tooltip></MuiThemeProvider></span>
                             <Form.Control name="emailBody" as="textarea" value={this.state.emailBody}  onChange={this.handleChange.bind(this)} maxLength="2000" rows="6" placeholder="Compose your email here!"/>
                         </Form.Group>
                     </Form>
