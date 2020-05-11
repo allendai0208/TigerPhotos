@@ -73,7 +73,6 @@ class CASClient:
         if url:
             parsed = urlparse.urlparse(url)
             ticket = str(parse_qs(parsed.query)['ticket'][0])
-            print('Ticket:',ticket)
             username = self.validate(ticket)
             if username is not None:             
                 # The user is authenticated, so store the user's
