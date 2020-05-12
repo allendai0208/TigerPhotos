@@ -148,7 +148,7 @@ class ReviewForm extends React.Component {
                     <Modal.Header closeButton>
                         Confirm Deletion
                     </Modal.Header>
-                    <Modal.Body>Are you sure you want to delete your post?</Modal.Body>
+                    <Modal.Body>Are you sure you want to delete your review?</Modal.Body>
                     <Modal.Footer>
                         <Button negative onClick={() => this.setState({show: false})}>no</Button>
                         <Button positive onClick={() => this.handleDelete()}>yes</Button>
