@@ -327,6 +327,7 @@ class ProfileForm extends React.Component {
     // Second, will make a fetch call to update the portfolio pertaining to the browsing photographer via call to api/createPortfolio
     handleSubmit() {
         if (this.handleValidation()) {
+            let self = this
             this.setState({user_clicked_submit:true})
             const key = (Math.floor(Math.random() * 1000000000000)).toString(); // hashes the key so that duplicate names don't collide
             const img = storage.ref(`imagesxoy/${key}`)
@@ -361,8 +362,12 @@ class ProfileForm extends React.Component {
                             }, 
                             body: JSON.stringify(photographer)
                         })
-                        .then(this.setState({redirect: true}))
-    
+                        .then(function(result) {
+                            if (result.status === 201) {
+                                self.setState({redirect: true})
+                            }
+                        })
+                        //.then(this.setState({redirect: true}))
                     })
                 }, 
                 (error) => {    
@@ -395,7 +400,12 @@ class ProfileForm extends React.Component {
                     }, 
                     body: JSON.stringify(photographer)
                 })
-                .then(this.setState({redirect: true}))
+                .then(function(result) {
+                    if (result.status === 201) {
+                        self.setState({redirect: true})
+                    }
+                })
+                //.then(this.setState({redirect: true}))
             }
                     
         }
